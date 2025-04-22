@@ -72,9 +72,12 @@ export interface GetHistoryResponse {
   taskDone: TaskDone[];
 }
 // /user/send-reset-password-email
-export interface GetResetPasswordRequest {
+export interface PostResetPasswordRequest {
   email: string;
   redirectUrl: string;
+}
+export interface PostResetPasswordResponse {
+  message: string;
 }
 // /user/reset-password
 export interface PatchResetPasswordRequest {

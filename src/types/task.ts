@@ -14,6 +14,20 @@ export interface PostTaskRequest {
   frequencyType: FrequencyType;
   monthDay: number;
 }
+export interface PostTaskResponse {
+  id: number;
+  name: string;
+  description: string;
+  frequencyType: FrequencyType;
+  writerId: number;
+  groupId: number;
+  taskListId: number;
+  monthDay: number;
+  weekDays: number[];
+  startDate: string;
+  createdAt: string;
+  updatedAt: string;
+}
 // /groups/{groupId}/task-lists/{taskListId}/tasks (GET)
 // /groups/{groupId}/task-lists/{taskListId}/tasks/{taskId} (GET)
 export interface GetTaskListTaskResponse {
@@ -33,13 +47,13 @@ export interface GetTaskListTaskResponse {
     user: UserSummary;
   };
 }
-// /{teamId}/groups/{groupId}/task-lists/{taskListId}/tasks/{taskId} (PATCH)
+// /groups/{groupId}/task-lists/{taskListId}/tasks/{taskId} (PATCH)
 export interface PatchTaskListTaskByIdRequest {
   name: string;
   description: string;
   done: boolean;
 }
-// /{teamId}/groups/{groupId}/task-lists/{taskListId}/tasks/{id}/order (PATCH)
+// /groups/{groupId}/task-lists/{taskListId}/tasks/{id}/order (PATCH)
 export interface PatchTaskListTaskByIdOrderRequest {
   displayIndex: number;
 }

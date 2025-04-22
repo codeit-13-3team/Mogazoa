@@ -40,6 +40,14 @@ export interface PatchTaskListByIdRequest {
 export interface PostTaskListRequest {
   name: string;
 }
+export interface PostTaskListResponse {
+  id: number;
+  name: string;
+  displayIndex: number;
+  groupId: number;
+  createdAt: string;
+  updatedAt: string;
+}
 // /groups/{groupId}/task-lists/{id}/order (PATCH)
 export interface PatchTaskListByIdOrderRequest {
   id: number;
