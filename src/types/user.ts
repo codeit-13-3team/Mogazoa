@@ -55,6 +55,11 @@ export interface GetUserRankingListResponse {
 }
 
 // /{teamId}/users/{userId} (GET)
+export interface MostFavoriteCategory {
+  id: number;
+  name: string;
+}
+// /{teamId}/users/{userId} (GET)
 export interface GetUserIdResponse {
   id: number;
   teamId: string;
