@@ -94,7 +94,7 @@ export function DropDown({ width, height, textClassName, children, onChange }: D
       >
         <div className={textClassName}>{categoryName}</div>
         <div className="relative" style={{ width: height, height: height }}>
-          <Image src={iconSrc} alt="dropIcon" fill sizes="24px" />
+          <Image src={iconSrc} alt="dropIcon" fill sizes={height} />
         </div>
       </div>
       <ShowDropDownOptions />
