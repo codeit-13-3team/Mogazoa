@@ -1,4 +1,4 @@
 cd ../
 mkdir output
-cp -R ./mogazoa12/* ./output
-cp -R ./output ./mogazoa12/
+cp -R ./mogazoa/* ./output
+cp -R ./output ./mogazoa/
