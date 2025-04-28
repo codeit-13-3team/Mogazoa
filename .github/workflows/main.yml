@@ -22,7 +22,7 @@ jobs:
         with:
           source-directory: 'output'
           destination-github-username: TAEINJEONG
-          destination-repository-name: mogazoa
+          destination-repository-name: mogazoa12
           user-email: ${{ secrets.TAEIN_ACCOUNT_EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
           target-branch: main
