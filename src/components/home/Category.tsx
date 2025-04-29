@@ -10,11 +10,8 @@ const Category = () => {
   } = useQuery({
     queryKey: ['categoryList'],
     queryFn: getCategoryList,
-    staleTime: 1000 * 60 * 5, // 5분간은 fresh로 간주
-    gcTime: 1000 * 60 * 10, // 10분간 캐시에 보관
-    refetchOnMount: false, // 마운트 시 재요청 방지
-    refetchOnWindowFocus: false, // 포커스 복귀 시 재요청 방지
   });
+
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
 
   if (isLoading) return <div>로딩 중...</div>;
@@ -26,7 +23,7 @@ const Category = () => {
   };
 
   return (
-    <div className="md:w-[180px] bg-gray-100 w-full">
+    <div className="hidden md:block md:w-[180px] lg:w-[220px] bg-black-500 w-full">
       <h2 className="text-4 py-[15px] px-5">카테고리</h2>
       <ul>
         {categoryList.map((cat) => (
