@@ -2,7 +2,13 @@ import { useQuery } from '@tanstack/react-query';
 import { getCategoryList } from '@/api/category';
 import { useState } from 'react';
 
-const Category = () => {
+const Category = ({
+  selectedCategory,
+  setSelectedCategory,
+}: {
+  selectedCategory: number | null;
+  setSelectedCategory: (id: number) => void;
+}) => {
   const {
     data: categoryList,
     isLoading,
@@ -11,8 +17,6 @@ const Category = () => {
     queryKey: ['categoryList'],
     queryFn: getCategoryList,
   });
-
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
 
   if (isLoading) return <div>로딩 중...</div>;
   if (error) return <div>에러가 발생했습니다: {error.message}</div>;
@@ -31,7 +35,7 @@ const Category = () => {
             key={cat.id}
             className={`text-4 py-[15px] px-5 ${
               selectedCategory === cat.id
-                ? 'bg-black-400 text-gray-50 shadow-[inset_0_0_0_1px_rgba(53,53,66,1)]'
+                ? 'bg-black-400 text-gray-50 shadow-[inset_0_0_0_1px_rgba(53,53,66,1)] rounded-[8px]'
                 : 'text-gray-200'
             }`}
             onClick={() => handleCategoryClick(cat.id)}

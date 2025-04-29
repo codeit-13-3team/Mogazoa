@@ -1,7 +1,19 @@
 import axiosInstance from './axiosInstance';
 import { GetProductListResponse } from '../types/product';
 
-export const getProductList = async () => {
-  const response = await axiosInstance.get<GetProductListResponse>('/products');
+export const getProductList = async (
+  keyword: string,
+  category: number | null,
+  order: string,
+  cursor: number | null,
+) => {
+  const response = await axiosInstance.get<GetProductListResponse>('/products', {
+    params: {
+      keyword,
+      category,
+      order,
+      cursor,
+    },
+  });
   return response.data;
 };
