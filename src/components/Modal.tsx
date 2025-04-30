@@ -6,7 +6,7 @@ import { CSSProperties } from 'react';
 type Props = {
   children: React.ReactNode;
   style?: CSSProperties;
-  buttonText: string;
+  buttonText?: string;
   onClose: () => void;
 };
 
@@ -26,12 +26,14 @@ function Modal({ children, buttonText, style, onClose }: Props) {
         </button>
         <div className="flex flex-col flex-1 justify-center items-center w-full px-5 pt-10 overflow-hidden md:px-10 md:pt-[60px]">
           <div className="flex-1 overflow-auto w-full min-h-0">{children}</div>
-          <button
-            className="w-[295px] h-[50px] rounded-lg bg-gradient-to-r from-main-blue to-main-indigo font-semibold text-gray-50 text-base mb-5 md:w-[510px] md:h-[55px] md:mb-10 lg:w-[540px] lg:h-15 lg:text-lg"
-            style={style}
-          >
-            {buttonText}
-          </button>
+          {buttonText && (
+            <button
+              className="w-[295px] h-[50px] rounded-lg bg-gradient-to-r from-main-blue to-main-indigo font-semibold text-gray-50 text-base mb-5 md:w-[510px] md:h-[55px] md:mb-10 lg:w-[540px] lg:h-15 lg:text-lg"
+              style={style}
+            >
+              {buttonText}
+            </button>
+          )}
         </div>
       </div>
     </div>,
