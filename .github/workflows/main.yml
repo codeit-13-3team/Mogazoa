@@ -18,11 +18,11 @@ jobs:
         id: push_directory
         uses: cpina/github-action-push-to-another-repository@main
         env:
-          API_TOKEN_GITHUB: ${{ secrets.TAEIN_GITHUB_TOKEN }}
+           API_TOKEN_GITHUB: ${{ secrets.TAEIN_GITHUB_KEY }}
         with:
           source-directory: 'output'
           destination-github-username: TAEINJEONG
-          destination-repository-name: mogazoa
+          destination-repository-name: mogazoa12
           user-email: ${{ secrets.TAEIN_ACCOUNT_EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
           target-branch: main
