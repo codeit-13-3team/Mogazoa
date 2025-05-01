@@ -1,26 +1,11 @@
 import Category from '@/components/home/Category';
-import Product from '@/components/home/Product';
+import { InfiniteProductList } from '@/components/home/InfiniteProductList';
+import ProductList from '@/components/home/ProductList';
 import ReviewerRanking from '@/components/home/ReviewerRanking';
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { getProductList } from '@/api/products';
 
-const Index = () => {
+const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-
-  const keyword = ''; // 빈 문자열
-  const category = selectedCategory ?? null; // 선택된 카테고리(숫자) 혹은 ''
-  const order: 'recent' = 'recent'; // 고정값 'recent'
-  const cursor = null;
-
-  const {
-    data: productList,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ['productList', keyword, category, order, cursor],
-    queryFn: () => getProductList(keyword, category, order, cursor),
-  });
 
   return (
     <div className="text-gray-50 flex w-full">
@@ -40,18 +25,20 @@ const Index = () => {
               <p className="text-[20px] font-semibold mb-[30px] text-gray-50 lg:pt-[60px]">
                 지금 핫한 상품 TOP 6
               </p>
-              <Product productList={productList} isLoading={isLoading} error={error} />
+              <ProductList order="reviewCount" keyword="" category={null} />
             </div>
 
             <div className="mt-[60px]">
               <p className="text-[20px] font-semibold mb-[30px] text-gray-50">별점이 높은 상품</p>
-              <Product productList={productList} isLoading={isLoading} error={error} />
+              <ProductList order="rating" keyword="" category={null} />
             </div>
           </div>
+
+          {/* <InfiniteProductList order="reviewCount" keyword="" category={null} /> */}
         </div>
       </div>
     </div>
   );
 };
 
-export default Index;
+export default Home;
