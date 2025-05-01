@@ -35,7 +35,13 @@ function Profile(profileData: GetMeResponse, isMyProfile: boolean) {
             <span className="text-[14px] font-normal text-[#9FA6B2] lg:text-[16px]">팔로잉</span>
           </div>
         </div>
-        <div className="w-full h-[50px] text-center border border-[black]">버튼</div>
+        { isMyProfile ? 
+          (profileData.isFollowing ? 
+          <div className="w-full h-[50px] text-center border border-[black]">팔로우 취소</div> : <div className="w-full h-[50px] text-center border border-[black]">팔로우</div>) : 
+        <div className='flex flex-col gap-[10px] md:gap-[15px] lg:gap-[20px]'>
+            <div className="w-full h-[50px] text-center border border-[black]">프로필 편집</div>
+            <div className="w-full h-[50px] text-center border border-[black]">로그아웃</div>
+          </div>}
       </div>
     </div>
   );
