@@ -37,14 +37,14 @@ const Index = () => {
 
           <div className="lg:pl-[90px] lg:pr-[60px] md:px-[30px] px-5 max-w-[1200px] w-full flex-1 min-w-0">
             <div>
-              <p className="text-[20px] font-semibold mb-[30px] text-gray-50 lg:pt-[60px]">
+              <h4 className="text-[20px] font-semibold mb-[30px] text-gray-50 lg:pt-[60px]">
                 지금 핫한 상품 TOP 6
-              </p>
+              </h4>
               <Product productList={productList} isLoading={isLoading} error={error} />
             </div>
 
             <div className="mt-[60px]">
-              <p className="text-[20px] font-semibold mb-[30px] text-gray-50">별점이 높은 상품</p>
+              <h4 className="text-[20px] font-semibold mb-[30px] text-gray-50">별점이 높은 상품</h4>
               <Product productList={productList} isLoading={isLoading} error={error} />
             </div>
           </div>

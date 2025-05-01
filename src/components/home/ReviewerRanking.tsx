@@ -19,7 +19,7 @@ const ReviewerRanking = () => {
     <ul className="w-full flex flex-row flex-nowrap gap-[15px] lg:flex-col lg:overflow-x-auto lg:gap-6">
       {userRanking?.map((user, index) => (
         <li key={user.id} className="flex items-center flex-shrink-0">
-          <div className="bg-white rounded-[99px] w-9 h-9 mr-[10px]"></div>
+          <div className="bg-white rounded-full w-9 h-9 mr-[10px]"></div>
           <div className="flex flex-col">
             <div className="flex items-center gap-[5px] mb-[5.5px] flex-shrink-0">
               {index === 0 && (
