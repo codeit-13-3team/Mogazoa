@@ -3,8 +3,8 @@ import Image from 'next/image';
 
 function Profile(profileData: GetMeResponse, isMyProfile: boolean) {
   return (
-    <div className="mb-[60px] px-[20px] py-[30px] w-full h-auto md:px-[30px] lg:w-[340px] rounded-[8px] bg-[#252530]">
-      <div className="w-full h-full flex flex-col justify-between items-center gap-[30px] lg:gap-[40px]">
+    <div className="mb-[60px] px-[20px] py-[30px] w-full h-auto rounded-[8px] bg-[#252530] md:px-[30px] lg:w-[340px] lg:mb-0">
+      <div className="w-full h-auto flex flex-col items-center gap-[30px] lg:gap-[40px]">
         <div className="w-[120px] h-[120px] relative rounded-full lg:w-[180px] lg:h-[180px]">
           {profileData?.image ? (
             <Image src={profileData.image} alt="유저 이미지" fill />
