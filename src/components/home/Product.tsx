@@ -1,4 +1,4 @@
-import star from '../../../public/icon/icon/status=star_300.png';
+import star from '../../../public/icon/common/star.png';
 import Image from 'next/image';
 import type { Product } from '@/types/product';
 
