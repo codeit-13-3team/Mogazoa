@@ -1,4 +1,3 @@
-import star from '../../../public/icon/common/star.png';
 import Image from 'next/image';
 import type { Product } from '@/types/product';
 
@@ -22,7 +21,7 @@ const Product = ({
           key={product.id}
           className="border border-black-300 bg-black-400 rounded-[8px] lg:max-w-[300px] w-full"
         >
-          <div className="flex justify-center p-[10px] pb-[0px] lg:p-2 lg:pb-[0px] aspect-video w-full">
+          <div className="flex justify-center p-[10px] pb-0 lg:p-2 lg:pb-0 aspect-video w-full">
             <Image
               src={product.image}
               alt="상품 이미지"
@@ -50,7 +49,7 @@ const Product = ({
 
               <div className="flex items-center gap-[2px]">
                 <Image
-                  src={star}
+                  src="/icon/common/star.png" // ✅ 문자열로 수정 (public 폴더용)
                   alt="별 아이콘"
                   width={12}
                   height={12}
