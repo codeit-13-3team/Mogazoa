@@ -1,4 +1,3 @@
-import star from '../../../public/icon/common/star.png';
 import Image from 'next/image';
 import { Product as productType } from '@/types/product';
 
