@@ -4,7 +4,7 @@ import { GetProductListResponse } from '../types/product';
 export const getProductList = async (
   keyword: string,
   category: number | null,
-  order: string,
+  order: string | null,
   cursor: number | null,
 ) => {
   const response = await axiosInstance.get<GetProductListResponse>('/products', {
