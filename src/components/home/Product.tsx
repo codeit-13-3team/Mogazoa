@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getProductList } from '@/api/products';
-import star from '../../../public/icon/icon/status=star_300.png';
+import star from '../../../public/icon/common/star.png';
 import Image from 'next/image';
 
 const Product = () => {
