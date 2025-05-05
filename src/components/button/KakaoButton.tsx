@@ -1,3 +1,6 @@
+import Image from 'next/image';
+import kakaoIcon from '../../../public/icon/common/kakao.png';
+
 export const KakaoLoginButton = () => {
   const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY!;
   const REDIRECT_URI = 'http://localhost:3000/kakao';
@@ -8,7 +11,7 @@ export const KakaoLoginButton = () => {
 
   return (
     <button onClick={handleLogin}>
-      <img src="/icon/common/kakao.png" alt="카카오 로그인" width={30} />
+      <Image src={kakaoIcon} alt="카카오 로그인" width={30} />
     </button>
   );
 };

@@ -3,7 +3,7 @@ import { EmailInput, PasswordInput } from '@/components/input/loginInput';
 import { KakaoLoginButton } from '@/components/button/KakaoButton';
 import { GoogleLoginButton } from '@/components/button/Google';
 import { Login } from '@/api/auth';
-import { LoginRequest } from '@/api/auth';
+import { SignInRequest } from '@/types/auth';
 import { useRouter } from 'next/router';
 import { useMutation } from '@tanstack/react-query';
 
@@ -12,23 +12,25 @@ const LoginPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginRequest>({
+  } = useForm<SignInRequest>({
     mode: 'onBlur',
   });
   const Router = useRouter();
 
   const { mutate } = useMutation({
-    mutationFn: (formData: LoginRequest) => Login('login', formData),
+    mutationFn: (formData: SignInRequest) => Login('login', formData),
     onSuccess: (data: { accessToken: string }) => {
-      localStorage.setItem('token', data.accessToken);
-      Router.push('/');
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('token', data.accessToken);
+        Router.push('/');
+      }
     },
     onError: () => {
       alert('로그인에 실패했습니다. 이메일 또는 비밀번호를 확인해주세요.');
     },
   });
 
-  const onSubmit = (formData: LoginRequest) => {
+  const onSubmit = (formData: SignInRequest) => {
     mutate(formData);
   };
 

@@ -1,28 +1,6 @@
 import axiosInstance from './axiosInstance';
 import { teamId } from './axiosInstance';
-
-interface SignupResponse {
-  email: string;
-  nickname: string;
-  password: string;
-  passwordConfirmation: string;
-}
-
-export interface LoginRequest {
-  email: string;
-  password: string;
-}
-
-interface LoginResponse {
-  accessToken: string;
-  refreshToken: string;
-  user: {
-    id: string;
-    email: string;
-    nickname: string;
-    image: string;
-  };
-}
+import { SignUpRequest, SignInRequest } from '@/types/auth';
 
 interface KakaoSignUpResponse {
   redirectUri: string;
@@ -31,9 +9,9 @@ interface KakaoSignUpResponse {
 }
 const PROVIDER = 'kakao';
 
-export const Signup = async (data: SignupResponse): Promise<SignupResponse> => {
+export const Signup = async (data: SignUpRequest): Promise<SignUpRequest> => {
   try {
-    const response = await axiosInstance.post<SignupResponse>(`${teamId}/auth/signup`, data);
+    const response = await axiosInstance.post<SignUpRequest>(`${teamId}/auth/signup`, data);
     return response.data;
   } catch (error) {
     console.error('Signup error:', error);
@@ -41,9 +19,15 @@ export const Signup = async (data: SignupResponse): Promise<SignupResponse> => {
   }
 };
 
-export const Login = async (p0: string, data: LoginRequest): Promise<LoginResponse> => {
+export const Login = async (
+  teamId: string,
+  formData: SignInRequest,
+): Promise<{ accessToken: string }> => {
   try {
-    const response = await axiosInstance.post<LoginResponse>(`${teamId}/auth/signIn`, data);
+    const response = await axiosInstance.post<{ accessToken: string }>(
+      `${teamId}/auth/signIn`,
+      formData,
+    );
     return response.data;
   } catch (error) {
     console.error('Login error:', error);
