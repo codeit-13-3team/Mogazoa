@@ -19,7 +19,7 @@ function Activity({ text, icon, dataNumber, category }: ActivityProps) {
             <div className="relative w-[20px] h-[20px] md:w-[24px] md:h-[24px] lg:w-[29px] lg:h-[29px]">
               <Image
                 src={icon}
-                alt="Icon"
+                alt="아이콘"
                 fill
                 sizes="(max-width: 767px) 20px (max-width: 1023px) 24px, (min-width: 1024px) 29px"
               />
@@ -34,7 +34,7 @@ function Activity({ text, icon, dataNumber, category }: ActivityProps) {
         {category ? (
           <div className="flex items-center justify-center">
             <div className="relative w-[58px] h-[20px] md:h-[24px] lg:w-[83px] lg:h-[29px]">
-              <Image src={category} alt="category" fill />
+              <Image src={category} alt="카테고리" fill />
             </div>
           </div>
         ) : null}
