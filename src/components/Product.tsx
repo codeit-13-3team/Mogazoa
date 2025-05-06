@@ -60,7 +60,7 @@ const Product = ({
             <div className="flex gap-[2px] items-center">
               <div className="relative w-[12px] h-[12px] md:w-[14px] md:h-[14px] lg:w-[16px] lg:h-[16px]">
                 <Image
-                  src="/icon/icon/status=star_300.png"
+                  src="/icon/common/star.png"
                   alt="starIcon"
                   fill
                   sizes="(max-width: 767px) 12px, (min-width: 768px) 14px (min-width: 1024px) 16px"
