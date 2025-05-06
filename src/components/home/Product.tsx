@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { Product as productType } from '@/types/product';
+import star from '../../../public/icon/common/star.png';
 
 const Product = ({ product }: { product: productType }) => {
   return (
