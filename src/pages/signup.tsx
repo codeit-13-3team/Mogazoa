@@ -8,7 +8,6 @@ import {
   ConfirmPasswordInput,
 } from '@/components/input/loginInput';
 import axiosInstance from '@/api/axiosInstance';
-import { teamId } from '@/api/axiosInstance';
 import router from 'next/router';
 
 const SignupPage = () => {
@@ -22,7 +21,7 @@ const SignupPage = () => {
 
   const onSubmit = async (data: SignUpRequest) => {
     try {
-      const response = await axiosInstance.post(`${teamId}/auth/signup`, data);
+      const response = await axiosInstance.post(`/auth/signup`, data);
       router.push('/');
       console.log('회원가입 성공:', response.data);
     } catch (error: any) {
