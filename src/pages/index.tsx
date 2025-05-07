@@ -11,15 +11,26 @@ const Home = () => {
   const [selectedCategoryName, setSelectedCategoryName] = useState<string | null>(null);
   const keyword = '';
   const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   return (
-    <div className="text-gray-50 flex w-full">
-      <div className="mx-auto w-full flex justify-center">
-        <Category
-          selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
-          setSelectedCategoryName={setSelectedCategoryName}
-        />
+    <div className="text-gray-50 flex w-full min-h-screen">
+      <div className="mx-auto w-full flex justify-center relative">
+        {isMenuOpen && (
+          <div
+            className="fixed inset-0 bg-black-300/80 z-40 md:hidden"
+            onClick={() => setIsMenuOpen(false)}
+          />
+        )}
+        <div className="z-50">
+          <Category
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            setSelectedCategoryName={setSelectedCategoryName}
+            isMenuOpen={isMenuOpen}
+            onClose={() => setIsMenuOpen(false)}
+          />
+        </div>
 
         <div className="flex min-w-0 flex-col lg:flex-row-reverse gap-[10px]">
           <div className="flex flex-col mb-[60px] lg:border-l-[1px] lg:border-black-400 lg:pl-[30px] lg:h-screen pt-[30px] px-5">
@@ -39,6 +50,7 @@ const Home = () => {
                       TOP 6
                     </span>
                   </h4>
+                  <button onClick={() => setIsMenuOpen((o) => !o)}>테스트</button>
                   <ProductList order="reviewCount" />
                 </div>
 
@@ -65,7 +77,10 @@ const Home = () => {
                       {!selectedCategory && keyword && <span>'{keyword}'로 검색한 상품</span>}
                     </div>
                     {selectedCategory && (
-                      <div className="flex items-center bg-black-400 border border-black-300 rounded-[100px] py-[6px] w-fit px-3 mt-[30px] md:hidden">
+                      <div
+                        className="flex items-center bg-black-400 border border-black-300 rounded-[100px] py-[6px] w-fit px-3 mt-[30px] md:hidden cursor-pointer"
+                        onClick={() => setIsMenuOpen(true)}
+                      >
                         <Image
                           src={categoryIcon}
                           alt="카테고리 아이콘"
