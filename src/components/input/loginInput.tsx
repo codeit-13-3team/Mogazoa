@@ -8,7 +8,7 @@ interface Props {
   watch?: (field: string) => string | undefined;
 }
 
-export const EmailInput = ({ register, errors, type }: Props) => {
+export const EmailInput = ({ register, errors }: Props) => {
   return (
     <>
       <Input
@@ -18,7 +18,7 @@ export const EmailInput = ({ register, errors, type }: Props) => {
         {...register('email', {
           required: '이메일을 입력해주세요.',
           pattern: {
-            value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
+            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
             message: '유효한 이메일 형식을 입력해주세요.',
           },
         })}
@@ -28,14 +28,14 @@ export const EmailInput = ({ register, errors, type }: Props) => {
   );
 };
 
-export const NameInput = ({ register, errors, type }: Props) => {
+export const NickNameInput = ({ register, errors }: Props) => {
   return (
     <>
       <Input
         label="닉네임"
         type="text"
         placeholder="닉네임을 입력하세요"
-        {...register('name', {
+        {...register('nickname', {
           required: '닉네임을 입력해주세요.',
           minLength: {
             value: 1,
@@ -46,7 +46,7 @@ export const NameInput = ({ register, errors, type }: Props) => {
             message: '닉네임은 최대 10자까지만 가능합니다.',
           },
         })}
-        error={typeof errors.name?.message === 'string' ? errors.name?.message : undefined}
+        error={typeof errors.nickname?.message === 'string' ? errors.nickname?.message : undefined}
       />
     </>
   );
@@ -77,13 +77,13 @@ export const ConfirmPasswordInput = ({ register, errors, watch }: Props) => (
     label="비밀번호 확인"
     type="password"
     placeholder="비밀번호를 다시 입력하세요"
-    {...register('confirmPassword', {
+    {...register('passwordConfirmation', {
       required: '비밀번호 확인을 입력해주세요.',
       validate: (value) => value === watch?.('password') || '비밀번호가 일치하지 않습니다.',
     })}
     error={
-      typeof errors.confirmPassword?.message === 'string'
-        ? errors.confirmPassword?.message
+      typeof errors.passwordConfirmation?.message === 'string'
+        ? errors.passwordConfirmation?.message
         : undefined
     }
   />
