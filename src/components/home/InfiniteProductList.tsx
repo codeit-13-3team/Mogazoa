@@ -3,7 +3,7 @@ import Product from './Product';
 import { useRef, useEffect } from 'react';
 
 interface Props {
-  order: string;
+  order: string | null;
   keyword?: string;
   category?: number | null;
 }
@@ -32,12 +32,12 @@ export function InfiniteProductList({ order, keyword, category }: Props) {
   if (status === 'error') return <p>에러 발생</p>;
 
   return (
-    <>
+    <ul className="grid grid-cols-2 lg:grid-cols-[repeat(3,minmax(165px,300px))] justify-center gap-[15px] lg:gap-5 w-full">
       {products.map((product) => (
         <Product key={product.id} product={product} />
       ))}
       {isFetchingNextPage && <p>더 불러오는 중…</p>}
       <div ref={loadMoreRef} style={{ height: 1 }} />
-    </>
+    </ul>
   );
 }
