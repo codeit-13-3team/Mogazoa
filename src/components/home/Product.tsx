@@ -6,6 +6,7 @@ import star from '../../../public/icon/common/star.png';
 import { Product as productType } from '@/types/product';
 import Link from 'next/link';
 
+
 const Product = ({ product }: { product: productType }) => {
   return (
     <li
