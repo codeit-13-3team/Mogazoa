@@ -1,5 +1,4 @@
 import axiosInstance from './axiosInstance';
-import { teamId } from './axiosInstance';
 import { SignUpRequest, SignInRequest } from '@/types/auth';
 
 interface KakaoSignUpResponse {
@@ -11,7 +10,7 @@ const PROVIDER = 'kakao';
 
 export const Signup = async (data: SignUpRequest): Promise<SignUpRequest> => {
   try {
-    const response = await axiosInstance.post<SignUpRequest>(`${teamId}/auth/signup`, data);
+    const response = await axiosInstance.post<SignUpRequest>(`/auth/signup`, data);
     return response.data;
   } catch (error) {
     console.error('Signup error:', error);
@@ -24,10 +23,7 @@ export const Login = async (
   formData: SignInRequest,
 ): Promise<{ accessToken: string }> => {
   try {
-    const response = await axiosInstance.post<{ accessToken: string }>(
-      `${teamId}/auth/signIn`,
-      formData,
-    );
+    const response = await axiosInstance.post<{ accessToken: string }>(`/auth/signIn`, formData);
     return response.data;
   } catch (error) {
     console.error('Login error:', error);
@@ -36,7 +32,7 @@ export const Login = async (
 };
 
 export const KakaoSignUp = async (data: KakaoSignUpResponse) => {
-  const url = `${teamId}/auth/signUp/${PROVIDER}`;
+  const url = `/auth/signUp/${PROVIDER}`;
   console.log('🔍 요청 URL:', url);
   console.log('📦 요청 데이터:', data);
   const response = await axiosInstance.post(url, data);
@@ -44,7 +40,7 @@ export const KakaoSignUp = async (data: KakaoSignUpResponse) => {
 };
 
 export const kakaoLogin = async (code: string) => {
-  const response = await axiosInstance.post(`${teamId}/auth/signIn/${PROVIDER}`, {
+  const response = await axiosInstance.post(`/auth/signIn/${PROVIDER}`, {
     code,
   });
   return response.data;
