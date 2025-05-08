@@ -21,7 +21,7 @@ export function DropDownOption({ children, value, useBaseStyle, onSelect }: Drop
   return (
     <li
       value={value}
-      className={`py-[6px] text-[#6E6E82] hover:text-[#F1F1F5] hover:bg-gray-100 cursor-pointer transition ${useBaseStyle ? 'px-[10px] rounded-lg' : ''}`}
+      className={`py-[6px] text-gray-200 hover:text-gray-50 hover:bg-gray-100 cursor-pointer transition ${useBaseStyle ? 'px-[10px] rounded-lg' : ''}`}
       onClick={() => onSelect?.(value, String(children))}
     >
       {children}
