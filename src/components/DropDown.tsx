@@ -38,7 +38,7 @@ export function DropDown({
   onChange,
 }: DropDownProps) {
   const [isOpen, setIsopen] = useState<boolean>(false);
-  const [iconSrc, setIconsrc] = useState<string>('/icon/icon/status=drop_down_300.png');
+  const [iconSrc, setIconsrc] = useState<string>('/icon/common/dropdown.png');
   const [categoryName, setCategoryName] = useState<string>('');
 
   const baseStyle = `px-5 bg-black-400 border border-black-300 rounded-lg + ${isOpen ? 'border-main-blue' : 'border-black-300'}`;
@@ -78,10 +78,10 @@ export function DropDown({
 
   useEffect(() => {
     if (isOpen) {
-      setIconsrc('/icon/icon/status=drop_up_300.png');
+      setIconsrc('/icon/common/dropup.png');
       document.addEventListener('click', handleOutsideClick);
     } else {
-      setIconsrc('/icon/icon/status=drop_down_300.png');
+      setIconsrc('/icon/common/dropdown.png');
 
       if (categoryName.length === 0) {
         const childrenArray = React.Children.toArray(children);
