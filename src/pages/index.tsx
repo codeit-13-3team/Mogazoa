@@ -22,9 +22,15 @@ const Home = () => {
         />
 
         <div className="flex min-w-0 flex-col lg:flex-row-reverse gap-[10px]">
-          <div className="flex flex-col mb-[60px] lg:border-l-[1px] lg:border-black-400 lg:pl-[30px] lg:h-screen pt-[30px] px-5">
-            <p className="text-[14px] mb-5">리뷰어 랭킹</p>
-            <div className="overflow-x-auto w-full">
+          <div className="flex flex-col mb-[60px] lg:border-l-[1px] lg:border-black-400 lg:pl-[30px] lg:h-screen pt-[30px]">
+            <p className="text-[14px] mb-5 px-5">리뷰어 랭킹</p>
+            <div
+              className="overflow-x-scroll w-full px-5"
+              style={{
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none',
+              }}
+            >
               <ReviewerRanking />
             </div>
           </div>
