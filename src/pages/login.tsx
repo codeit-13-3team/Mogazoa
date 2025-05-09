@@ -35,9 +35,12 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="items-center justify-center min-h-screen bg-black-500">
-      <form onSubmit={handleSubmit(onSubmit)} className=" space-y-4 max-w-sm mx-auto mt-10">
-        <h1 className="text-xl font-bold font-">로그인</h1>
+    <div className="min-h-screen bg-black-500 flex flex-col items-center justify-center">
+      <header className="absolute top-4 left-4 text-white">헤더</header>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className=" space-y-6 w-full max-w-md md:max-w-lg lg:max-w-xl mx- p-8 rounded-lg shadow-lg"
+      >
         <EmailInput register={register} errors={errors} type="login" />
         <PasswordInput register={register} errors={errors} type="login" />
         <button type="submit" className="w-full bg-green-500 text-white py-2 rounded">
