@@ -4,6 +4,7 @@ import React, { ReactNode, useEffect, useRef, useState } from 'react';
 interface DropDownProps {
   width: string;
   height?: string;
+  divClassName?: string;
   textClassName?: string;
   useBaseStyle?: boolean;
   children: ReactNode;
@@ -32,6 +33,7 @@ export function DropDownOption({ children, value, useBaseStyle, onSelect }: Drop
 export function DropDown({
   width,
   height,
+  divClassName,
   textClassName,
   useBaseStyle = true,
   children,
@@ -102,7 +104,7 @@ export function DropDown({
 
   return (
     <div
-      className={`relative flex items-center cursor-pointer ${useBaseStyle ? baseStyle : ''}`}
+      className={`relative flex items-center cursor-pointer ${useBaseStyle ? baseStyle : ''} ${divClassName}`}
       style={{ width: width, height: height ? height : 'auto' }}
     >
       <div
