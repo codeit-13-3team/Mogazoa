@@ -1,5 +1,6 @@
 import Modal from '@/components/Modal';
 import { FollowUserItem } from '@/types/user';
+import noImage from '../../public/img/profileimage/profile1.png'
 
 import Image from 'next/image';
 
@@ -35,7 +36,7 @@ const FollowUserList = ({ followUserListData }: FollowUserListProp) => {
 const FollowUser = ({ nickname, image }: FollowUserProp) => {
   return (
     <div className="h-12 flex items-center gap-5 lg:h-13">
-      <div className="w-12 h-12 relative border rounded-full lg:w-[52px] lg:h-[52px]">
+      <div className="w-12 h-12 relative border rounded-full overflow-hidden lg:w-[52px] lg:h-[52px]">
         {image ? (
           <Image
             src={image}
@@ -45,7 +46,7 @@ const FollowUser = ({ nickname, image }: FollowUserProp) => {
           />
         ) : (
           <Image
-            src='/img/profileimage/profile1.png'
+            src={noImage}
             alt="유저프로필"
             fill
             sizes="(max-width: 1023px) 48px, (min-width: 1024px) 52px"
