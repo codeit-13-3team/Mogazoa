@@ -5,6 +5,12 @@ import ReviewerRanking from '@/components/home/ReviewerRanking';
 import { useState } from 'react';
 import categoryIcon from '../../public/icon/common/category.png';
 import Image from 'next/image';
+import Modal from '@/components/Modal';
+import CreateProduct from '@/components/home/CreateProduct';
+import { Product, ProductResponse } from '@/types/product';
+import { useQueryClient } from '@tanstack/react-query';
+import { getProductById } from '@/api/products';
+import plus from '../../public/icon/common/plus.png';
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
@@ -12,6 +18,20 @@ const Home = () => {
   const keyword = '';
   const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | undefined>();
+
+  const queryClient = useQueryClient();
+
+  const handleProductClick = async (product: Product) => {
+    const productDetail = await queryClient.fetchQuery({
+      queryKey: ['product', product.id],
+      queryFn: () => getProductById(product.id),
+    });
+
+    setSelectedProduct(productDetail);
+    setIsModalOpen(true);
+  };
 
   return (
     <div className="text-gray-50 flex w-full min-h-screen">
@@ -50,21 +70,24 @@ const Home = () => {
             {!keyword && !selectedCategory ? (
               <div>
                 <div>
-                  <h4 className="text-[20px] font-semibold mb-[30px] text-gray-50 lg:pt-[60px]">
+                  <h4
+                    className="text-[20px] font-semibold mb-[30px] text-gray-50 lg:pt-[60px]"
+                    onClick={() => setIsModalOpen(true)}
+                  >
                     지금 핫한 상품
                     <span className="ml-[10px] bg-gradient-to-r from-main-blue to-main-indigo bg-clip-text text-transparent">
                       TOP 6
                     </span>
                   </h4>
                   <button onClick={() => setIsMenuOpen((o) => !o)}>테스트</button>
-                  <ProductList order="reviewCount" />
+                  <ProductList order="reviewCount" onProductClick={handleProductClick} />
                 </div>
 
                 <div className="mt-[60px] mb-[20px]">
                   <h4 className="text-[20px] font-semibold mb-[30px] text-gray-50">
                     별점이 높은 상품
                   </h4>
-                  <ProductList order="rating" />
+                  <ProductList order="rating" onProductClick={handleProductClick} />
                 </div>
               </div>
             ) : (
@@ -123,6 +146,14 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <button>
+        <Image src={plus} width={40} height={40} alt="상품 추가 버튼" />
+      </button>
+      {isModalOpen && (
+        <Modal onClose={() => setIsModalOpen(false)}>
+          <CreateProduct selectedProduct={selectedProduct as ProductResponse} />
+        </Modal>
+      )}
     </div>
   );
 };
