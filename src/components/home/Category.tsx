@@ -6,10 +6,16 @@ const Category = ({
   selectedCategory,
   setSelectedCategory,
   setSelectedCategoryName,
+  isMenuOpen,
+  onClose,
 }: {
   selectedCategory: number | null;
   setSelectedCategory: (id: number | null) => void;
   setSelectedCategoryName: (name: string | null) => void;
+  isMenuOpen: boolean;
+  onClose: () => void;
+
+  // TODO interface로 뽑기
 }) => {
   const {
     data: categoryList,
@@ -31,16 +37,29 @@ const Category = ({
       setSelectedCategory(category.id);
       setSelectedCategoryName(category.name);
     }
+    onClose();
   };
 
+  const baseClasses =
+    'max-w-[220px] w-full md:w-[180px] lg:w-[220px] ' +
+    'bg-black-500 flex-shrink-0 ' +
+    'transform transition-transform duration-300 ease-in-out';
+
   return (
-    <div className="hidden md:block md:w-[180px] lg:w-[220px] bg-black-500 w-full cursor-pointer">
-      <h2 className="text-4 py-[15px] px-5">카테고리</h2>
+    <div
+      className={
+        'fixed inset-y-0 left-0 md:static ' +
+        baseClasses +
+        ' ' +
+        (isMenuOpen ? 'translate-x-0 md:translate-x-0' : '-translate-x-full md:translate-x-0')
+      }
+    >
+      <h2 className="text-4 py-[15px] px-5 mt-[45px]">카테고리</h2>
       <ul>
         {categoryList.map((cat) => (
           <li
             key={cat.id}
-            className={`text-4 py-[15px] px-5 ${
+            className={`text-4 py-[15px] px-5 cursor-pointer ${
               selectedCategory === cat.id
                 ? 'bg-black-400 text-gray-50 shadow-[inset_0_0_0_1px_rgba(53,53,66,1)] rounded-[8px]'
                 : 'text-gray-200'
