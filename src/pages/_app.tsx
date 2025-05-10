@@ -1,5 +1,10 @@
+// src/pages/_app.tsx
+
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { ModalProvider } from '@/context/ModalContext';
+import ModalRoot from '@/components/ModalRoot';
+import FloatingAddButton from '@/components/AddButton';
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import NavBar from '@/components/NavBar';  
@@ -16,7 +21,6 @@ const queryClient = new QueryClient({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
-  // 404 페이지 확인 로직
   const is404Page =
     Component.name === 'Error404' ||
     Component.displayName === 'Error404' ||
@@ -24,13 +28,20 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="bg-slate-950 text-white min-h-screen">
-        {/* NavBar는 404 페이지가 아닐 때만 렌더링 */}
-        {!is404Page && <NavBar showSearch={pageProps.showSearch} />}
-        <main className="p-6">
-          <Component {...pageProps} />
-        </main>
-      </div>
+      <ModalProvider>
+        <div className="max-w-[1554px] mx-auto bg-slate-950 text-white min-h-screen">
+          {/* NavBar는 404 페이지가 아닐 때만 렌더링 */}
+          {!is404Page && <NavBar showSearch={pageProps.showSearch} />}
+
+          <main className="p-6">
+            <Component {...pageProps} />
+          </main>
+
+          {!is404Page && <FloatingAddButton />} {/* 404일 땐 버튼 안 보이게 해도 OK */}
+          <ModalRoot />
+        </div>
+      </ModalProvider>
+
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

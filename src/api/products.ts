@@ -1,11 +1,11 @@
 import axiosInstance from './axiosInstance';
-import { GetProductListResponse } from '../types/product';
+import { GetProductListResponse, ProductResponse, CreateProductRequest } from '../types/product';
 
 export const getProductList = async (
-  keyword: string,
-  category: number | null,
-  order: string | null,
-  cursor: number | null,
+  keyword?: string | number,
+  category?: number | null,
+  order?: string | null,
+  cursor?: number | null,
 ) => {
   const response = await axiosInstance.get<GetProductListResponse>('/products', {
     params: {
@@ -16,4 +16,18 @@ export const getProductList = async (
     },
   });
   return response.data;
+};
+
+export const getProductById = async (productId: number) => {
+  const response = await axiosInstance.get<ProductResponse>(`/products/${productId}`);
+  return response.data;
+};
+
+export const createProduct = async (body: CreateProductRequest) => {
+  const response = await axiosInstance.post<ProductResponse>('/products', body);
+  return response.data;
+};
+
+export const updateProduct = (productId: number, body: CreateProductRequest) => {
+  axiosInstance.patch(`/products/${productId}`, body);
 };

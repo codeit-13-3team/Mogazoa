@@ -23,7 +23,7 @@ export interface CreateProductRequest {
   name: string;
   description: string;
   image: string;
-  categoryId: number;
+  categoryId: string | number;
 }
 
 export interface CategoryMetric {
