@@ -1,5 +1,7 @@
 import { UseFormRegister, FieldErrors } from 'react-hook-form';
+import { useState } from 'react';
 import Input from './input';
+import { Eye, EyeOff } from 'lucide-react';
 
 interface Props {
   register: UseFormRegister<any>;
@@ -53,11 +55,12 @@ export const NickNameInput = ({ register, errors }: Props) => {
 };
 
 export const PasswordInput = ({ register, errors, type }: Props) => {
+  const [showPassword, setShowPassword] = useState(false);
   return (
-    <>
+    <div className="relative">
       <Input
         label="비밀번호"
-        type="password"
+        type={showPassword ? 'text' : 'password'}
         placeholder="비밀번호를 입력하세요"
         {...register('password', {
           required: '비밀번호를 입력해주세요.',
@@ -67,24 +70,44 @@ export const PasswordInput = ({ register, errors, type }: Props) => {
               : undefined,
         })}
         error={typeof errors.password?.message === 'string' ? errors.password?.message : undefined}
+        className="pr-10 h-12"
       />
-    </>
+      <button
+        type="button"
+        onClick={() => setShowPassword((prev) => !prev)}
+        className="absolute right-3 top-[45px] -translate-y-1/2 text-gray-400"
+      >
+        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+      </button>
+    </div>
   );
 };
 
-export const ConfirmPasswordInput = ({ register, errors, watch }: Props) => (
-  <Input
-    label="비밀번호 확인"
-    type="password"
-    placeholder="비밀번호를 다시 입력하세요"
-    {...register('passwordConfirmation', {
-      required: '비밀번호 확인을 입력해주세요.',
-      validate: (value) => value === watch?.('password') || '비밀번호가 일치하지 않습니다.',
-    })}
-    error={
-      typeof errors.passwordConfirmation?.message === 'string'
-        ? errors.passwordConfirmation?.message
-        : undefined
-    }
-  />
-);
+export const ConfirmPasswordInput = ({ register, errors, watch }: Props) => {
+  const [showPassword, setShowPassword] = useState(false);
+  return (
+    <div className="relative">
+      <Input
+        label="비밀번호 확인"
+        type={showPassword ? 'text' : 'password'}
+        placeholder="비밀번호를 다시 입력하세요"
+        {...register('passwordConfirmation', {
+          required: '비밀번호 확인을 입력해주세요.',
+          validate: (value) => value === watch?.('password') || '비밀번호가 일치하지 않습니다.',
+        })}
+        error={
+          typeof errors.passwordConfirmation?.message === 'string'
+            ? errors.passwordConfirmation?.message
+            : undefined
+        }
+      />
+      <button
+        type="button"
+        onClick={() => setShowPassword((prev) => !prev)}
+        className="absolute right-3 top-[45px] -translate-y-1/2 text-gray-400"
+      >
+        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+      </button>
+    </div>
+  );
+};
