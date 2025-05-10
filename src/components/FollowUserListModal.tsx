@@ -27,7 +27,7 @@ const FollowUserList = ({ followUserListData }: FollowUserListProp) => {
           <FollowUser nickname={followUser.follower.nickname} image={followUser.follower.image} />
         ))
       ) : (
-        <div>팔로우 유저가 없습니다.</div>
+        <div className='w-full h-full flex justify-center items-center text-gray-50'>팔로우 유저가 없습니다.</div>
       )}
     </div>
   );
