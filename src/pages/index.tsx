@@ -5,6 +5,7 @@ import ReviewerRanking from '@/components/home/ReviewerRanking';
 import { useState } from 'react';
 import categoryIcon from '../../public/icon/common/category.png';
 import Image from 'next/image';
+import Modal from '@/components/Modal';
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
