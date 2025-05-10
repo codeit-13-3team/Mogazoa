@@ -5,11 +5,10 @@ import { Product as ProductType } from '@/types/product';
 interface Props {
   order: 'reviewCount' | 'rating' | string;
   onProductClick: (product: ProductType) => void;
-  onClick?: () => void;
 }
 
 const ProductList = ({ order, onProductClick }: Props) => {
-  const { data, isLoading, error } = useProductList({ order });
+  const { data } = useProductList({ order });
 
   return (
     <ul className="grid grid-cols-2 lg:grid-cols-[repeat(3,minmax(165px,300px))] justify-center gap-[15px] lg:gap-5 w-full">

@@ -2,15 +2,14 @@ import Category from '@/components/home/Category';
 import { InfiniteProductList } from '@/components/home/InfiniteProductList';
 import ProductList from '@/components/home/ProductList';
 import ReviewerRanking from '@/components/home/ReviewerRanking';
-import { useState } from 'react';
+import { JSX, useState } from 'react';
 import categoryIcon from '../../public/icon/common/category.png';
 import Image from 'next/image';
-import Modal from '@/components/Modal';
 import CreateProduct from '@/components/home/CreateProduct';
-import { Product, ProductResponse } from '@/types/product';
+import { Product } from '@/types/product';
 import { useQueryClient } from '@tanstack/react-query';
 import { getProductById } from '@/api/products';
-import plus from '../../public/icon/common/plus.png';
+import { useModal } from '@/context/ModalContext';
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
@@ -18,9 +17,7 @@ const Home = () => {
   const keyword = '';
   const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | undefined>();
-
+  const { openModal } = useModal();
   const queryClient = useQueryClient();
 
   const handleProductClick = async (product: Product) => {
@@ -29,8 +26,7 @@ const Home = () => {
       queryFn: () => getProductById(product.id),
     });
 
-    setSelectedProduct(productDetail);
-    setIsModalOpen(true);
+    openModal(<CreateProduct selectedProduct={productDetail} />, productDetail);
   };
 
   return (
@@ -70,10 +66,7 @@ const Home = () => {
             {!keyword && !selectedCategory ? (
               <div>
                 <div>
-                  <h4
-                    className="text-[20px] font-semibold mb-[30px] text-gray-50 lg:pt-[60px]"
-                    onClick={() => setIsModalOpen(true)}
-                  >
+                  <h4 className="text-[20px] font-semibold mb-[30px] text-gray-50 lg:pt-[60px]">
                     지금 핫한 상품
                     <span className="ml-[10px] bg-gradient-to-r from-main-blue to-main-indigo bg-clip-text text-transparent">
                       TOP 6
@@ -146,14 +139,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <button>
-        <Image src={plus} width={40} height={40} alt="상품 추가 버튼" />
-      </button>
-      {isModalOpen && (
-        <Modal onClose={() => setIsModalOpen(false)}>
-          <CreateProduct selectedProduct={selectedProduct as ProductResponse} />
-        </Modal>
-      )}
     </div>
   );
 };

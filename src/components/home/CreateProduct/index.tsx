@@ -7,20 +7,22 @@ import { useQuery } from '@tanstack/react-query';
 import { useDebounce } from '@/hooks/useDebounce';
 import { createProduct, getProductList, updateProduct } from '@/api/products';
 import { getCategoryList } from '@/api/category';
-import { Product, ProductResponse, CreateProductRequest } from '@/types/product';
+import { ProductResponse, CreateProductRequest } from '@/types/product';
+import router from 'next/router';
+import { useModal } from '@/context/ModalContext';
 
 interface ProductProps {
   selectedProduct?: ProductResponse | undefined;
 }
 
 const CreateProduct = ({ selectedProduct }: ProductProps) => {
-  const [hasProduct] = useState<ProductResponse | undefined>(selectedProduct);
   const [productName, setProductName] = useState<string>('');
   const [productDescript, setProductDescript] = useState<string>('');
-  const [productCategory, setProductCategory] = useState<number>(0);
+  const [productCategory, setProductCategory] = useState<string | number>(0);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const debouncedSearch = useDebounce(productName, 300);
   const productImage = 'https://cdn.pixabay.com/photo/2025/05/04/17/47/dog-9578735_1280.jpg';
+  const { closeModal } = useModal();
 
   const [productNameError, setProductNameError] = useState<string>('');
   const [productDescriptError, setProductDescriptError] = useState<string>('');
@@ -29,14 +31,14 @@ const CreateProduct = ({ selectedProduct }: ProductProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (hasProduct) {
-      setProductName(hasProduct.name);
-      setProductDescript(hasProduct.description);
-      setProductCategory(hasProduct.categoryId);
+    if (selectedProduct) {
+      setProductName(selectedProduct.name);
+      setProductDescript(selectedProduct.description);
+      setProductCategory(selectedProduct.categoryId);
     } else {
       setProductName('');
       setProductDescript('');
-      setProductCategory(0);
+      setProductCategory(1);
     }
   }, [selectedProduct]);
 
@@ -71,7 +73,7 @@ const CreateProduct = ({ selectedProduct }: ProductProps) => {
   }, []);
 
   const isDuplicate = productData?.list?.some(
-    (product) => product.name === productName && product.id !== hasProduct?.id,
+    (product) => product.name === productName && product.id !== selectedProduct?.id,
   );
 
   const handleProductName = () => {
@@ -111,12 +113,15 @@ const CreateProduct = ({ selectedProduct }: ProductProps) => {
     };
 
     try {
-      if (hasProduct) {
-        await updateProduct(hasProduct.id, body);
+      if (selectedProduct) {
+        await updateProduct(selectedProduct.id, body);
         alert('상품이 수정되었습니다.');
+        closeModal();
       } else {
-        await createProduct(body);
+        const newProduct = await createProduct(body);
         alert('상품이 추가되었습니다.');
+        closeModal();
+        router.push(`/product/${newProduct.id}`);
       }
     } catch (err) {
       console.error(err);
@@ -127,7 +132,7 @@ const CreateProduct = ({ selectedProduct }: ProductProps) => {
   return (
     <>
       <h3 className="text-[20px] font-semibold mb-5 md:mb-10 lg:text-[24px] text-gray-50">
-        상품 {hasProduct ? '편집' : '추가'}
+        상품 {selectedProduct ? '편집' : '추가'}
       </h3>
       <div className="flex flex-col gap-[10px] md:flex-row-reverse mg:gap-[15px] md:items-end">
         <div className="flex flex-col gap-[10px]">
@@ -180,7 +185,8 @@ const CreateProduct = ({ selectedProduct }: ProductProps) => {
             width="100%"
             height="60px"
             textClassName="text-gray"
-            onChange={(e) => setProductCategory(0)}
+            value={productCategory}
+            onChange={(value) => setProductCategory(value)}
           >
             {categoryData?.map((cat) => (
               <DropDownOption
@@ -207,7 +213,7 @@ const CreateProduct = ({ selectedProduct }: ProductProps) => {
         disabled={!isFormValid}
         onClick={handleSubmit}
       >
-        {hasProduct ? '저장하기' : '추가하기'}
+        {selectedProduct ? '저장하기' : '추가하기'}
       </button>
     </>
   );

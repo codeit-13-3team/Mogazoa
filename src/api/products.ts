@@ -23,8 +23,9 @@ export const getProductById = async (productId: number) => {
   return response.data;
 };
 
-export const createProduct = (body: CreateProductRequest) => {
-  axiosInstance.post('/products', body);
+export const createProduct = async (body: CreateProductRequest) => {
+  const response = await axiosInstance.post<ProductResponse>('/products', body);
+  return response.data;
 };
 
 export const updateProduct = (productId: number, body: CreateProductRequest) => {
