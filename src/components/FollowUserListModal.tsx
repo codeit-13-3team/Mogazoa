@@ -1,5 +1,6 @@
 import Modal from '@/components/Modal';
 import { FollowUserItem } from '@/types/user';
+import noImage from '../../public/img/profileimage/profile1.png'
 
 import Image from 'next/image';
 
@@ -19,7 +20,6 @@ interface FollowUserListProp {
 }
 
 const FollowUserList = ({ followUserListData }: FollowUserListProp) => {
-  console.log(followUserListData);
   return (
     <div className="w-full flex flex-col gap-5 lg:gap-[25px]">
       {followUserListData ? (
@@ -27,7 +27,7 @@ const FollowUserList = ({ followUserListData }: FollowUserListProp) => {
           <FollowUser nickname={followUser.follower.nickname} image={followUser.follower.image} />
         ))
       ) : (
-        <div>팔로우 유저가 없습니다.</div>
+        <div className='w-full h-full flex justify-center items-center text-gray-50'>팔로우 유저가 없습니다.</div>
       )}
     </div>
   );
@@ -36,7 +36,7 @@ const FollowUserList = ({ followUserListData }: FollowUserListProp) => {
 const FollowUser = ({ nickname, image }: FollowUserProp) => {
   return (
     <div className="h-12 flex items-center gap-5 lg:h-13">
-      <div className="w-12 h-12 relative border rounded-full lg:w-[52px] lg:h-[52px]">
+      <div className="w-12 h-12 relative border rounded-full overflow-hidden lg:w-[52px] lg:h-[52px]">
         {image ? (
           <Image
             src={image}
@@ -46,7 +46,7 @@ const FollowUser = ({ nickname, image }: FollowUserProp) => {
           />
         ) : (
           <Image
-            src="/img/profileimage/profile1.png"
+            src={noImage}
             alt="유저프로필"
             fill
             sizes="(max-width: 1023px) 48px, (min-width: 1024px) 52px"
