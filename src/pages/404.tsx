@@ -2,6 +2,7 @@ import { NextPage } from 'next';
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import reversedMouse from '@/assets/logo/reversedMouse.svg';
 
 const Error404: NextPage = () => {
   return (
@@ -10,7 +11,7 @@ const Error404: NextPage = () => {
       {/* 404 텍스트 & 아이콘 */}
       <div className="flex items-center gap-3 mb-3">
         <Image
-          src="/icon/logo/reversedMouse.svg"
+          src={reversedMouse}
           alt="404 Logo"
           width={80}
           height={80}
