@@ -19,7 +19,6 @@ interface FollowUserListProp {
 }
 
 const FollowUserList = ({ followUserListData }: FollowUserListProp) => {
-  console.log(followUserListData);
   return (
     <div className="w-full flex flex-col gap-5 lg:gap-[25px]">
       {followUserListData ? (
@@ -46,7 +45,7 @@ const FollowUser = ({ nickname, image }: FollowUserProp) => {
           />
         ) : (
           <Image
-            src="/img/profileimage/profile1.png"
+            src='/img/profileimage/profile1.png'
             alt="유저프로필"
             fill
             sizes="(max-width: 1023px) 48px, (min-width: 1024px) 52px"
