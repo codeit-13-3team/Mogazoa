@@ -1,21 +1,30 @@
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
+import { CSSProperties, useEffect, useState } from 'react';
 import closeButton from '../../public/icon/common/close.png';
-import { CSSProperties } from 'react';
 
 type Props = {
   children: React.ReactNode;
-  style?: CSSProperties;
+  containerStyle?: CSSProperties;
+  buttonStyle?: CSSProperties;
   buttonText?: string;
   onClose: () => void;
 };
 
-function Modal({ children, buttonText, style, onClose }: Props) {
+function Modal({ children, buttonText, containerStyle, buttonStyle, onClose }: Props) {
+  const [modalRoot, setModalRoot] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    setModalRoot(document.getElementById('modal-root'));
+  }, []);
+
+  if (!modalRoot) return null;
+
   return createPortal(
     <div className="flex flex-col justify-center items-center fixed inset-0 z-50">
       <div
         className="relative flex flex-col bg-black-500 w-[335px] h-[578px] rounded-xl md:w-[590px] md:h-[600px] md:rounded-2xl lg:w-[620px]"
-        style={style}
+        style={containerStyle}
       >
         <button onClick={onClose} className="absolute top-[15px] right-[15px] md:top-5 md:right-5">
           <Image
@@ -29,7 +38,7 @@ function Modal({ children, buttonText, style, onClose }: Props) {
           {buttonText && (
             <button
               className="w-[295px] h-[50px] rounded-lg bg-gradient-to-r from-main-blue to-main-indigo font-semibold text-gray-50 text-base mb-5 md:w-[510px] md:h-[55px] md:mb-10 lg:w-[540px] lg:h-15 lg:text-lg"
-              style={style}
+              style={buttonStyle}
             >
               {buttonText}
             </button>
@@ -37,7 +46,7 @@ function Modal({ children, buttonText, style, onClose }: Props) {
         </div>
       </div>
     </div>,
-    document.getElementById('modal-root') as HTMLElement,
+    modalRoot,
   );
 }
 

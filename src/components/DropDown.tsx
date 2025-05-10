@@ -4,6 +4,7 @@ import React, { ReactNode, useEffect, useRef, useState } from 'react';
 interface DropDownProps {
   width: string;
   height?: string;
+  divClassName?: string;
   textClassName?: string;
   useBaseStyle?: boolean;
   children: ReactNode;
@@ -33,6 +34,7 @@ export function DropDownOption({ children, value, useBaseStyle, onSelect }: Drop
 export function DropDown({
   width,
   height,
+  divClassName,
   textClassName,
   useBaseStyle = true,
   children,
@@ -62,10 +64,10 @@ export function DropDown({
     else
       return (
         <ul
-          className={`absolute top-6 left-0 z-10 flex flex-col gap-[5px] bg-[#252530] border border-[#353542] md:top-[22px] 
+          className={`absolute top-7 left-0 z-10 flex flex-col gap-[5px] bg-black-400 border border-black-300 md:top-[22px] 
             ${useBaseStyle ? 'px-[10px] py-[10px] rounded-lg' : ''}
             ${height ? 'top-6 md:top-[22px]' : ''}`}
-          style={{ width: width, top: height ? height : '' }}
+          style={{ width: width, top: height ? `${height + 4}px` : '' }}
         >
           {React.Children.map(children, (child) => {
             if (React.isValidElement<DropDownOptionProps>(child))
@@ -104,7 +106,7 @@ export function DropDown({
 
   return (
     <div
-      className={`relative flex items-center cursor-pointer ${useBaseStyle ? baseStyle : ''}`}
+      className={`relative flex items-center cursor-pointer ${useBaseStyle ? baseStyle : ''} ${divClassName}`}
       style={{ width: width, height: height ? height : 'auto' }}
     >
       <div
@@ -117,7 +119,7 @@ export function DropDown({
         >
           {categoryName}
         </span>
-        <div className="relative w-6 h-6 md:w-[22px] h-[22px]">
+        <div className="relative w-6 h-6 md:w-[22px] md:h-[22px]">
           <Image
             src={iconSrc}
             alt="dropIcon"
