@@ -117,7 +117,7 @@ export function DropDown({
         >
           {categoryName}
         </span>
-        <div className="relative w-6 h-6 md:w-[22px] h-[22px]">
+        <div className="relative w-6 h-6 md:w-[22px] md:h-[22px]">
           <Image
             src={iconSrc}
             alt="dropIcon"
