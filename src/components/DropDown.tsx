@@ -62,7 +62,7 @@ export function DropDown({
     else
       return (
         <ul
-          className={`absolute top-7 left-0 z-10 flex flex-col gap-[5px] bg-black-400 border bg-black-300 md:top-[22px] 
+          className={`absolute top-7 left-0 z-10 flex flex-col gap-[5px] bg-black-400 border border-black-300 md:top-[22px] 
             ${useBaseStyle ? 'px-[10px] py-[10px] rounded-lg' : ''}
             ${height ? 'top-6 md:top-[22px]' : ''}`}
           style={{ width: width, top: height ? `${height + 4}px` : '' }}
@@ -117,7 +117,7 @@ export function DropDown({
         >
           {categoryName}
         </span>
-        <div className="relative w-6 h-6 md:w-[22px] h-[22px]">
+        <div className="relative w-6 h-6 md:w-[22px] md:h-[22px]">
           <Image
             src={iconSrc}
             alt="dropIcon"
