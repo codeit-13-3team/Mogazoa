@@ -1,7 +1,15 @@
 import { GetMeResponse } from '@/types/user';
 import Image from 'next/image';
 
-function Profile(profileData: GetMeResponse, isMyProfile: boolean) {
+interface ProfileProp {
+  profileData: GetMeResponse;
+  isMyProfile?: boolean;
+  editProfile?: () => void;
+  logout?: () => void;
+  onClickFollowBtn?: () => void;
+}
+
+function Profile({ profileData, isMyProfile=false, editProfile, logout, onClickFollowBtn }: ProfileProp) {
   return (
     <div className="mb-[60px] px-[20px] py-[30px] w-full h-auto rounded-[8px] bg-[#252530] md:px-[30px] lg:w-[340px] lg:mb-0">
       <div className="w-full h-auto flex flex-col items-center gap-[30px] lg:gap-[40px]">
@@ -35,13 +43,42 @@ function Profile(profileData: GetMeResponse, isMyProfile: boolean) {
             <span className="text-[14px] font-normal text-[#9FA6B2] lg:text-[16px]">팔로잉</span>
           </div>
         </div>
-        { isMyProfile ? 
-          (profileData.isFollowing ? 
-          <div className="w-full h-[50px] text-center border border-[black]">팔로우 취소</div> : <div className="w-full h-[50px] text-center border border-[black]">팔로우</div>) : 
-        <div className='flex flex-col gap-[10px] md:gap-[15px] lg:gap-[20px]'>
-            <div className="w-full h-[50px] text-center border border-[black]">프로필 편집</div>
-            <div className="w-full h-[50px] text-center border border-[black]">로그아웃</div>
-          </div>}
+        {isMyProfile ? (
+          profileData.isFollowing ? (
+            <div
+              className="w-full h-[50px] flex justify-center items-center rounded-lg border border-gray-100 text-gray-100 text-[16px] font-semibold hover:cursor-pointer
+            md:h-[55px] lg:h-[65px] lg:text-[18px]"
+            onClick={onClickFollowBtn}
+            >
+              팔로우 취소
+            </div>
+          ) : (
+            <div
+              className="w-full h-[50px] flex justify-center items-center rounded-lg bg-main-blue text-gray-50 text-[16px] font-semibold hover:cursor-pointer
+            md:h-[55px] lg:h-[65px] lg:text-[18px]"
+            onClick={onClickFollowBtn}
+            >
+              팔로우
+            </div>
+          )
+        ) : (
+          <div className="w-full flex flex-col gap-[10px] md:gap-[15px] lg:gap-[20px]">
+            <div
+              className="w-full h-[50px] flex justify-center items-center rounded-lg bg-main-blue text-gray-50 text-[16px] font-semibold hover:cursor-pointer
+            md:h-[55px] lg:h-[65px] lg:text-[18px]"
+            onClick={editProfile}
+            >
+              프로필 편집
+            </div>
+            <div
+              className="w-full h-[50px] flex justify-center items-center rounded-lg border border-gray-100 text-gray-100 text-[16px] font-semibold hover:cursor-pointer
+            md:h-[55px] lg:h-[65px] lg:text-[18px]"
+            onClick={logout}
+            >
+              로그아웃
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

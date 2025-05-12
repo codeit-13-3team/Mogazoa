@@ -1,8 +1,10 @@
 import { getUserProfile } from "@/api/user";
+import Profile from "@/components/Profile";
+import { GetMeResponse } from "@/types/user";
 import { useEffect, useState } from "react";
 
 function test() {
-    const [profileData, setProfileData] = useState<>();
+    const [profileData, setProfileData] = useState<GetMeResponse>();
 
     async function setProfile() {
         const data = await getUserProfile(); 
@@ -19,7 +21,9 @@ function test() {
     }, []);
 
     return(
-        <div></div>
+        <div>
+            { profileData ? <Profile profileData={profileData} isMyProfile={true} /> : "프로필 없음"}
+        </div>
     );
 }
 
