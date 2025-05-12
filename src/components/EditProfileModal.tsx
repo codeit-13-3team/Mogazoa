@@ -1,20 +1,34 @@
-import Textarea from "@/components/Textarea";
-import Input from "./input/input";
+import Textarea from '@/components/Textarea';
+import Modal from '@/components/Modal';
+import ImageUploader from './ImageUploader';
+import { useState } from 'react';
 
-function EditProfileModal() {
-    return (
-        <div className="p-5 md:p-10">
-            <div className="flex flex-col gap-5 md:gap-10">
-                <span className="mt-5 text-[20px] font-semibold text-gray-50 lg:text-[24px]">프로필 편집</span>
-                <div className="flex flex-col gap-[10px] md:gap-[15px] lg:gap-[20px]">
-                    <div>이미지 업로더</div>
-                    <Input label=""/>
-                    <Textarea />
-                </div>
-                <div className="w-full h-[50px] bg-main-blue"></div>
-            </div>
+interface EditProfileModalProp {
+  onClose: () => void;
+}
+
+function EditProfileModal({ onClose }: EditProfileModalProp) {
+  const [inputText, setInputText] = useState<string>('');
+  console.log(inputText)
+
+  return (
+    <Modal buttonText="저장하기" onClose={onClose}>
+      <div className="flex flex-col gap-5 md:gap-10">
+        <span className="mt-5 text-[20px] font-semibold text-gray-50 lg:text-[24px]">
+          프로필 편집
+        </span>
+        <div className="flex flex-col gap-[10px] md:gap-[15px] lg:gap-[20px]">
+          <ImageUploader />
+          <input
+            className="w-full h-[55px] px-5 outline-none rounded-lg bg-black-400 border border-black-300 caret-white text-white text-[14px] font-normal md:h-[60px] lg:h-[70px] md:font-[16px]"
+            placeholder="닉네임을 입력해 주세요"
+            onChange={(e) => setInputText(e.target.value)}
+          />
+          <Textarea />
         </div>
-    );
+      </div>
+    </Modal>
+  );
 }
 
 export default EditProfileModal;
