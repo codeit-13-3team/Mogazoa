@@ -9,7 +9,6 @@ interface EditProfileModalProp {
 
 function EditProfileModal({ onClose }: EditProfileModalProp) {
   const [inputText, setInputText] = useState<string>('');
-  console.log(inputText)
 
   return (
     <Modal buttonText="저장하기" onClose={onClose}>
