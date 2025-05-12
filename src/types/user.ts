@@ -105,7 +105,7 @@ export interface FollowUser {
 // /{teamId}/users/{userId}/followers (GET)
 export interface FollowUserItem {
   id: number;
-  followee: FollowUser;
+  follower: FollowUser;
 }
 // /{teamId}/users/{userId}/followees (GET)
 // /{teamId}/users/{userId}/followers (GET)

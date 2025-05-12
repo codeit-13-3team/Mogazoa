@@ -17,7 +17,7 @@ const SignupPage = () => {
     formState: { errors },
     watch,
     setError,
-  } = useForm<SignUpRequest>();
+  } = useForm<SignUpRequest>({ mode: 'onTouched' });
 
   const onSubmit = async (data: SignUpRequest) => {
     try {
@@ -44,9 +44,12 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="items-center justify-center min-h-screen bg-black-500">
-      <form onSubmit={handleSubmit(onSubmit)} className=" space-y-4 max-w-sm mx-auto mt-10">
-        <h1 className="text-xl font-bold font-">회원가입</h1>
+    <div className="min-h-screen bg-black-500 flex flex-col items-center justify-center">
+      <header className="absolute top-4 left-4 text-white ">헤더</header>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-6 w-full max-w-md md:max-w-lg lg:max-w-xl mx- p-8 rounded-lg shadow-lg"
+      >
         <EmailInput register={register} errors={errors} type="signup" />
         <NickNameInput register={register} errors={errors} type="signup" />
         <PasswordInput register={register} errors={errors} type="signup" />
