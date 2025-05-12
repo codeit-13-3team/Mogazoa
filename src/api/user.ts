@@ -1,7 +1,12 @@
 import axiosInstance from './axiosInstance';
-import { GetUserRankingResponse } from '../types/user';
+import { GetFolloweeListResponse, GetUserRankingResponse } from '../types/user';
 
-export const getUserRanking = async (): Promise<GetUserRankingResponse[]> => {
+export const getUserRanking = async () => {
   const response = await axiosInstance.get<GetUserRankingResponse[]>('/users/ranking');
+  return response.data;
+};
+
+export const getFollowersList = async (userId: number) => {
+  const response = await axiosInstance.get<GetFolloweeListResponse>(`/users/${userId}/followers`);
   return response.data;
 };

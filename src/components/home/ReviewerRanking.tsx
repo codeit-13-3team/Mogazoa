@@ -1,66 +1,67 @@
 import { useQuery } from '@tanstack/react-query';
 import { getUserRanking } from '@/api/user';
+import Link from 'next/link';
 
 const ReviewerRanking = () => {
   const {
     data: userRanking,
-    isLoading: isUserRankingLoading,
-    error: userRankingError,
+    isLoading,
+    error,
   } = useQuery({
     queryKey: ['userRanking'],
     queryFn: getUserRanking,
-    staleTime: 1000 * 60 * 5, // 5분간은 fresh로 간주
   });
 
-  if (isUserRankingLoading) {
-    return <div>로딩 중...</div>;
-  }
-  if (userRankingError) {
-    return <div>랭킹 조회 중 오류가 발생했습니다: {userRankingError.message}</div>;
+  if (isLoading) return <div>로딩 중...</div>;
+  if (error) return <div>랭킹 조회 중 오류가 발생했습니다: {error.message}</div>;
+  if (!userRanking) return <div>아직 등록된 리뷰어가 없습니다.</div>;
+
+  function formatNumber(count: number): string {
+    if (count >= 1000) {
+      return (count / 1000).toFixed(count >= 10000 ? 0 : 1) + 'K';
+    }
+    return count.toString();
   }
 
-  const reviewers = userRanking ?? [];
-  if (reviewers.length === 0) {
-    return <div>아직 등록된 리뷰어가 없습니다.</div>;
-  }
+  const Count = 1200;
 
   return (
-    <div className="py-[30px] px-[20px] pr-0">
-      <p className="text-[14px] pb-5">리뷰어 랭킹</p>
-      <ul className="flex flex-row gap-[15px] overflow-x-scroll w-full lg:flex-col lg:overflow-x-auto lg:gap-6">
-        {userRanking?.map((user, index) => (
-          <li key={user.id} className="flex items-center flex-shrink-0">
-            <div className="bg-white rounded-[99px] w-9 h-9 mr-[10px]"></div>
+    <ul className="w-full flex flex-row flex-nowrap gap-[15px] lg:flex-col lg:overflow-x-auto lg:gap-6">
+      {userRanking?.map((user, index) => (
+        <li key={user.id} className="flex-shrink-0">
+          <Link
+            href={`/user/${user.id}`}
+            className="flex items-center flex-shrink-0 text-inherit hover:no-underline"
+          >
+            <div className="bg-white rounded-full w-9 h-9 mr-[10px]"></div>
             <div className="flex flex-col">
-              <div className="flex items-center gap-[5px] mb-[5.5px]">
-                {index === 0 && (
-                  <p className="text-[10px] text-pink bg-[#FF2F9F1A] py-[2px] px-[6px] rounded-[50px]">
-                    1등
-                  </p>
-                )}
-                {index === 1 && (
-                  <p className="text-[10px] text-green bg-[#05D58B1A] py-[2px] px-[6px] rounded-[50px]">
-                    2등
-                  </p>
-                )}
-                {index === 2 && (
-                  <p className="text-[10px] text-gray-100 bg-[#9FA6B21A] py-[2px] px-[6px] rounded-[50px]">
-                    3등
-                  </p>
-                )}
+              <div className="flex items-center gap-[5px] mb-[5.5px] flex-shrink-0">
+                <div
+                  className={`text-[10px] py-[2px] px-[6px] rounded-[50px] flex-shrink-0 ${
+                    index === 0
+                      ? 'bg-[#FF2F9F1A] text-pink'
+                      : index === 1
+                        ? 'bg-[#05D58B1A] text-green'
+                        : index === 2
+                          ? 'bg-[#9FA6B21A] text-gray-100'
+                          : 'bg-[#9FA6B21A] text-gray-100'
+                  }`}
+                >
+                  {index + 1}등
+                </div>
                 <p className="text-[14px] font-medium block truncate max-w-[10ch] lg:text-[16px]">
                   {user.nickname}
                 </p>
               </div>
               <div className="flex items-center gap-[10px] text-[10px] text-gray-200 font-light lg:text-[12px]">
-                <p>팔로워 {user.followersCount}</p>
-                <p>리뷰 {user.reviewCount}</p>
+                <p>팔로워 {formatNumber(user.followersCount)}</p>
+                <p>리뷰 {formatNumber(user.reviewCount)}</p>
               </div>
             </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+          </Link>
+        </li>
+      ))}
+    </ul>
   );
 };
 

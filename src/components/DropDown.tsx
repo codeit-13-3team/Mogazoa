@@ -3,8 +3,10 @@ import React, { ReactNode, useEffect, useRef, useState } from 'react';
 
 interface DropDownProps {
   width: string;
-  height: string;
+  height?: string;
+  divClassName?: string;
   textClassName?: string;
+  useBaseStyle?: boolean;
   children: ReactNode;
   onChange: (value: string | number) => void;
 }
@@ -12,14 +14,15 @@ interface DropDownProps {
 interface DropDownOptionProps {
   children: ReactNode;
   value: string | number;
+  useBaseStyle?: boolean;
   onSelect?: (value: string | number, optionText: string) => void;
 }
 
-export function DropDownOption({ children, value, onSelect }: DropDownOptionProps) {
+export function DropDownOption({ children, value, useBaseStyle, onSelect }: DropDownOptionProps) {
   return (
     <li
       value={value}
-      className="text-[#6E6E82] hover:text-[#F1F1F5] hover:bg-gray-100 cursor-pointer transition"
+      className={`py-[6px] text-gray-200 hover:text-gray-50 hover:bg-gray-100 cursor-pointer transition ${useBaseStyle ? 'px-[10px] rounded-lg' : ''}`}
       onClick={() => onSelect?.(value, String(children))}
     >
       {children}
@@ -27,10 +30,20 @@ export function DropDownOption({ children, value, onSelect }: DropDownOptionProp
   );
 }
 
-export function DropDown({ width, height, textClassName, children, onChange }: DropDownProps) {
+export function DropDown({
+  width,
+  height,
+  divClassName,
+  textClassName,
+  useBaseStyle = true,
+  children,
+  onChange,
+}: DropDownProps) {
   const [isOpen, setIsopen] = useState<boolean>(false);
   const [iconSrc, setIconsrc] = useState<string>('/icon/common/dropdown.png');
   const [categoryName, setCategoryName] = useState<string>('');
+
+  const baseStyle = `px-5 bg-black-400 border border-black-300 rounded-lg + ${isOpen ? 'border-main-blue' : 'border-black-300'}`;
 
   const dropDownRef = useRef<HTMLDivElement>(null);
 
@@ -49,12 +62,17 @@ export function DropDown({ width, height, textClassName, children, onChange }: D
     else
       return (
         <ul
-          className="flex flex-col gap-[5px] bg-[#252530] border border-[#353542]"
-          style={{ width: width }}
+          className={`absolute top-7 left-0 z-10 flex flex-col gap-[5px] bg-black-400 border border-black-300 md:top-[22px] 
+            ${useBaseStyle ? 'px-[10px] py-[10px] rounded-lg' : ''}
+            ${height ? 'top-6 md:top-[22px]' : ''}`}
+          style={{ width: width, top: height ? `${height + 4}px` : '' }}
         >
           {React.Children.map(children, (child) => {
             if (React.isValidElement<DropDownOptionProps>(child))
-              return React.cloneElement(child, { onSelect: handleSelect });
+              return React.cloneElement(child, {
+                useBaseStyle: useBaseStyle,
+                onSelect: handleSelect,
+              });
           })}
         </ul>
       );
@@ -85,19 +103,30 @@ export function DropDown({ width, height, textClassName, children, onChange }: D
   }, [isOpen, children, categoryName, handleOutsideClick]);
 
   return (
-    <>
+    <div
+      className={`relative flex items-center cursor-pointer ${useBaseStyle ? baseStyle : ''} ${divClassName}`}
+      style={{ width: width, height: height ? height : 'auto' }}
+    >
       <div
         ref={dropDownRef}
-        className="flex justify-between items-center cursor-pointer"
-        style={{ width: width, height: height }}
+        className="w-full h-6 flex justify-between items-center md:h-[22px]"
         onClick={() => setIsopen(!isOpen)}
       >
-        <div className={textClassName}>{categoryName}</div>
-        <div className="relative" style={{ width: height, height: height }}>
-          <Image src={iconSrc} alt="dropIcon" fill sizes={height} />
+        <span
+          className={`${useBaseStyle ? (isOpen ? 'text-gray-50' : 'text-gray-200') : ''} ${textClassName}`}
+        >
+          {categoryName}
+        </span>
+        <div className="relative w-6 h-6 md:w-[22px] md:h-[22px]">
+          <Image
+            src={iconSrc}
+            alt="dropIcon"
+            fill
+            sizes="(max-width: 767px) 24px, (min-width: 768px) 22px"
+          />
         </div>
       </div>
       <ShowDropDownOptions />
-    </>
+    </div>
   );
 }

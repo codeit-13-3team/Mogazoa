@@ -1,9 +1,14 @@
 // /{teamId}/auth/signUp (POST)
+export interface SignUpFormData {
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+  nickname: string;
+}
 export interface SignUpRequest {
   email: string;
   password: string;
   nickname: string;
-  passwordConfirmation: string;
 }
 
 // /{teamId}/auth/signIn (POST)
