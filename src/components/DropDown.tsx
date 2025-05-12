@@ -2,8 +2,6 @@ import Image from 'next/image';
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
 
 interface DropDownProps {
-  width: string;
-  height?: string;
   divClassName?: string;
   textClassName?: string;
   useBaseStyle?: boolean;
@@ -31,8 +29,6 @@ export function DropDownOption({ children, value, useBaseStyle, onSelect }: Drop
 }
 
 export function DropDown({
-  width,
-  height,
   divClassName,
   textClassName,
   useBaseStyle = true,
