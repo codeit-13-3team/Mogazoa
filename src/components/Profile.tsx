@@ -1,5 +1,6 @@
 import { GetMeResponse } from '@/types/user';
 import Image from 'next/image';
+import noImage from '../../public/img/profileimage/profile1.png'
 
 interface ProfileProp {
   profileData: GetMeResponse;
@@ -17,7 +18,7 @@ function Profile({ profileData, isMyProfile=false, editProfile, logout, onClickF
           {profileData?.image ? (
             <Image src={profileData.image} alt="유저 이미지" fill />
           ) : (
-            <Image src="/img/profileimage/img=profile1.png" alt="유저 이미지" fill />
+            <Image src={noImage} alt="유저 이미지" fill />
           )}
         </div>
         <div className="w-full flex flex-col gap-[10px] lg:gap-[20px]">
