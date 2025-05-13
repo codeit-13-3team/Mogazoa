@@ -7,6 +7,8 @@ import { SignInRequest } from '@/types/auth';
 import { useRouter } from 'next/router';
 import { useMutation } from '@tanstack/react-query';
 
+import useAuthStore from '@/stores/authStores';
+
 const LoginPage = () => {
   const {
     register,
@@ -22,6 +24,9 @@ const LoginPage = () => {
     onSuccess: (data: { accessToken: string }) => {
       if (typeof window !== 'undefined') {
         localStorage.setItem('token', data.accessToken);
+        
+const setIsLoggedIn = useAuthStore.getState().setIsLoggedIn;
+setIsLoggedIn(true);
         Router.push('/');
       }
     },

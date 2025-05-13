@@ -47,7 +47,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="bg-slate-950 text-white min-h-screen">
+      <div className="min-h-screen">
         {!is404Page && <NavBar showSearch={pageProps.showSearch} />}
         <main className="p-6">
           <Component {...pageProps} />

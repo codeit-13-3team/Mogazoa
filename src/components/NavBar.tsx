@@ -8,6 +8,7 @@ import MenuIcon from '@/assets/logo/menu.png';
 import SearchIcon from '@/assets/logo/search.png';
 import LogoutIcon from '@/assets/logo/logout.png';
 
+
 interface NavBarProps {
   showSearch?: boolean;
 }
@@ -20,7 +21,7 @@ const NavBar = ({ showSearch = true }: NavBarProps) => {
     setIsLoggedIn(false);
     localStorage.removeItem('token');
     localStorage.removeItem('isLoggedIn');
-    window.location.reload(); // 새로고침
+    window.location.reload(); 
   };
 
   return (
@@ -94,7 +95,6 @@ const NavBar = ({ showSearch = true }: NavBarProps) => {
         </div>
       </div>
 
-      {/* 하단 구분선 */}
       <div className="absolute bottom-0 left-0 w-full h-px bg-black-400" />
     </header>
   );
