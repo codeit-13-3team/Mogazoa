@@ -1,6 +1,6 @@
 import { GetMeResponse } from '@/types/user';
 import Image from 'next/image';
-import noImage from '../../public/img/profileimage/profile1.png'
+import noImage from '../../public/img/profileimage/profile1.png';
 
 interface ProfileProp {
   profileData: GetMeResponse;
@@ -10,7 +10,13 @@ interface ProfileProp {
   onClickFollowBtn?: () => void;
 }
 
-function Profile({ profileData, isMyProfile=false, editProfile, logout, onClickFollowBtn }: ProfileProp) {
+function Profile({
+  profileData,
+  isMyProfile = false,
+  editProfile,
+  logout,
+  onClickFollowBtn,
+}: ProfileProp) {
   return (
     <div className="mb-[60px] px-[20px] py-[30px] w-full h-auto rounded-lg bg-black-400 md:px-[30px] lg:w-[340px] lg:mb-0">
       <div className="w-full h-auto flex flex-col items-center gap-[30px] lg:gap-10">
@@ -45,39 +51,37 @@ function Profile({ profileData, isMyProfile=false, editProfile, logout, onClickF
           </div>
         </div>
         {isMyProfile ? (
-          profileData.isFollowing ? (
-            <div
-              className="w-full h-[50px] flex justify-center items-center rounded-lg border border-gray-100 text-gray-100 text-[16px] font-semibold hover:cursor-pointer
-            md:h-[55px] lg:h-[65px] lg:text-[18px]"
-            onClick={onClickFollowBtn}
-            >
-              팔로우 취소
-            </div>
-          ) : (
-            <div
-              className="w-full h-[50px] flex justify-center items-center rounded-lg bg-main-blue text-gray-50 text-[16px] font-semibold hover:cursor-pointer
-            md:h-[55px] lg:h-[65px] lg:text-[18px]"
-            onClick={onClickFollowBtn}
-            >
-              팔로우
-            </div>
-          )
-        ) : (
           <div className="w-full flex flex-col gap-[10px] md:gap-[15px] lg:gap-5">
             <div
               className="w-full h-[50px] flex justify-center items-center rounded-lg bg-main-blue text-gray-50 text-[16px] font-semibold hover:cursor-pointer
             md:h-[55px] lg:h-[65px] lg:text-[18px]"
-            onClick={editProfile}
+              onClick={editProfile}
             >
               프로필 편집
             </div>
             <div
               className="w-full h-[50px] flex justify-center items-center rounded-lg border border-gray-100 text-gray-100 text-[16px] font-semibold hover:cursor-pointer
             md:h-[55px] lg:h-[65px] lg:text-[18px]"
-            onClick={logout}
+              onClick={logout}
             >
               로그아웃
             </div>
+          </div>
+        ) : profileData.isFollowing ? (
+          <div
+            className="w-full h-[50px] flex justify-center items-center rounded-lg border border-gray-100 text-gray-100 text-[16px] font-semibold hover:cursor-pointer
+            md:h-[55px] lg:h-[65px] lg:text-[18px]"
+            onClick={onClickFollowBtn}
+          >
+            팔로우 취소
+          </div>
+        ) : (
+          <div
+            className="w-full h-[50px] flex justify-center items-center rounded-lg bg-main-blue text-gray-50 text-[16px] font-semibold hover:cursor-pointer
+            md:h-[55px] lg:h-[65px] lg:text-[18px]"
+            onClick={onClickFollowBtn}
+          >
+            팔로우
           </div>
         )}
       </div>
