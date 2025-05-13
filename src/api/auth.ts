@@ -26,7 +26,6 @@ export const Login = async (
     const response = await axiosInstance.post<{ accessToken: string }>(`/auth/signIn`, formData);
     return response.data;
   } catch (error) {
-    console.error('Login error:', error);
     throw error;
   }
 };
