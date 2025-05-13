@@ -2,9 +2,10 @@ import { ComponentPropsWithoutRef, useState } from 'react';
 
 type TextareaProps = ComponentPropsWithoutRef<'textarea'> & {
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  containerClassName?: string;
 };
 
-function Textarea({ onChange, ...props }: TextareaProps) {
+function Textarea({ onChange, containerClassName, ...props }: TextareaProps) {
   const [text, setText] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -13,7 +14,7 @@ function Textarea({ onChange, ...props }: TextareaProps) {
   };
 
   return (
-    <div className="relative">
+    <div className={`relative ${containerClassName}`}>
       <textarea
         maxLength={500}
         value={text}
