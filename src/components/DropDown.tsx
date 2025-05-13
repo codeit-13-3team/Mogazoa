@@ -6,6 +6,7 @@ interface DropDownProps {
   textClassName?: string;
   useBaseStyle?: boolean;
   children: ReactNode;
+  value: string | number;
   onChange: (value: string | number) => void;
 }
 
@@ -33,6 +34,7 @@ export function DropDown({
   textClassName,
   useBaseStyle = true,
   children,
+  value,
   onChange,
 }: DropDownProps) {
   const [isOpen, setIsopen] = useState<boolean>(false);
@@ -79,13 +81,13 @@ export function DropDown({
     } else {
       setIconsrc('/icon/common/dropdown.png');
 
-      if (categoryName.length === 0) {
-        const childrenArray = React.Children.toArray(children);
-        const firstChildren = childrenArray[0];
-        if (React.isValidElement<DropDownOptionProps>(firstChildren)) {
-          const first_DropDownOption = firstChildren;
-          setCategoryName(String(first_DropDownOption.props.children));
-        }
+      const childrenArray = React.Children.toArray(children);
+      const matchedOption = childrenArray.find((child) => {
+        return React.isValidElement<DropDownOptionProps>(child) && child.props.value === value;
+      });
+
+      if (matchedOption && React.isValidElement<DropDownOptionProps>(matchedOption)) {
+        setCategoryName(String(matchedOption.props.children));
       }
 
       document.removeEventListener('click', handleOutsideClick);
@@ -94,7 +96,7 @@ export function DropDown({
     return () => {
       document.removeEventListener('click', handleOutsideClick);
     };
-  }, [isOpen, children, categoryName, handleOutsideClick]);
+  }, [isOpen, children, value]);
 
   return (
     <div

@@ -21,7 +21,7 @@ const LoginPage = () => {
     mutationFn: (formData: SignInRequest) => Login('login', formData),
     onSuccess: (data: { accessToken: string }) => {
       if (typeof window !== 'undefined') {
-        localStorage.setItem('token', data.accessToken);
+        localStorage.setItem('accessToken', data.accessToken);
         Router.push('/');
       }
     },
