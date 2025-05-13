@@ -1,12 +1,8 @@
 import axiosInstance from './axiosInstance';
 import { SignUpRequest, SignInRequest } from '@/types/auth';
+import { KakaoSignUpRequest, KakaoLoginResponse } from '@/types/auth';
 
-interface KakaoSignUpResponse {
-  redirectUri: string;
-  token: string;
-  nickname: string;
-}
-const PROVIDER = 'kakao';
+const redirectUri = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
 
 export const Signup = async (data: SignUpRequest): Promise<SignUpRequest> => {
   try {
@@ -19,7 +15,7 @@ export const Signup = async (data: SignUpRequest): Promise<SignUpRequest> => {
 };
 
 export const Login = async (
-  teamId: string,
+  p0: string, // teamId: string,
   formData: SignInRequest,
 ): Promise<{ accessToken: string }> => {
   try {
@@ -30,17 +26,20 @@ export const Login = async (
   }
 };
 
-export const KakaoSignUp = async (data: KakaoSignUpResponse) => {
-  const url = `/auth/signUp/${PROVIDER}`;
-  console.log('🔍 요청 URL:', url);
-  console.log('📦 요청 데이터:', data);
-  const response = await axiosInstance.post(url, data);
+export const kakaoLogin = async (token: string): Promise<KakaoLoginResponse> => {
+  const response = await axiosInstance.post<KakaoLoginResponse>('/auth/signIn/kakao', {
+    redirectUri,
+    token,
+  });
+  console.log('✅ 카카오 로그인 응답:', response.data);
   return response.data;
 };
 
-export const kakaoLogin = async (code: string) => {
-  const response = await axiosInstance.post(`/auth/signIn/${PROVIDER}`, {
-    code,
+export const kakaoSignup = async (token: string, nickname: string) => {
+  const response = await axiosInstance.post('/auth/signUp/kakao', {
+    nickname,
+    redirectUri,
+    token,
   });
   return response.data;
 };

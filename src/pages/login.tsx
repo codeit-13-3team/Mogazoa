@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { EmailInput, PasswordInput } from '@/components/input/loginInput';
-import { KakaoLoginButton } from '@/components/button/KakaoButton';
+import { KakaoButton } from '@/components/button/KakaoButton';
 import { GoogleLoginButton } from '@/components/button/Google';
 import { Login } from '@/api/auth';
 import { SignInRequest } from '@/types/auth';
@@ -50,7 +50,7 @@ const LoginPage = () => {
       <div className="flex justify-center  mt-4 text-gray-200">SNS로 바로 시작하기</div>
       <div className="flex justify-center mt-4 space-x-4">
         <GoogleLoginButton />
-        <KakaoLoginButton />
+        <KakaoButton />
       </div>
     </div>
   );
