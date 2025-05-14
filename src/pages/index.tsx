@@ -5,7 +5,7 @@ import ReviewerRanking from '@/components/home/ReviewerRanking';
 import { JSX, useState } from 'react';
 import categoryIcon from '../../public/icon/common/category.png';
 import Image from 'next/image';
-import CreateProduct from '@/components/home/CreateProduct';
+import CreateProduct from '@/components/ProductForm';
 import { Product } from '@/types/product';
 import { useQueryClient } from '@tanstack/react-query';
 import { getProductById } from '@/api/products';

@@ -50,7 +50,8 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <ModalProvider>
-        <div className="min-h-screen">
+        <div className=" min-h-screen">
+          {/* NavBar는 404 페이지가 아닐 때만 렌더링 */}
           {!is404Page && <NavBar showSearch={pageProps.showSearch} />}
           <main className="p-6">
             <Component {...pageProps} />

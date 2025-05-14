@@ -60,7 +60,7 @@ export function DropDown({
     else
       return (
         <ul
-          className={`mt-1 w-full absolute top-full left-0 z-10 flex flex-col gap-[5px] bg-black-400 border border-black-300 
+          className={`mt-1 w-full absolute top-full left-0 z-10 flex flex-col gap-[5px] bg-black-400 border border-black-300 max-h-[200px] overflow-y-scroll
             ${useBaseStyle ? 'px-[10px] py-[10px] rounded-lg' : ''}`}
         >
           {React.Children.map(children, (child) => {
