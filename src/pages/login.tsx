@@ -6,7 +6,6 @@ import { Login } from '@/api/auth';
 import { SignInRequest } from '@/types/auth';
 import { useRouter } from 'next/router';
 import { useMutation } from '@tanstack/react-query';
-
 import useAuthStore from '@/stores/authStores';
 
 const LoginPage = () => {
@@ -23,14 +22,11 @@ const LoginPage = () => {
     mutationFn: (formData: SignInRequest) => Login('login', formData),
     onSuccess: (data: { accessToken: string }) => {
       if (typeof window !== 'undefined') {
-<<<<<<< HEAD
         localStorage.setItem('token', data.accessToken);
-        
+
 const setIsLoggedIn = useAuthStore.getState().setIsLoggedIn;
+
 setIsLoggedIn(true);
-=======
-        localStorage.setItem('accessToken', data.accessToken);
->>>>>>> 898b39a23d7185607c10b534c9f9a3f256672c0a
         Router.push('/');
       }
     },

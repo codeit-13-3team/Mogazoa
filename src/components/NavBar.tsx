@@ -21,24 +21,23 @@ const NavBar = ({ showSearch = true }: NavBarProps) => {
   const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setIsLoggedIn(true);
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        setIsLoggedIn(true);
+      }
     }
   }, [setIsLoggedIn]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('isLoggedIn');
     setIsLoggedIn(false);
     router.push('/');
-    router.reload();
   };
 
   const handleLogoClick = (e: React.MouseEvent) => {
     e.preventDefault();
     router.push('/');
-    router.reload();
   };
 
   const handleSearch = () => {
@@ -58,14 +57,18 @@ const NavBar = ({ showSearch = true }: NavBarProps) => {
       {/* 모바일 */}
       <div className="flex justify-between items-center w-full md:hidden">
         <Image src={MenuIcon} alt="메뉴" width={24} height={24} className="w-6 h-6" />
+
+        {/* ❌ 중복 <a> 태그 제거 */}
         <a href="/" onClick={handleLogoClick}>
           <Image src={LogoS} alt="로고" width={112} height={18} className="w-[112px] h-[18px]" />
         </a>
+
         <Image src={SearchIcon} alt="검색" width={24} height={24} className="w-6 h-6" />
       </div>
 
       {/* 태블릿 & PC */}
       <div className="hidden md:flex items-center justify-end w-full">
+        {/* ❌ 중복 <a> 태그 제거 */}
         <a href="/" onClick={handleLogoClick} className="mr-auto">
           <Image
             src={LogoL}
@@ -75,6 +78,7 @@ const NavBar = ({ showSearch = true }: NavBarProps) => {
             className="md:w-[138px] md:h-[24px] lg:w-[166px] lg:h-[28px]"
           />
         </a>
+
         {showSearch && (
           <div className="flex items-center px-4 py-2 rounded-full text-sm
                           h-[50px] md:h-[46px] lg:h-[56px]
@@ -98,6 +102,7 @@ const NavBar = ({ showSearch = true }: NavBarProps) => {
             />
           </div>
         )}
+
         <div className="flex items-center gap-8 text-sm text-white">
           {isLoggedIn ? (
             <>
