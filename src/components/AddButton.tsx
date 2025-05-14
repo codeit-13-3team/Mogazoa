@@ -1,7 +1,7 @@
 import { useModal } from '@/context/ModalContext';
 import Image from 'next/image';
 import plus from '../../public/icon/common/plus.png';
-import CreateProduct from './home/CreateProduct';
+import CreateProduct from './ProductForm';
 
 const FloatingAddButton = () => {
   const { openModal } = useModal();
