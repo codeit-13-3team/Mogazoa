@@ -1,8 +1,6 @@
 import { DropDown, DropDownOption } from '@/components/DropDown';
 import Textarea from '@/components/Textarea';
 import { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
-import photo from '../../../../public/icon/common/photo.png';
 import { useQuery } from '@tanstack/react-query';
 import { useDebounce } from '@/hooks/useDebounce';
 import { createProduct, getProductList, updateProduct } from '@/api/products';
@@ -10,6 +8,9 @@ import { getCategoryList } from '@/api/category';
 import { ProductResponse, CreateProductRequest } from '@/types/product';
 import router from 'next/router';
 import { useModal } from '@/context/ModalContext';
+import Input from '@/components/input/input';
+import Button from '@/components/button/button';
+import ImageUploader from '@/components/ImageUploader';
 
 interface ProductProps {
   selectedProduct?: ProductResponse | undefined;
@@ -21,7 +22,7 @@ const CreateProduct = ({ selectedProduct }: ProductProps) => {
   const [productCategory, setProductCategory] = useState<string | number>(0);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const debouncedSearch = useDebounce(productName, 300);
-  const productImage = 'https://cdn.pixabay.com/photo/2025/05/04/17/47/dog-9578735_1280.jpg';
+  const [productImage, setproductImage] = useState<string>('');
   const { closeModal } = useModal();
 
   const [productNameError, setProductNameError] = useState<string>('');
@@ -35,10 +36,12 @@ const CreateProduct = ({ selectedProduct }: ProductProps) => {
       setProductName(selectedProduct.name);
       setProductDescript(selectedProduct.description);
       setProductCategory(selectedProduct.categoryId);
+      setproductImage(selectedProduct.image);
     } else {
       setProductName('');
       setProductDescript('');
       setProductCategory(1);
+      setproductImage('');
     }
   }, [selectedProduct]);
 
@@ -102,6 +105,7 @@ const CreateProduct = ({ selectedProduct }: ProductProps) => {
     productName !== '' &&
     productDescript !== '' &&
     productCategory !== 0 &&
+    productImage !== '' &&
     !isDuplicate;
 
   const handleSubmit = async () => {
@@ -129,6 +133,13 @@ const CreateProduct = ({ selectedProduct }: ProductProps) => {
     }
   };
 
+  const handleUploadImage = (url: string) => {
+    setproductImage(url);
+  };
+  const handleRemoveImage = () => {
+    setproductImage('');
+  };
+
   return (
     <>
       <h3 className="text-[20px] font-semibold mb-5 md:mb-10 lg:text-[24px] text-gray-50">
@@ -136,14 +147,16 @@ const CreateProduct = ({ selectedProduct }: ProductProps) => {
       </h3>
       <div className="flex flex-col gap-[10px] md:flex-row-reverse mg:gap-[15px] md:items-end">
         <div className="flex flex-col gap-[10px]">
-          <div className="flex justify-center items-center flex-shrink-0 w-[140px] h-[140px] md:w-[135px] md:h-[135px] rounded-[8px] border border-black-300 bg-black-400">
-            <Image src={photo} width={24} height={24} alt="이미지 추가 아이콘" />
-          </div>
-          {!productImage && <span className="text-red">대표 이미지를 추가해주세요.</span>}
+          <ImageUploader
+            image={productImage}
+            onUploadImage={handleUploadImage}
+            onRemoveImage={handleRemoveImage}
+            errorMessage={!productImage ? '대표 이미지를 추가해주세요.' : undefined}
+          />
         </div>
         <div className="flex flex-col gap-[10px] w-full md:gap-[15px]">
           <div className="relative">
-            <input
+            {/* <input
               ref={inputRef}
               value={productName}
               onChange={(e) => {
@@ -156,8 +169,23 @@ const CreateProduct = ({ selectedProduct }: ProductProps) => {
               onBlur={handleProductName}
               placeholder="상품명 (상품 등록 여부를 확인해 주세요)"
               className="py-[17px] px-5 h-[55px] md:h-[60px] w-full rounded-[8px] border border-black-300 bg-black-400 outline-none text-gray-50 text-[14px]"
+            /> */}
+            <Input
+              ref={inputRef}
+              label="이름"
+              value={productName}
+              onChange={(e) => {
+                setProductName(e.target.value);
+                setIsDropdownOpen(true);
+              }}
+              onFocus={() => {
+                if (productName) setIsDropdownOpen(true);
+              }}
+              onBlur={handleProductName}
+              placeholder="상품명 (상품 등록 여부를 확인해 주세요)"
+              error={productNameError ? productNameError : undefined}
             />
-            {productNameError && <span className="text-red">{productNameError}</span>}
+
             {isDropdownOpen && productData?.list && (
               <div
                 ref={dropdownRef}
@@ -182,8 +210,7 @@ const CreateProduct = ({ selectedProduct }: ProductProps) => {
           </div>
 
           <DropDown
-            width="100%"
-            height="60px"
+            divClassName="py-[17px] px-5 md:py-[19px] lg:py-[23px]"
             textClassName="text-gray"
             value={productCategory}
             onChange={(value) => setProductCategory(value)}
@@ -208,13 +235,9 @@ const CreateProduct = ({ selectedProduct }: ProductProps) => {
       />
       {productDescriptError && <span className="text-red">{productDescriptError}</span>}
 
-      <button
-        className="bg-main-indigo w-full text-gray-50 py-[22px]"
-        disabled={!isFormValid}
-        onClick={handleSubmit}
-      >
+      <Button disabled={!isFormValid} onClick={handleSubmit} className="w-full">
         {selectedProduct ? '저장하기' : '추가하기'}
-      </button>
+      </Button>
     </>
   );
 };
