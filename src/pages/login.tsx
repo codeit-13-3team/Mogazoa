@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { EmailInput, PasswordInput } from '@/components/input/loginInput';
-import { KakaoLoginButton } from '@/components/button/KakaoButton';
+import { KakaoButton } from '@/components/button/KakaoButton';
 import { GoogleLoginButton } from '@/components/button/Google';
 import { Login } from '@/api/auth';
 import { SignInRequest } from '@/types/auth';
@@ -23,10 +23,14 @@ const LoginPage = () => {
     mutationFn: (formData: SignInRequest) => Login('login', formData),
     onSuccess: (data: { accessToken: string }) => {
       if (typeof window !== 'undefined') {
+<<<<<<< HEAD
         localStorage.setItem('token', data.accessToken);
         
 const setIsLoggedIn = useAuthStore.getState().setIsLoggedIn;
 setIsLoggedIn(true);
+=======
+        localStorage.setItem('accessToken', data.accessToken);
+>>>>>>> 898b39a23d7185607c10b534c9f9a3f256672c0a
         Router.push('/');
       }
     },
@@ -55,7 +59,7 @@ setIsLoggedIn(true);
       <div className="flex justify-center  mt-4 text-gray-200">SNS로 바로 시작하기</div>
       <div className="flex justify-center mt-4 space-x-4">
         <GoogleLoginButton />
-        <KakaoLoginButton />
+        <KakaoButton />
       </div>
     </div>
   );

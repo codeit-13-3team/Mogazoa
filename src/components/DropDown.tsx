@@ -2,12 +2,11 @@ import Image from 'next/image';
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
 
 interface DropDownProps {
-  width: string;
-  height?: string;
   divClassName?: string;
   textClassName?: string;
   useBaseStyle?: boolean;
   children: ReactNode;
+  value: string | number;
   onChange: (value: string | number) => void;
 }
 
@@ -31,12 +30,11 @@ export function DropDownOption({ children, value, useBaseStyle, onSelect }: Drop
 }
 
 export function DropDown({
-  width,
-  height,
   divClassName,
   textClassName,
   useBaseStyle = true,
   children,
+  value,
   onChange,
 }: DropDownProps) {
   const [isOpen, setIsopen] = useState<boolean>(false);
@@ -62,10 +60,8 @@ export function DropDown({
     else
       return (
         <ul
-          className={`absolute top-7 left-0 z-10 flex flex-col gap-[5px] bg-black-400 border bg-black-300 md:top-[22px] 
-            ${useBaseStyle ? 'px-[10px] py-[10px] rounded-lg' : ''}
-            ${height ? 'top-6 md:top-[22px]' : ''}`}
-          style={{ width: width, top: height ? `${height + 4}px` : '' }}
+          className={`mt-1 w-full absolute top-full left-0 z-10 flex flex-col gap-[5px] bg-black-400 border border-black-300 
+            ${useBaseStyle ? 'px-[10px] py-[10px] rounded-lg' : ''}`}
         >
           {React.Children.map(children, (child) => {
             if (React.isValidElement<DropDownOptionProps>(child))
@@ -85,13 +81,13 @@ export function DropDown({
     } else {
       setIconsrc('/icon/common/dropdown.png');
 
-      if (categoryName.length === 0) {
-        const childrenArray = React.Children.toArray(children);
-        const firstChildren = childrenArray[0];
-        if (React.isValidElement<DropDownOptionProps>(firstChildren)) {
-          const first_DropDownOption = firstChildren;
-          setCategoryName(String(first_DropDownOption.props.children));
-        }
+      const childrenArray = React.Children.toArray(children);
+      const matchedOption = childrenArray.find((child) => {
+        return React.isValidElement<DropDownOptionProps>(child) && child.props.value === value;
+      });
+
+      if (matchedOption && React.isValidElement<DropDownOptionProps>(matchedOption)) {
+        setCategoryName(String(matchedOption.props.children));
       }
 
       document.removeEventListener('click', handleOutsideClick);
@@ -100,12 +96,11 @@ export function DropDown({
     return () => {
       document.removeEventListener('click', handleOutsideClick);
     };
-  }, [isOpen, children, categoryName, handleOutsideClick]);
+  }, [isOpen, children, value]);
 
   return (
     <div
       className={`relative flex items-center cursor-pointer ${useBaseStyle ? baseStyle : ''} ${divClassName}`}
-      style={{ width: width, height: height ? height : 'auto' }}
     >
       <div
         ref={dropDownRef}
@@ -117,7 +112,7 @@ export function DropDown({
         >
           {categoryName}
         </span>
-        <div className="relative w-6 h-6 md:w-[22px] h-[22px]">
+        <div className="relative w-6 h-6 md:w-[22px] md:h-[22px]">
           <Image
             src={iconSrc}
             alt="dropIcon"
