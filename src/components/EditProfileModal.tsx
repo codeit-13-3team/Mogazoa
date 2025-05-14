@@ -1,7 +1,7 @@
-import Textarea from '@/components/Textarea';
 import Modal from '@/components/Modal';
 import ImageUploader from './ImageUploader';
 import { useState } from 'react';
+import Textarea from '@/components/Textarea'
 
 interface EditProfileModalProp {
   onClose: () => void;
@@ -10,6 +10,8 @@ interface EditProfileModalProp {
 function EditProfileModal({ onClose }: EditProfileModalProp) {
   const [inputText, setInputText] = useState<string>('');
   const [textarea_Text, setTextarea_Text] = useState<string>('');
+
+  console.log(textarea_Text);
 
   return (
     <Modal buttonText="저장하기" onClose={onClose}>
@@ -24,7 +26,7 @@ function EditProfileModal({ onClose }: EditProfileModalProp) {
             placeholder="닉네임을 입력해 주세요"
             onChange={(e) => setInputText(e.target.value)}
           />
-          <Textarea />
+          <Textarea onChange={(e) => setTextarea_Text(e.target.value)} />
         </div>
       </div>
     </Modal>
