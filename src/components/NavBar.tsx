@@ -58,7 +58,6 @@ const NavBar = ({ showSearch = true }: NavBarProps) => {
       <div className="flex justify-between items-center w-full md:hidden">
         <Image src={MenuIcon} alt="메뉴" width={24} height={24} className="w-6 h-6" />
 
-        {/* ❌ 중복 <a> 태그 제거 */}
         <a href="/" onClick={handleLogoClick}>
           <Image src={LogoS} alt="로고" width={112} height={18} className="w-[112px] h-[18px]" />
         </a>
@@ -68,7 +67,6 @@ const NavBar = ({ showSearch = true }: NavBarProps) => {
 
       {/* 태블릿 & PC */}
       <div className="hidden md:flex items-center justify-end w-full">
-        {/* ❌ 중복 <a> 태그 제거 */}
         <a href="/" onClick={handleLogoClick} className="mr-auto">
           <Image
             src={LogoL}

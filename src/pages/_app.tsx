@@ -48,9 +48,8 @@ export default function App({ Component, pageProps }: AppProps) {
     pageProps?.statusCode === 404;
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ModalProvider>
-        <div className=" min-h-screen">
+    <QueryClientProvider client={queryClient}> 
+        <div className="">
           {/* NavBar는 404 페이지가 아닐 때만 렌더링 */}
           {!is404Page && <NavBar showSearch={pageProps.showSearch} />}
           <main className="p-6">
@@ -58,8 +57,7 @@ export default function App({ Component, pageProps }: AppProps) {
           </main>
           {!is404Page && isLoggedIn && <FloatingAddButton />}
           <ModalRoot />
-        </div>
-      </ModalProvider>
+        </div> 
 
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

@@ -11,6 +11,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { getProductById } from '@/api/products';
 import { useModal } from '@/context/ModalContext'; 
 import { useRouter } from 'next/router'; 
+
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [selectedCategoryName, setSelectedCategoryName] = useState<string | null>(null);
