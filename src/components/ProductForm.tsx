@@ -9,7 +9,7 @@ import { ProductResponse, CreateProductRequest } from '@/types/product';
 import router from 'next/router';
 import { useModal } from '@/context/ModalContext';
 import Input from '@/components/input/input';
-import Button from '@/components/button/button';
+import Button from '@/components/button/Button';
 import ImageUploader from '@/components/ImageUploader';
 
 interface ProductProps {
