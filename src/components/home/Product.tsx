@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 type ProductProps = {
   product: ProductType;
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 const Product = ({ product, onClick }: ProductProps) => {
