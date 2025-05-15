@@ -29,7 +29,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <ModalContext.Provider
-      value={{ content, isOpen, openModal, closeModal, payload }} // ✅ payload 포함
+      value={{ content, isOpen, openModal, closeModal, payload }}  
     >
       {children}
     </ModalContext.Provider>

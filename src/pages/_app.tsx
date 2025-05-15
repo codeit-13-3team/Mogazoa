@@ -24,14 +24,12 @@ export default function App({ Component, pageProps }: AppProps) {
   const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
-  useEffect(() => {
-    // 로그인 상태 복원
+  useEffect(() => { 
     const stored = localStorage.getItem('isLoggedIn');
     if (stored === 'true') {
       setIsLoggedIn(true);
     }
-
-    // 다른 탭에서 로그아웃 등 변경 시 상태 반영
+ 
     const handleStorage = (event: StorageEvent) => {
       if (event.key === 'isLoggedIn') {
         setIsLoggedIn(event.newValue === 'true');
@@ -52,7 +50,8 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <ModalProvider>
-        <div className="max-w-[1554px] mx-auto bg-slate-950 text-white min-h-screen">
+        <div className=" min-h-screen">
+          {/* NavBar는 404 페이지가 아닐 때만 렌더링 */}
           {!is404Page && <NavBar showSearch={pageProps.showSearch} />}
           <main className="p-6">
             <Component {...pageProps} />

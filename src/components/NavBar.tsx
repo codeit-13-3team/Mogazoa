@@ -1,5 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import useAuthStore from '@/stores/authStores';
 
 import LogoL from '@/assets/logo/logoL.png';
@@ -13,14 +15,41 @@ interface NavBarProps {
 }
 
 const NavBar = ({ showSearch = true }: NavBarProps) => {
+  const router = useRouter();
+  const [searchInput, setSearchInput] = useState('');
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        setIsLoggedIn(true);
+      }
+    }
+  }, [setIsLoggedIn]);
+
   const handleLogout = () => {
-    setIsLoggedIn(false);
     localStorage.removeItem('token');
-    localStorage.removeItem('isLoggedIn');
-    window.location.reload(); // 새로고침
+    setIsLoggedIn(false);
+    router.push('/');
+  };
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    router.push('/');
+  };
+
+  const handleSearch = () => {
+    if (searchInput.trim().length >= 1) {
+      router.push(`/?keyword=${encodeURIComponent(searchInput.trim())}`);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
   };
 
   return (
@@ -28,15 +57,19 @@ const NavBar = ({ showSearch = true }: NavBarProps) => {
       {/* 모바일 */}
       <div className="flex justify-between items-center w-full md:hidden">
         <Image src={MenuIcon} alt="메뉴" width={24} height={24} className="w-6 h-6" />
-        <Link href="/">
+
+        {/* ❌ 중복 <a> 태그 제거 */}
+        <a href="/" onClick={handleLogoClick}>
           <Image src={LogoS} alt="로고" width={112} height={18} className="w-[112px] h-[18px]" />
-        </Link>
+        </a>
+
         <Image src={SearchIcon} alt="검색" width={24} height={24} className="w-6 h-6" />
       </div>
 
       {/* 태블릿 & PC */}
       <div className="hidden md:flex items-center justify-end w-full">
-        <Link href="/" className="mr-auto">
+        {/* ❌ 중복 <a> 태그 제거 */}
+        <a href="/" onClick={handleLogoClick} className="mr-auto">
           <Image
             src={LogoL}
             alt="로고"
@@ -44,57 +77,58 @@ const NavBar = ({ showSearch = true }: NavBarProps) => {
             height={28}
             className="md:w-[138px] md:h-[24px] lg:w-[166px] lg:h-[28px]"
           />
-        </Link>
+        </a>
 
-        <div className="flex items-center">
-          {showSearch && (
-            <div className="flex items-center px-4 py-2 rounded-full text-sm
-                           h-[50px] md:h-[46px] lg:h-[56px]
-                           w-[220px] md:w-[300px] lg:w-[400px]
-                           mr-[20px] bg-black-400 text-gray-200">
-              <Image
-                src={SearchIcon}
-                alt="검색"
-                width={20}
-                height={20}
-                className="w-5 h-5 opacity-70"
-              />
-              <span className="ml-2 text-gray-200 text-sm whitespace-nowrap">
-                상품 이름을 검색해 보세요.
-              </span>
-            </div>
-          )}
-
-          <div className="flex items-center gap-8 text-sm text-white">
-            {isLoggedIn ? (
-              <>
-                <button className="text-white no-underline hover:no-underline">비교하기</button>
-                <Link href="/mypage" className="text-white no-underline hover:no-underline">
-                  내 프로필
-                </Link>
-                <Link
-                  href="/"
-                  onClick={handleLogout}
-                  className="text-white no-underline hover:no-underline"
-                >
-                  <Image src={LogoutIcon} alt="로그아웃" width={24} height={24} className="w-6 h-6" />
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link href="/login" className="text-white no-underline hover:no-underline">
-                  로그인
-                </Link>
-                <Link href="/signup" className="text-white no-underline hover:no-underline">
-                  회원가입
-                </Link>
-              </>
-            )}
+        {showSearch && (
+          <div className="flex items-center px-4 py-2 rounded-full text-sm
+                          h-[50px] md:h-[46px] lg:h-[56px]
+                          w-[220px] md:w-[300px] lg:w-[400px]
+                          mr-[20px] bg-black-400 text-gray-200">
+            <Image
+              src={SearchIcon}
+              alt="검색"
+              width={20}
+              height={20}
+              onClick={handleSearch}
+              className="w-5 h-5 opacity-70 cursor-pointer"
+            />
+            <input
+              type="text"
+              placeholder="상품 이름을 검색하세요."
+              className="ml-2 bg-transparent outline-none text-sm text-gray-200 w-full"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+            />
           </div>
+        )}
+
+        <div className="flex items-center gap-8 text-sm text-white">
+          {isLoggedIn ? (
+            <>
+              <Link href="/compare" className="no-underline hover:no-underline text-white">
+                비교하기
+              </Link>
+              <Link href="/mypage" className="no-underline hover:no-underline text-white">
+                내 프로필
+              </Link>
+              <button onClick={handleLogout} className="no-underline hover:no-underline text-white">
+                <Image src={LogoutIcon} alt="로그아웃" width={24} height={24} className="w-6 h-6" />
+              </button>
+            </>
+          ) : (
+            <>
+              <Link href="/login" className="no-underline hover:no-underline text-white">
+                로그인
+              </Link>
+              <Link href="/signup" className="no-underline hover:no-underline text-white">
+                회원가입
+              </Link>
+            </>
+          )}
         </div>
       </div>
 
-      {/* 하단 구분선 */}
       <div className="absolute bottom-0 left-0 w-full h-px bg-black-400" />
     </header>
   );
