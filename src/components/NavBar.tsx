@@ -90,15 +90,25 @@ const NavBar = ({ showSearch = true }: NavBarProps) => {
     <header className="w-full bg-black-500 flex items-center justify-between h-[70px] md:h-[80px] lg:h-[95px] px-4 md:px-6 lg:px-[80px] relative">
       {/* 모바일 */}
       <div className="flex justify-between items-center w-full md:hidden relative">
-        <button onClick={() => setShowMobileMenu((prev) => !prev)}>
+        <button
+          onClick={() => setShowMobileMenu((prev) => !prev)}
+          className="focus:outline-none focus:ring-0"
+        >
           <Image src={MenuIcon} alt="메뉴" width={24} height={24} className="w-6 h-6" />
         </button>
 
-        <Link href="/" onClick={handleLogoClick} className="cursor-pointer">
+        <a
+          href="/"
+          onClick={handleLogoClick}
+          className="cursor-pointer"
+        >
           <Image src={LogoS} alt="로고" width={112} height={18} className="w-[112px] h-[18px]" />
-        </Link>
+        </a>
 
-        <button onClick={() => setShowMobileSearch((prev) => !prev)}>
+        <button
+          onClick={() => setShowMobileSearch((prev) => !prev)}
+          className="focus:outline-none focus:ring-0"
+        >
           <Image src={SearchIcon} alt="검색" width={24} height={24} className="w-6 h-6" />
         </button>
 
@@ -109,22 +119,22 @@ const NavBar = ({ showSearch = true }: NavBarProps) => {
           >
             {isLoggedIn ? (
               <>
-                <button onClick={() => handleMenuClick('/compare')} className="block w-full text-left px-4 py-2 hover:bg-black-300 hover:text-white">
+                <button onClick={() => handleMenuClick('/compare')} className="block w-full text-left px-4 py-2 hover:bg-black-300 hover:text-white focus:outline-none focus:ring-0">
                   비교하기
                 </button>
-                <button onClick={() => handleMenuClick('/mypage')} className="block w-full text-left px-4 py-2 hover:bg-black-300 hover:text-white">
+                <button onClick={() => handleMenuClick('/mypage')} className="block w-full text-left px-4 py-2 hover:bg-black-300 hover:text-white focus:outline-none focus:ring-0">
                   내 프로필
                 </button>
-                <button onClick={handleLogout} className="block w-full text-left px-4 py-2 hover:bg-black-300 hover:text-white">
+                <button onClick={handleLogout} className="block w-full text-left px-4 py-2 hover:bg-black-300 hover:text-white focus:outline-none focus:ring-0">
                   로그아웃
                 </button>
               </>
             ) : (
               <>
-                <button onClick={() => handleMenuClick('/login')} className="block w-full text-left px-4 py-2 hover:bg-black-300 hover:text-white">
+                <button onClick={() => handleMenuClick('/login')} className="block w-full text-left px-4 py-2 hover:bg-black-300 hover:text-white focus:outline-none focus:ring-0">
                   로그인
                 </button>
-                <button onClick={() => handleMenuClick('/signup')} className="block w-full text-left px-4 py-2 hover:bg-black-300 hover:text-white">
+                <button onClick={() => handleMenuClick('/signup')} className="block w-full text-left px-4 py-2 hover:bg-black-300 hover:text-white focus:outline-none focus:ring-0">
                   회원가입
                 </button>
               </>
@@ -151,7 +161,11 @@ const NavBar = ({ showSearch = true }: NavBarProps) => {
 
       {/* 태블릿 & PC */}
       <div className="hidden md:flex items-center justify-end w-full">
-        <Link href="/" onClick={handleLogoClick} className="mr-auto">
+        <a
+          href="/"
+          onClick={handleLogoClick}
+          className="mr-auto cursor-pointer"
+        >
           <Image
             src={LogoL}
             alt="로고"
@@ -159,10 +173,10 @@ const NavBar = ({ showSearch = true }: NavBarProps) => {
             height={28}
             className="md:w-[138px] md:h-[24px] lg:w-[166px] lg:h-[28px]"
           />
-        </Link>
+        </a>
 
         {showSearch && (
-          <div className="flex items-center px-4 py-2 rounded-full text-sm h-[50px] md:h-[46px] lg:h-[56px] w-[220px] md:w-[300px] lg:w-[400px] mr-[20px] bg-black-400 text-gray-200">
+          <div className="flex items-center px-4 py-2 rounded-full text-sm h-[50px] md:h-[46px] lg:h-[56px] w-[220px] md:w-[300px] lg:w-[400px] mr-[20px] bg-black-400 ">
             <Image
               src={SearchIcon}
               alt="검색"
@@ -174,7 +188,7 @@ const NavBar = ({ showSearch = true }: NavBarProps) => {
             <input
               type="text"
               placeholder="상품 이름을 검색하세요."
-              className="ml-2 bg-transparent outline-none text-sm text-gray-200 w-full placeholder-gray-400 focus:placeholder-transparent"
+              className="ml-2 bg-transparent outline-none text-sm  text-white w-full placeholder-gray-400 focus:placeholder-transparent"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               onKeyDown={handleKeyDown}
@@ -187,7 +201,7 @@ const NavBar = ({ showSearch = true }: NavBarProps) => {
             <>
               <Link href="/compare" className="text-white">비교하기</Link>
               <Link href="/mypage" className="text-white">내 프로필</Link>
-              <button onClick={handleLogout} className="text-white">
+              <button onClick={handleLogout} className="text-white focus:outline-none focus:ring-0">
                 <Image src={LogoutIcon} alt="로그아웃" width={24} height={24} className="w-6 h-6" />
               </button>
             </>
