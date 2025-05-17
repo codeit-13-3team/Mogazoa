@@ -1,4 +1,40 @@
-const CompareTable = () => {
+import { Product } from '@/types/product';
+import { useEffect, useMemo } from 'react';
+
+interface TableProps {
+  productA: Product | undefined;
+  productB: Product | undefined;
+  onTotalsChange?: (totals: { A: number; B: number }) => void;
+}
+
+const CompareTable = ({ productA, productB, onTotalsChange }: TableProps) => {
+  const criteria = useMemo(
+    () => [
+      { label: '별점', key: 'rating' as const },
+      { label: '리뷰 개수', key: 'reviewCount' as const },
+      { label: '찜 개수', key: 'favoriteCount' as const },
+    ],
+    [],
+  );
+
+  const totals = useMemo(() => {
+    let A = 0,
+      B = 0;
+    criteria.forEach(({ key }) => {
+      const aVal = productA?.[key] ?? 0;
+      const bVal = productB?.[key] ?? 0;
+      if (aVal > bVal) A++;
+      if (bVal > aVal) B++;
+    });
+    return { A, B };
+  }, [productA, productB, criteria]);
+
+  useEffect(() => {
+    if (onTotalsChange) {
+      onTotalsChange(totals);
+    }
+  }, [totals, onTotalsChange]);
+
   return (
     <div className="overflow-x-auto w-full">
       <table className="w-full bg-black-400 text-gray-100 rounded-lg overflow-hidden text-center font-normal">
@@ -11,26 +47,22 @@ const CompareTable = () => {
           </tr>
         </thead>
         <tbody>
-          <tr className="border-t border-black-300">
-            <td className="px-[17px] py-5 md:py-[30px]">별점</td>
-            <td className="px-[17px] py-5 md:py-[30px] text-gray-50">4.8</td>
-            <td className="px-[17px] py-5 md:py-[30px] text-gray-50">4.9</td>
-            <td className="px-[17px] py-5 md:py-[30px] text-pink font-medium">상품 2 승리</td>
-          </tr>
+          {criteria.map(({ label, key }) => {
+            const aVal = productA?.[key] ?? 0;
+            const bVal = productB?.[key] ?? 0;
+            const result = aVal === bVal ? '무승부' : aVal > bVal ? '상품 1 승리' : '상품 2 승리';
+            const colorClass =
+              aVal === bVal ? 'text-gray-50' : aVal > bVal ? 'text-green' : 'text-pink';
 
-          <tr>
-            <td className="px-[17px] py-5 md:py-[30px]">리뷰 개수</td>
-            <td className="px-[17px] py-5 md:py-[30px] text-gray-50">100</td>
-            <td className="px-[17px] py-5 md:py-[30px] text-gray-50">300</td>
-            <td className="px-[17px] py-5 md:py-[30px] text-pink font-medium">상품 2 승리</td>
-          </tr>
-
-          <tr>
-            <td className="px-[17px] py-5 md:py-[30px]">찜 개수</td>
-            <td className="px-[17px] py-5 md:py-[30px] text-gray-50">10,000</td>
-            <td className="px-[17px] py-5 md:py-[30px] text-gray-50">100</td>
-            <td className="px-[17px] py-5 md:py-[30px] text-green font-medium">상품 1 승리</td>
-          </tr>
+            return (
+              <tr key={key} className="border-t border-black-300">
+                <td>{label}</td>
+                <td className="text-gray-50">{aVal}</td>
+                <td className="text-gray-50">{bVal}</td>
+                <td className={`font-medium ${colorClass}`}>{result}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
