@@ -7,10 +7,12 @@ import Button from './button/Button';
 type Props = {
   children: React.ReactNode;
   buttonText?: string;
+  containerStyle?: CSSProperties;
+  buttonProps?: Omit<React.ComponentProps<typeof Button>, 'children'>;
   onClose: () => void;
 };
 
-function Modal({ children, buttonText, onClose }: Props) {
+function Modal({ children, buttonText, containerStyle, buttonProps, onClose }: Props) {
   const [modalRoot, setModalRoot] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -31,7 +33,10 @@ function Modal({ children, buttonText, onClose }: Props) {
     <>
       <div className="fixed inset-0 bg-[#000000]/70 z-40" />
       <div className="flex justify-center items-center fixed inset-0 z-50">
-        <div className="relative flex flex-col bg-black-500 w-[335px] h-auto rounded-xl md:w-[590px] md:rounded-2xl lg:w-[620px]">
+        <div
+          className="relative flex flex-col bg-black-500 w-[335px] h-auto rounded-xl md:w-[590px] md:rounded-2xl lg:w-[620px]"
+          style={containerStyle}
+        >
           <button
             onClick={onClose}
             className="absolute top-[15px] right-[15px] md:top-5 md:right-5"
@@ -45,7 +50,9 @@ function Modal({ children, buttonText, onClose }: Props) {
           <div className="flex flex-col flex-1 justify-center items-center w-full px-5 pt-5 overflow-hidden md:px-10 md:pt-10">
             <div className="flex-1 w-full">{children}</div>
             {buttonText && (
-              <Button className="w-full mb-5 md:mb-8 mt-5 md:mt-10">{buttonText}</Button>
+              <Button className="w-full mb-5 md:mb-8 mt-5 md:mt-10" {...buttonProps}>
+                {buttonText}
+              </Button>
             )}
           </div>
         </div>
