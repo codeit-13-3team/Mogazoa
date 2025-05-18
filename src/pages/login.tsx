@@ -6,7 +6,8 @@ import { Login } from '@/api/auth';
 import { SignInRequest } from '@/types/auth';
 import { useRouter } from 'next/router';
 import { useMutation } from '@tanstack/react-query';
-import Button from '@/components/button/button';
+import useAuthStore from '@/stores/authStores';
+import Button from '@/components/button/Button';
 
 const LoginPage = () => {
   const {
