@@ -4,7 +4,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import NavBar from '@/components/NavBar';
-import useAuthStore from '@/stores/authStores';  
+import useAuthStore from '@/stores/authStores';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,7 +18,7 @@ const queryClient = new QueryClient({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
-  const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);  
+  const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
 
   useEffect(() => {
     // 로그인 상태 복원
@@ -49,7 +49,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <div className="bg-slate-950 text-white min-h-screen">
         {!is404Page && <NavBar showSearch={pageProps.showSearch} />}
-        <main className="p-6">
+        <main className="p-6 bg-black-500">
           <Component {...pageProps} />
         </main>
       </div>

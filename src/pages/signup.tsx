@@ -9,12 +9,13 @@ import {
 } from '@/components/input/loginInput';
 import axiosInstance from '@/api/axiosInstance';
 import router from 'next/router';
+import Button from '@/components/button/button';
 
 const SignupPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     watch,
     setError,
   } = useForm<SignUpRequest>({ mode: 'onTouched' });
@@ -44,21 +45,22 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black-500 flex flex-col items-center justify-center">
-      <header className="absolute top-4 left-4 text-white ">헤더</header>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="space-y-6 w-full max-w-md md:max-w-lg lg:max-w-xl mx- p-8 rounded-lg shadow-lg"
-      >
-        <EmailInput register={register} errors={errors} type="signup" />
-        <NickNameInput register={register} errors={errors} />
-        <PasswordInput register={register} errors={errors} type="signup" />
-        <ConfirmPasswordInput register={register} errors={errors} watch={watch} type="signup" />
-        <button type="submit" className="w-full bg-green-500 text-white py-2 rounded">
-          회원가입
-        </button>
-      </form>
-    </div>
+    <main className="min-h-screen">
+      <div className="flex flex-col items-center justify-center mt-20 p-6">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="w-full max-w-md sm:max-w-lg md:max-w-xl space-y-4"
+        >
+          <EmailInput register={register} errors={errors} type="signup" />
+          <NickNameInput register={register} errors={errors} />
+          <PasswordInput register={register} errors={errors} type="signup" />
+          <ConfirmPasswordInput register={register} errors={errors} watch={watch} type="signup" />
+          <Button type="submit" size="l" className="w-full">
+            {isSubmitting ? '처리 중...' : '회원가입'}
+          </Button>
+        </form>
+      </div>
+    </main>
   );
 };
 

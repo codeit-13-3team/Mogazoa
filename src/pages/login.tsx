@@ -6,12 +6,13 @@ import { Login } from '@/api/auth';
 import { SignInRequest } from '@/types/auth';
 import { useRouter } from 'next/router';
 import { useMutation } from '@tanstack/react-query';
+import Button from '@/components/button/button';
 
 const LoginPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<SignInRequest>({
     mode: 'onBlur',
   });
@@ -20,10 +21,8 @@ const LoginPage = () => {
   const { mutate } = useMutation({
     mutationFn: (formData: SignInRequest) => Login('login', formData),
     onSuccess: (data: { accessToken: string }) => {
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('token', data.accessToken);
-        Router.push('/');
-      }
+      localStorage.setItem('token', data.accessToken);
+      Router.push('/');
     },
     onError: () => {
       alert('로그인에 실패했습니다. 이메일 또는 비밀번호를 확인해주세요.');
@@ -31,28 +30,30 @@ const LoginPage = () => {
   });
 
   const onSubmit = (formData: SignInRequest) => {
+    if (isSubmitting) return;
     mutate(formData);
   };
 
   return (
-    <div className="min-h-screen bg-black-500 flex flex-col items-center justify-center">
-      <header className="absolute top-4 left-4 text-white">헤더</header>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className=" space-y-6 w-full max-w-md md:max-w-lg lg:max-w-xl mx- p-8 rounded-lg shadow-lg"
-      >
-        <EmailInput register={register} errors={errors} type="login" />
-        <PasswordInput register={register} errors={errors} type="login" />
-        <button type="submit" className="w-full bg-green-500 text-white py-2 rounded">
-          로그인
-        </button>
-      </form>
-      <div className="flex justify-center  mt-4 text-gray-200">SNS로 바로 시작하기</div>
-      <div className="flex justify-center mt-4 space-x-4">
-        <GoogleLoginButton />
-        <KakaoButton />
+    <main className="min-h-screen">
+      <div className="flex flex-col items-center justify-center mt-20 p-6">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="w-full max-w-md sm:max-w-lg md:max-w-xl space-y-4"
+        >
+          <EmailInput register={register} errors={errors} type="login" />
+          <PasswordInput register={register} errors={errors} type="login" />
+          <Button type="submit" size="l" className="w-full">
+            {isSubmitting ? '처리 중...' : '로그인'}
+          </Button>
+        </form>
+        <div className="flex justify-center  mt-4 text-gray-200">SNS로 바로 시작하기</div>
+        <div className="flex justify-center mt-4 space-x-4">
+          <GoogleLoginButton />
+          <KakaoButton />
+        </div>
       </div>
-    </div>
+    </main>
   );
 };
 
