@@ -9,13 +9,13 @@ import { useEffect, useState } from 'react';
 
 function UserPage() {
   const router = useRouter();
-  const { userId } = router.query;
+  const { userId } = router.query as { userId: string };
   const [showProductState, setShowProductState] = useState<string | number>(1);
   const [tokenReady, setTokenReady] = useState<boolean>(false);
-  const { data: profileData, isLoading } = useQuery({
-    queryKey: ['userProfile'],
-    queryFn: getUserProfile,
-    enabled: tokenReady,
+  const { data: profileData } = useQuery({
+    queryKey: ['userProfile', userId],
+    queryFn: () => getUserProfile(userId),
+    enabled: tokenReady && Boolean(userId),
   });
   
   function handleDropDown(value: string | number) {
@@ -188,7 +188,6 @@ function UserPage() {
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzYxLCJ0ZWFtSWQiOiIxMy0zIiwiaWF0IjoxNzQ1OTE1MjA4LCJpc3MiOiJzcC1tb2dhem9hIn0.LI6K9y5vlvvWSKtGsSgfC-pzOAZJI3kkJUb_q-rfT8o',
     );
     setTokenReady(true);
-    console.log(userId);
   }, []);
 
   return (
