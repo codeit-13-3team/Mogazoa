@@ -9,7 +9,7 @@ import {
 } from '@/components/input/loginInput';
 import axiosInstance from '@/api/axiosInstance';
 import router from 'next/router';
-import Button from '@/components/button/button';
+import Button from '@/components/button/Button';
 
 const SignupPage = () => {
   const {

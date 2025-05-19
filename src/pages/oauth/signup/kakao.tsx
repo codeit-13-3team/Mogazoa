@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { NickNameInput } from '@/components/input/loginInput';
 import axiosInstance from '@/api/axiosInstance';
 import { useState } from 'react';
-import Button from '@/components/button/button';
+import Button from '@/components/button/Button';
 
 interface FormValues {
   nickname: string;
@@ -66,17 +66,19 @@ const KakaoSignupPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black-500 flex flex-col items-center justify-center">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="space-y-6 w-full max-w-md p-8 rounded-lg shadow-lg"
-      >
-        <NickNameInput register={register} errors={errors} />
-        <Button size="m" type="submit">
-          가입하기
-        </Button>
-      </form>
-    </div>
+    <main className="min-h-screen">
+      <div className="flex flex-col items-center justify-center mt-20 p-20">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="w-full max-w-md sm:max-w-lg md:max-w-xl space-y-4"
+        >
+          <NickNameInput register={register} errors={errors} />
+          <Button size="l" type="submit" className="w-full">
+            가입하기
+          </Button>
+        </form>
+      </div>
+    </main>
   );
 };
 
