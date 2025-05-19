@@ -33,7 +33,7 @@ function MyPage() {
               width="100%"
               height="300px"
               name="시계"
-              image="/img/prodctimage/apple_watch.png"
+              image="/img/prodctimage/applewatch.png"
               reviewCount={100}
               favoriteCount={100}
               rating={4.1}
@@ -42,7 +42,7 @@ function MyPage() {
               width="100%"
               height="300px"
               name="시계"
-              image="/img/prodctimage/apple_watch.png"
+              image="/img/prodctimage/applewatch.png"
               reviewCount={100}
               favoriteCount={100}
               rating={4.1}
@@ -51,7 +51,7 @@ function MyPage() {
               width="100%"
               height="300px"
               name="시계"
-              image="/img/prodctimage/apple_watch.png"
+              image="/img/prodctimage/applewatch.png"
               reviewCount={100}
               favoriteCount={100}
               rating={4.1}
@@ -60,7 +60,7 @@ function MyPage() {
               width="100%"
               height="300px"
               name="시계"
-              image="/img/prodctimage/apple_watch.png"
+              image="/img/prodctimage/applewatch.png"
               reviewCount={100}
               favoriteCount={100}
               rating={4.1}
@@ -69,7 +69,7 @@ function MyPage() {
               width="100%"
               height="300px"
               name="시계"
-              image="/img/prodctimage/apple_watch.png"
+              image="/img/prodctimage/applewatch.png"
               reviewCount={100}
               favoriteCount={100}
               rating={4.1}
