@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from 'next/image';
 
 type ActivityProps = {
   text: React.ReactNode | string;
@@ -24,9 +24,9 @@ function Activity({ text, icon, dataNumber, category }: ActivityProps) {
                 sizes="(max-width: 767px) 20px (max-width: 1023px) 24px, (min-width: 1024px) 29px"
               />
             </div>
-              <span className="text-xl font-normal text-gray-50 leading-[100%] lg:text-2xl">
-                {dataNumber ?? null}
-              </span>
+            <span className="text-xl font-normal text-gray-50 leading-[100%] lg:text-2xl">
+              {dataNumber ?? null}
+            </span>
           </div>
         ) : null}
         {category ? (
