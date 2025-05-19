@@ -3,7 +3,6 @@ import Activity from '@/components/Activity';
 import { DropDown, DropDownOption } from '@/components/DropDown';
 import Product from '@/components/Product';
 import Profile from '@/components/Profile';
-import { GetMeResponse } from '@/types/user';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 
