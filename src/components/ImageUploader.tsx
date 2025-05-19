@@ -1,15 +1,27 @@
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { imageUpload } from '@/api/image';
 import ImageIcon from '../../public/icon/common/photo.png';
 import deleteIcon from '../../public/icon/common/close.png';
 
-function ImageUploader() {
+interface imageProps {
+  image: string;
+  onUploadImage: (url: string) => void;
+  onRemoveImage: () => void;
+  errorMessage?: string;
+}
+
+function ImageUploader({ image, onUploadImage, onRemoveImage, errorMessage }: imageProps) {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const MAX_FILE_SIZE = 5 * 1024 * 1024;
+
+  useEffect(() => {
+    setImageUrl(image || null);
+    setError(errorMessage || null);
+  }, [image]);
 
   const imageFileClick = () => {
     inputRef.current?.click();
@@ -30,6 +42,7 @@ function ImageUploader() {
       const response = await imageUpload(file);
       if (response?.url) {
         setImageUrl(response.url);
+        onUploadImage(response.url);
       }
     } catch (error) {
       setError('이미지 업로드에 실패했습니다.');
@@ -40,6 +53,7 @@ function ImageUploader() {
     e.stopPropagation();
     setImageUrl(null);
     setError(null);
+    onRemoveImage();
     if (inputRef.current) {
       inputRef.current.value = '';
     }

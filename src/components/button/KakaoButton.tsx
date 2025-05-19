@@ -1,17 +1,23 @@
 import Image from 'next/image';
 import kakaoIcon from '../../../public/icon/common/kakao.png';
+import { getKakaoAuthUrl } from '@/lib/kakaoAuth';
+import { useRouter } from 'next/navigation';
 
-export const KakaoLoginButton = () => {
-  const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY!;
-  const REDIRECT_URI = 'http://localhost:3000/kakao';
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-  const handleLogin = () => {
-    window.location.href = KAKAO_AUTH_URL;
+export const KakaoButton = () => {
+  const router = useRouter();
+
+  const handleKakaoLogin = () => {
+    const kakaoUrl = getKakaoAuthUrl();
+    router.push(kakaoUrl);
   };
 
   return (
-    <button onClick={handleLogin}>
-      <Image src={kakaoIcon} alt="카카오 로그인" width={30} />
+    <button
+      type="button"
+      onClick={handleKakaoLogin}
+      className="flex size-[56px] cursor-pointer items-center justify-center rounded-[50%] border border-var-black3"
+    >
+      <Image src={kakaoIcon} alt="kakao" width={24} height={24} />
     </button>
   );
 };

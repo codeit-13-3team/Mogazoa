@@ -6,6 +6,8 @@ interface DropDownProps {
   textClassName?: string;
   useBaseStyle?: boolean;
   children: ReactNode;
+  value: string | number;
+  initialCategory?: string;
   onChange: (value: string | number) => void;
 }
 
@@ -33,11 +35,13 @@ export function DropDown({
   textClassName,
   useBaseStyle = true,
   children,
+  value,
+  initialCategory='',
   onChange,
 }: DropDownProps) {
   const [isOpen, setIsopen] = useState<boolean>(false);
   const [iconSrc, setIconsrc] = useState<string>('/icon/common/dropdown.png');
-  const [categoryName, setCategoryName] = useState<string>('');
+  const [categoryName, setCategoryName] = useState<string>(initialCategory);
 
   const baseStyle = `px-5 bg-black-400 border border-black-300 rounded-lg + ${isOpen ? 'border-main-blue' : 'border-black-300'}`;
 
@@ -58,7 +62,7 @@ export function DropDown({
     else
       return (
         <ul
-          className={`mt-1 w-full absolute top-full left-0 z-10 flex flex-col gap-[5px] bg-black-400 border border-black-300 
+          className={`mt-1 w-full absolute top-full left-0 z-10 flex flex-col gap-[5px] bg-black-400 border border-black-300 max-h-[200px] overflow-y-scroll
             ${useBaseStyle ? 'px-[10px] py-[10px] rounded-lg' : ''}`}
         >
           {React.Children.map(children, (child) => {
@@ -79,13 +83,13 @@ export function DropDown({
     } else {
       setIconsrc('/icon/common/dropdown.png');
 
-      if (categoryName.length === 0) {
-        const childrenArray = React.Children.toArray(children);
-        const firstChildren = childrenArray[0];
-        if (React.isValidElement<DropDownOptionProps>(firstChildren)) {
-          const first_DropDownOption = firstChildren;
-          setCategoryName(String(first_DropDownOption.props.children));
-        }
+      const childrenArray = React.Children.toArray(children);
+      const matchedOption = childrenArray.find((child) => {
+        return React.isValidElement<DropDownOptionProps>(child) && child.props.value === value;
+      });
+
+      if (matchedOption && React.isValidElement<DropDownOptionProps>(matchedOption)) {
+        setCategoryName(String(matchedOption.props.children));
       }
 
       document.removeEventListener('click', handleOutsideClick);
@@ -94,7 +98,7 @@ export function DropDown({
     return () => {
       document.removeEventListener('click', handleOutsideClick);
     };
-  }, [isOpen, children, categoryName, handleOutsideClick]);
+  }, [isOpen, children, value]);
 
   return (
     <div

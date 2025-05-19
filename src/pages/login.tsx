@@ -1,11 +1,12 @@
 import { useForm } from 'react-hook-form';
 import { EmailInput, PasswordInput } from '@/components/input/loginInput';
-import { KakaoLoginButton } from '@/components/button/KakaoButton';
+import { KakaoButton } from '@/components/button/KakaoButton';
 import { GoogleLoginButton } from '@/components/button/Google';
 import { Login } from '@/api/auth';
 import { SignInRequest } from '@/types/auth';
 import { useRouter } from 'next/router';
 import { useMutation } from '@tanstack/react-query';
+import useAuthStore from '@/stores/authStores';
 
 const LoginPage = () => {
   const {
@@ -22,6 +23,10 @@ const LoginPage = () => {
     onSuccess: (data: { accessToken: string }) => {
       if (typeof window !== 'undefined') {
         localStorage.setItem('token', data.accessToken);
+
+const setIsLoggedIn = useAuthStore.getState().setIsLoggedIn;
+
+setIsLoggedIn(true);
         Router.push('/');
       }
     },
@@ -36,7 +41,7 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen bg-black-500 flex flex-col items-center justify-center">
-      <header className="absolute top-4 left-4 text-white">헤더</header>
+     
       <form
         onSubmit={handleSubmit(onSubmit)}
         className=" space-y-6 w-full max-w-md md:max-w-lg lg:max-w-xl mx- p-8 rounded-lg shadow-lg"
@@ -50,7 +55,7 @@ const LoginPage = () => {
       <div className="flex justify-center  mt-4 text-gray-200">SNS로 바로 시작하기</div>
       <div className="flex justify-center mt-4 space-x-4">
         <GoogleLoginButton />
-        <KakaoLoginButton />
+        <KakaoButton />
       </div>
     </div>
   );
