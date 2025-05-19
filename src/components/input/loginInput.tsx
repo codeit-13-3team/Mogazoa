@@ -9,6 +9,11 @@ interface Props {
   type: 'login' | 'signup';
   watch?: (field: string) => string | undefined;
 }
+interface NickNameInputProps {
+  register: UseFormRegister<any>; // 제네릭으로 any를 받으면 유연해짐
+  errors: FieldErrors<any>;
+  disabled?: boolean; // 필요시 비활성화 옵션도 받을 수 있음
+}
 
 export const EmailInput = ({ register, errors }: Props) => {
   return (
@@ -30,7 +35,7 @@ export const EmailInput = ({ register, errors }: Props) => {
   );
 };
 
-export const NickNameInput = ({ register, errors }: Props) => {
+export const NickNameInput = ({ register, errors }: NickNameInputProps) => {
   return (
     <>
       <Input
@@ -48,7 +53,7 @@ export const NickNameInput = ({ register, errors }: Props) => {
             message: '닉네임은 최대 10자까지만 가능합니다.',
           },
         })}
-        error={typeof errors.nickname?.message === 'string' ? errors.nickname?.message : undefined}
+        error={typeof errors.nickname?.message === 'string' ? errors.nickname.message : undefined}
       />
     </>
   );
