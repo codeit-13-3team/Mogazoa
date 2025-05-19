@@ -4,16 +4,17 @@ import { DropDown, DropDownOption } from '@/components/DropDown';
 import Product from '@/components/Product';
 import Profile from '@/components/Profile';
 import { GetMeResponse } from '@/types/user';
+import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 
 function MyPage() {
-  const [profileData, setProfileData] = useState<GetMeResponse>();
   const [showProductState, setShowProductState] = useState<string | number>(1);
-
-  async function setProfile() {
-    const data = await getUserProfile();
-    setProfileData(data);
-  }
+  const [tokenReady, setTokenReady] = useState<boolean>(false);
+  const { data: profileData, isLoading } = useQuery({
+    queryKey: ['userProfile'],
+    queryFn: getUserProfile,
+    enabled: tokenReady,
+  });
 
   function handleDropDown(value: string | number) {
     setShowProductState(value);
@@ -184,11 +185,11 @@ function MyPage() {
       //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzU4LCJ0ZWFtSWQiOiIxMy0zIiwiaWF0IjoxNzQ1OTE1NDAxLCJpc3MiOiJzcC1tb2dhem9hIn0.E-JV9Vc5A-Hk3fL6iF7-D2mN5mrVUhtc0-FE7SBZ_pA',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzYxLCJ0ZWFtSWQiOiIxMy0zIiwiaWF0IjoxNzQ1OTE1MjA4LCJpc3MiOiJzcC1tb2dhem9hIn0.LI6K9y5vlvvWSKtGsSgfC-pzOAZJI3kkJUb_q-rfT8o',
     );
-    setProfile();
+    setTokenReady(true);
   }, []);
 
   return (
-    <div className="mt-[30px] px-[20px] md:px-[117px] lg:mx-auto lg:px-0 lg:flex lg:justify-center lg:gap-[70px]">
+    <div className="mt-[30px] px-[20px] md:px-[117px] lg:mx-auto lg:px-0 lg:flex lg:justify-center lg:gap-[70px] max-w-[1340px]">
       <div className="h-auto">
         {profileData ? <Profile profileData={profileData} isMyProfile={true} /> : null}
       </div>
