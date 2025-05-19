@@ -33,7 +33,7 @@ function MyPage() {
               width="100%"
               height="300px"
               name="시계"
-              image="/img/prodctimage/product=apple_watch.png"
+              image="/img/prodctimage/apple_watch.png"
               reviewCount={100}
               favoriteCount={100}
               rating={4.1}
@@ -42,7 +42,7 @@ function MyPage() {
               width="100%"
               height="300px"
               name="시계"
-              image="/img/prodctimage/product=apple_watch.png"
+              image="/img/prodctimage/apple_watch.png"
               reviewCount={100}
               favoriteCount={100}
               rating={4.1}
@@ -51,7 +51,7 @@ function MyPage() {
               width="100%"
               height="300px"
               name="시계"
-              image="/img/prodctimage/product=apple_watch.png"
+              image="/img/prodctimage/apple_watch.png"
               reviewCount={100}
               favoriteCount={100}
               rating={4.1}
@@ -60,7 +60,7 @@ function MyPage() {
               width="100%"
               height="300px"
               name="시계"
-              image="/img/prodctimage/product=apple_watch.png"
+              image="/img/prodctimage/apple_watch.png"
               reviewCount={100}
               favoriteCount={100}
               rating={4.1}
@@ -69,7 +69,7 @@ function MyPage() {
               width="100%"
               height="300px"
               name="시계"
-              image="/img/prodctimage/product=apple_watch.png"
+              image="/img/prodctimage/apple_watch.png"
               reviewCount={100}
               favoriteCount={100}
               rating={4.1}
@@ -83,7 +83,7 @@ function MyPage() {
               width="100%"
               height="300px"
               name="시계"
-              image="/img/prodctimage/product=adidas.png"
+              image="/img/prodctimage/adidas.png"
               reviewCount={100}
               favoriteCount={100}
               rating={4.1}
@@ -92,7 +92,7 @@ function MyPage() {
               width="100%"
               height="300px"
               name="시계"
-              image="/img/prodctimage/product=adidas.png"
+              image="/img/prodctimage/adidas.png"
               reviewCount={100}
               favoriteCount={100}
               rating={4.1}
@@ -101,7 +101,7 @@ function MyPage() {
               width="100%"
               height="300px"
               name="시계"
-              image="/img/prodctimage/product=adidas.png"
+              image="/img/prodctimage/adidas.png"
               reviewCount={100}
               favoriteCount={100}
               rating={4.1}
@@ -110,7 +110,7 @@ function MyPage() {
               width="100%"
               height="300px"
               name="시계"
-              image="/img/prodctimage/product=adidas.png"
+              image="/img/prodctimage/adidas.png"
               reviewCount={100}
               favoriteCount={100}
               rating={4.1}
@@ -119,7 +119,7 @@ function MyPage() {
               width="100%"
               height="300px"
               name="시계"
-              image="/img/prodctimage/product=adidas.png"
+              image="/img/prodctimage/adidas.png"
               reviewCount={100}
               favoriteCount={100}
               rating={4.1}
@@ -133,7 +133,7 @@ function MyPage() {
               width="100%"
               height="300px"
               name="시계"
-              image="/img/prodctimage/product=camera.png"
+              image="/img/prodctimage/camera.png"
               reviewCount={100}
               favoriteCount={100}
               rating={4.1}
@@ -142,7 +142,7 @@ function MyPage() {
               width="100%"
               height="300px"
               name="시계"
-              image="/img/prodctimage/product=camera.png"
+              image="/img/prodctimage/camera.png"
               reviewCount={100}
               favoriteCount={100}
               rating={4.1}
@@ -151,7 +151,7 @@ function MyPage() {
               width="100%"
               height="300px"
               name="시계"
-              image="/img/prodctimage/product=camera.png"
+              image="/img/prodctimage/camera.png"
               reviewCount={100}
               favoriteCount={100}
               rating={4.1}
@@ -160,7 +160,7 @@ function MyPage() {
               width="100%"
               height="300px"
               name="시계"
-              image="/img/prodctimage/product=camera.png"
+              image="/img/prodctimage/camera.png"
               reviewCount={100}
               favoriteCount={100}
               rating={4.1}
@@ -169,7 +169,7 @@ function MyPage() {
               width="100%"
               height="300px"
               name="시계"
-              image="/img/prodctimage/product=camera.png"
+              image="/img/prodctimage/camera.png"
               reviewCount={100}
               favoriteCount={100}
               rating={4.1}
@@ -225,6 +225,7 @@ function MyPage() {
             onChange={handleDropDown}
             divClassName="w-[150px] lg:hidden"
             textClassName="text-gray-50 font-semibold text-[18px]"
+            value=""
           >
             <DropDownOption value={1}>리뷰 남긴 상품</DropDownOption>
             <DropDownOption value={2}>등록한 상품</DropDownOption>
