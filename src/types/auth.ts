@@ -37,7 +37,6 @@ export interface KakaoLoginResponse {
     nickname: string;
     image: string | null;
     createdAt: string;
-    // 필요한 필드 더 추가 가능
   };
 }
 // /{teamId}/auth/signIn/{provider} (POST)
