@@ -7,6 +7,7 @@ interface DropDownProps {
   useBaseStyle?: boolean;
   children: ReactNode;
   value: string | number;
+  initialCategory?: string;
   onChange: (value: string | number) => void;
 }
 
@@ -35,11 +36,12 @@ export function DropDown({
   useBaseStyle = true,
   children,
   value,
+  initialCategory='',
   onChange,
 }: DropDownProps) {
   const [isOpen, setIsopen] = useState<boolean>(false);
   const [iconSrc, setIconsrc] = useState<string>('/icon/common/dropdown.png');
-  const [categoryName, setCategoryName] = useState<string>('');
+  const [categoryName, setCategoryName] = useState<string>(initialCategory);
 
   const baseStyle = `px-5 bg-black-400 border border-black-300 rounded-lg + ${isOpen ? 'border-main-blue' : 'border-black-300'}`;
 
