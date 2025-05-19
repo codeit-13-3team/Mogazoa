@@ -18,6 +18,7 @@ const Compare = () => {
   const [productB, setProductB] = useState<Product>();
   const [isProductADropdownOpen, setIsProductADropdownOpen] = useState<boolean>(false);
   const [isProductBDropdownOpen, setIsProductBDropdownOpen] = useState<boolean>(false);
+  const [hasCompare, setHasCompare] = useState<boolean>(false);
   const [totals, setTotals] = useState<totlaType>({ A: 0, B: 0 });
   const debouncedProductASearch = useDebounce(productAName, 300);
   const debouncedProductBSearch = useDebounce(productBName, 300);
@@ -51,8 +52,22 @@ const Compare = () => {
         productBRef.current &&
         !productBRef.current.contains(e.target as Node)
       ) {
-        setIsProductADropdownOpen(false);
         setIsProductBDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        productADropdownRef.current &&
+        !productADropdownRef.current.contains(e.target as Node) &&
+        productARef.current &&
+        !productARef.current.contains(e.target as Node)
+      ) {
+        setIsProductADropdownOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -62,11 +77,13 @@ const Compare = () => {
   const handleProductA = (item: Product) => {
     setProductA(item);
     setProductAName(item.name);
+    setHasCompare(false);
     setIsProductADropdownOpen(false);
   };
   const handleProductB = (item: Product) => {
     setProductB(item);
     setProductBName(item.name);
+    setHasCompare(false);
     setIsProductBDropdownOpen(false);
   };
 
@@ -78,7 +95,7 @@ const Compare = () => {
     totals.A === totals.B ? 'text-gray-50' : totals.A > totals.B ? 'text-green' : 'text-pink';
 
   return (
-    <div className="py-[30px] px-5">
+    <div className="py-[30px] px-5 min-h-dvh">
       <div className="flex flex-col items-center justity-center mx-auto w-full max-w-[940px]">
         <div className="flex flex-col gap-8 w-full md:flex-row md:items-end md:justify-center">
           <div className="w-full">
@@ -161,40 +178,53 @@ const Compare = () => {
             </div>
           </div>
 
-          <Button className="w-full md:max-w-[200px]">비교하기</Button>
+          <Button
+            className="w-full md:max-w-[200px]"
+            onClick={() => setHasCompare(true)}
+            disabled={!(productA && productB)}
+          >
+            비교하기
+          </Button>
         </div>
 
         <div className="py-24 md:py-[140px] text-center w-full">
-          {productA && productB && (
-            <div className="mb-10 md:mb-20">
-              {totals.A !== totals.B ? (
-                <p className="text-[20px] lg:text-[24px] font-semibold text-gray-50 mb-5">
-                  <span className={`${colorClass}`}>
-                    {totals.A > totals.B ? productA?.name : productB?.name}
-                  </span>{' '}
-                  상품이
-                  <span className="lg:hidden">
-                    <br />
+          {hasCompare ? (
+            <>
+              <div className="mb-10 md:mb-20">
+                {totals.A !== totals.B ? (
+                  <p className="text-[20px] lg:text-[24px] font-semibold text-gray-50 mb-5">
+                    <span className={`${colorClass}`}>
+                      {totals.A > totals.B ? productA?.name : productB?.name}
+                    </span>{' '}
+                    상품이
+                    <span className="lg:hidden">
+                      <br />
+                    </span>
+                    승리하였습니다.
+                  </p>
+                ) : (
+                  <p className="text-[20px] lg:text-[24px] font-semibold text-gray-50 mb-5">
+                    무승부입니다!
+                  </p>
+                )}
+                {totals.A !== totals.B && (
+                  <span className="text-[12px] text-gray-100">
+                    3가지 항목 중 {totals.A > totals.B ? totals.A : totals.B}가지 항목에서
+                    우세합니다.
                   </span>
-                  승리하였습니다.
-                </p>
-              ) : (
-                <p className="text-[20px] lg:text-[24px] font-semibold text-gray-50 mb-5">
-                  무승부입니다!
-                </p>
-              )}
-              {totals.A !== totals.B && (
-                <span className="text-[12px] text-gray-100">
-                  3가지 항목 중 {totals.A > totals.B ? totals.A : totals.B}가지 항목에서 우세합니다.
-                </span>
-              )}
-            </div>
-          )}
+                )}
+              </div>
 
-          {productA && productB ? (
-            <CompareTable productA={productA} productB={productB} onTotalsChange={onTotalsChange} />
+              <CompareTable
+                productA={productA}
+                productB={productB}
+                onTotalsChange={onTotalsChange}
+              />
+            </>
           ) : (
-            <Image src={loadingSmall} alt="로딩 아이콘" width={79} height={73} />
+            <div className="w-full flex justify-center">
+              <Image src={loadingSmall} alt="로딩 아이콘" width={79} height={73} />
+            </div>
           )}
         </div>
       </div>

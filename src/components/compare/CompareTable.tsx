@@ -56,10 +56,10 @@ const CompareTable = ({ productA, productB, onTotalsChange }: TableProps) => {
 
             return (
               <tr key={key} className="border-t border-black-300">
-                <td>{label}</td>
-                <td className="text-gray-50">{aVal}</td>
-                <td className="text-gray-50">{bVal}</td>
-                <td className={`font-medium ${colorClass}`}>{result}</td>
+                <td className="px-4 py-[15px]">{label}</td>
+                <td className="text-gray-50 px-4 py-[15px]">{aVal}</td>
+                <td className="text-gray-50 px-4 py-[15px]">{bVal}</td>
+                <td className={`font-medium px-4 py-[15px] ${colorClass}`}>{result}</td>
               </tr>
             );
           })}
