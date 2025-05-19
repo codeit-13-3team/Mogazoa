@@ -24,11 +24,9 @@ function Activity({ text, icon, dataNumber, category }: ActivityProps) {
                 sizes="(max-width: 767px) 20px (max-width: 1023px) 24px, (min-width: 1024px) 29px"
               />
             </div>
-            {dataNumber ? (
               <span className="text-xl font-normal text-gray-50 leading-[100%] lg:text-2xl">
-                {dataNumber}
+                {dataNumber ?? null}
               </span>
-            ) : null}
           </div>
         ) : null}
         {category ? (
