@@ -17,11 +17,11 @@ function UserPage() {
     queryFn: getUserProfile,
     enabled: tokenReady,
   });
-
+  
   function handleDropDown(value: string | number) {
     setShowProductState(value);
   }
-
+  
   function setSpanTextColor(spanNum: number) {
     return spanNum === showProductState ? 'text-gray-50' : 'text-gray-200';
   }
@@ -188,6 +188,7 @@ function UserPage() {
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzYxLCJ0ZWFtSWQiOiIxMy0zIiwiaWF0IjoxNzQ1OTE1MjA4LCJpc3MiOiJzcC1tb2dhem9hIn0.LI6K9y5vlvvWSKtGsSgfC-pzOAZJI3kkJUb_q-rfT8o',
     );
     setTokenReady(true);
+    console.log(userId);
   }, []);
 
   return (
