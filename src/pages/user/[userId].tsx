@@ -4,9 +4,12 @@ import { DropDown, DropDownOption } from '@/components/DropDown';
 import Product from '@/components/Product';
 import Profile from '@/components/Profile';
 import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 function UserPage() {
+  const router = useRouter();
+  const { userId } = router.query;
   const [showProductState, setShowProductState] = useState<string | number>(1);
   const [tokenReady, setTokenReady] = useState<boolean>(false);
   const { data: profileData, isLoading } = useQuery({
