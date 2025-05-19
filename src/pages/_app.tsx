@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -8,7 +7,7 @@ import FloatingAddButton from '@/components/AddButton';
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import NavBar from '@/components/NavBar';
-import useAuthStore from '@/stores/authStores';  
+import useAuthStore from '@/stores/authStores';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,17 +21,15 @@ const queryClient = new QueryClient({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
+  const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
-  const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);  
-
-  useEffect(() => {
-    // 로그인 상태 복원
+  useEffect(() => { 
     const stored = localStorage.getItem('isLoggedIn');
     if (stored === 'true') {
       setIsLoggedIn(true);
     }
-
-    // 다른 탭에서 로그아웃 등 변경 시 상태 반영
+ 
     const handleStorage = (event: StorageEvent) => {
       if (event.key === 'isLoggedIn') {
         setIsLoggedIn(event.newValue === 'true');
@@ -50,23 +47,21 @@ export default function App({ Component, pageProps }: AppProps) {
     Component.displayName === 'Error404' ||
     pageProps?.statusCode === 404;
 
-  return (
+    return (
     <QueryClientProvider client={queryClient}>
-      <ModalProvider>
-        <div className="max-w-[1554px] mx-auto bg-slate-950 text-white min-h-screen">
-          {/* NavBar는 404 페이지가 아닐 때만 렌더링 */}
-          {!is404Page && <NavBar showSearch={pageProps.showSearch} />}
+      <ModalProvider> 
+        {!is404Page && <NavBar showSearch={pageProps.showSearch} />}
 
-          <main className="p-6">
-            <Component {...pageProps} />
-          </main>
+        <main className=" ">
+          <Component {...pageProps} />
+        </main> 
 
-          {!is404Page && <FloatingAddButton />} {/* 404일 땐 버튼 안 보이게 해도 OK */}
-          <ModalRoot />
-        </div>
+        {!is404Page && isLoggedIn && <FloatingAddButton />}
+        <ModalRoot />
       </ModalProvider>
 
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }
+

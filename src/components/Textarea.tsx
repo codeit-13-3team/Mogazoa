@@ -1,12 +1,16 @@
-import { ComponentPropsWithoutRef, useState } from 'react';
+import { ComponentPropsWithoutRef, useEffect, useState } from 'react';
 
 type TextareaProps = ComponentPropsWithoutRef<'textarea'> & {
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   containerClassName?: string;
 };
 
-function Textarea({ onChange, containerClassName, ...props }: TextareaProps) {
-  const [text, setText] = useState('');
+function Textarea({ onChange, containerClassName, value, ...props }: TextareaProps) {
+  const [text, setText] = useState<string>((value as string) ?? '');
+
+  useEffect(() => {
+    setText((value as string) ?? '');
+  }, [value]);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);

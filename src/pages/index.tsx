@@ -5,20 +5,25 @@ import ReviewerRanking from '@/components/home/ReviewerRanking';
 import { JSX, useState } from 'react';
 import categoryIcon from '../../public/icon/common/category.png';
 import Image from 'next/image';
-import CreateProduct from '@/components/home/CreateProduct';
+import CreateProduct from '@/components/ProductForm';
 import { Product } from '@/types/product';
 import { useQueryClient } from '@tanstack/react-query';
 import { getProductById } from '@/api/products';
-import { useModal } from '@/context/ModalContext';
+import { useModal } from '@/context/ModalContext'; 
+import { useRouter } from 'next/router'; 
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [selectedCategoryName, setSelectedCategoryName] = useState<string | null>(null);
-  const keyword = '';
+  
+const router = useRouter();
+const keyword = (router.query.keyword as string) || '';
+
   const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const { openModal } = useModal();
   const queryClient = useQueryClient();
+ 
 
   const handleProductClick = async (product: Product) => {
     const productDetail = await queryClient.fetchQuery({
