@@ -14,10 +14,10 @@ function EditProfileModal({ onClose }: EditProfileModalProp) {
   return (
     <Modal buttonText="저장하기" onClose={onClose}>
       <div className="flex flex-col gap-5 md:gap-10">
-        <span className="mt-5 text-[20px] font-semibold text-gray-50 lg:text-[24px]">
+        <span className="mt-5 text-xl font-semibold text-gray-50 lg:text-2xl">
           프로필 편집
         </span>
-        <div className="flex flex-col gap-[10px] md:gap-[15px] lg:gap-[20px]">
+        <div className="flex flex-col gap-[10px] md:gap-[15px] lg:gap-5">
           <ImageUploader image='' onUploadImage={() => {}} onRemoveImage={() => {}}/>
           <input
             className="w-full h-[55px] px-5 outline-none rounded-lg bg-black-400 border border-black-300 caret-white text-white text-[14px] font-normal md:h-[60px] lg:h-[70px] md:font-[16px]"
