@@ -23,23 +23,23 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <div className="flex flex-col gap-1">
         <label className="text-sm font-medium text-gray-50">{label}</label>
         <div
-        className={clsx(
-          'w-full p-[1px] rounded-md bg-transparent',
-          !error &&
-            'focus-within:bg-gradient-to-r focus-within:from-main-blue focus-within:to-main-indigo',
-          error && 'bg-red',
-        )}
-      >
-        <input
-          ref={ref}
-          {...props}
           className={clsx(
-            'p-[1px] rounded-md bg-transparent transition',
+            'w-full p-[1px] rounded-md bg-transparent',
             !error &&
               'focus-within:bg-gradient-to-r focus-within:from-main-blue focus-within:to-main-indigo',
             error && 'bg-red',
           )}
         >
+          <input
+            ref={ref}
+            {...props}
+            className={clsx(
+              'p-[1px] rounded-md bg-transparent transition',
+              !error &&
+                'focus-within:bg-gradient-to-r focus-within:from-main-blue focus-within:to-main-indigo',
+              error && 'bg-red',
+            )}
+          />
           <div className="relative">
             <input
               ref={ref}
