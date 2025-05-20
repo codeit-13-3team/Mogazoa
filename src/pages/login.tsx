@@ -9,6 +9,9 @@ import { useMutation } from '@tanstack/react-query';
 import useAuthStore from '@/stores/authStores';
 import Button from '@/components/button/Button';
 
+
+const setIsLoggedIn = useAuthStore.getState().setIsLoggedIn;
+
 const LoginPage = () => {
   const {
     register,
@@ -23,6 +26,8 @@ const LoginPage = () => {
     mutationFn: (formData: SignInRequest) => Login('login', formData),
     onSuccess: (data: { accessToken: string }) => {
       localStorage.setItem('token', data.accessToken);
+      setIsLoggedIn(true); 
+
       Router.push('/');
     },
     onError: () => {
