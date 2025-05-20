@@ -51,8 +51,8 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <ModalProvider>
         {!is404Page && <NavBar showSearch={pageProps.showSearch} />}
-
-        <main className="font-sans">
+        
+        <main className="font-sans bg-black-500">
           <Component {...pageProps} />
         </main>
 

@@ -6,8 +6,13 @@ export const getUserRanking = async () => {
   return response.data;
 };
 
-export const getUserProfile = async () => {
+export const getMyProfile = async () => {
   const response = await axiosInstance.get<GetMeResponse>('/users/me');
+  return response.data;
+};
+
+export const getUserProfile = async (userId: string) => {
+  const response = await axiosInstance.get<GetMeResponse>(`/users/${userId}`);
   return response.data;
 };
 
