@@ -1,6 +1,7 @@
 import { GetMeResponse } from '@/types/user';
 import Image from 'next/image';
 import noImage from '../../public/img/profileimage/profile1.png';
+import { followUser, unfollowUser } from '@/api/follow';
 
 interface ProfileProp {
   profileData: GetMeResponse;
@@ -71,7 +72,7 @@ function Profile({
           <div
             className="w-full h-[50px] flex justify-center items-center rounded-lg border border-gray-100 text-gray-100 text-[16px] font-semibold hover:cursor-pointer
             md:h-[55px] lg:h-[65px] lg:text-[18px]"
-            onClick={onClickFollowBtn}
+            onClick={() => unfollowUser(profileData.id)}
           >
             팔로우 취소
           </div>
@@ -79,7 +80,7 @@ function Profile({
           <div
             className="w-full h-[50px] flex justify-center items-center rounded-lg bg-main-blue text-gray-50 text-[16px] font-semibold hover:cursor-pointer
             md:h-[55px] lg:h-[65px] lg:text-[18px]"
-            onClick={onClickFollowBtn}
+            onClick={() => followUser(profileData.id)}
           >
             팔로우
           </div>
