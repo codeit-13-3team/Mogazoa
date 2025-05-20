@@ -14,10 +14,7 @@ export function useProductList({
 }) {
   return useQuery({
     queryKey: ['products', { keyword, category, order, limit }],
-    queryFn: async () => {
-      await new Promise((resolve) => setTimeout(resolve, 5000));
-      return getProductList(keyword, category, order, 0);
-    },
+    queryFn: () => getProductList(keyword, category, order, 0),
     select: (res) => ({
       ...res,
       list: res.list.slice(0, limit),
