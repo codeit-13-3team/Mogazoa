@@ -33,10 +33,10 @@
 
 | 영역         | 툴 |
 |--------------|-----------|
-| **Frontend** | `Next.js 13` / `TypeScript` / `React Query` / `Zustand` / `TailwindCSS` |
-| **Auth**     | `JWT` / `localStorage` / `Kakao OAuth` |
-| **Deploy**   | `Vercel` |
-| **Design**   | `Figma` / `Notion`|
+| **Frontend** | Next.js 13 / TypeScript / React Query / Zustand / Tailwind |
+| **Auth**     | localStorage / Kakao OAuth |
+| **Deploy**   | Vercel |
+| **Design**   | Figma / Notion|
 | **기타**     | ESLint / Prettier / GitHub Actions |
 
 <br/>
