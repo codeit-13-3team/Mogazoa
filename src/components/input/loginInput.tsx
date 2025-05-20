@@ -3,19 +3,40 @@ import { useState } from 'react';
 import Input from './input';
 import { Eye, EyeOff } from 'lucide-react';
 
+interface SignInForm {
+  email: string;
+  password: string;
+}
+interface SignUpForm {
+  email: string;
+  nickname: string;
+  password: string;
+  passwordConfirmation: string;
+}
+interface NickNameForm {
+  nickname: string;
+}
 interface Props {
   register: UseFormRegister<any>;
   errors: FieldErrors;
   type: 'login' | 'signup';
   watch?: (field: string) => string | undefined;
+  className?: string;
+}
+interface NickNameInputProps {
+  register: UseFormRegister<any>;
+  errors: FieldErrors<any>;
+  className?: string;
+  disabled?: boolean;
 }
 
-export const EmailInput = ({ register, errors }: Props) => {
+export const EmailInput = ({ register, errors, className }: Props) => {
   return (
     <>
       <Input
         label="이메일"
         type="email"
+        className="w-[640px] h-[65px] py-1"
         placeholder="이메일을 입력하세요"
         {...register('email', {
           required: '이메일을 입력해주세요.',
@@ -30,7 +51,7 @@ export const EmailInput = ({ register, errors }: Props) => {
   );
 };
 
-export const NickNameInput = ({ register, errors }: Props) => {
+export const NickNameInput = ({ register, errors, className }: NickNameInputProps) => {
   return (
     <>
       <Input
@@ -40,7 +61,7 @@ export const NickNameInput = ({ register, errors }: Props) => {
         {...register('nickname', {
           required: '닉네임을 입력해주세요.',
           minLength: {
-            value: 1,
+            value: 1, // 1자 이상이어야 함
             message: '닉네임은 최소 1자 이상이어야 합니다.',
           },
           maxLength: {
@@ -48,13 +69,14 @@ export const NickNameInput = ({ register, errors }: Props) => {
             message: '닉네임은 최대 10자까지만 가능합니다.',
           },
         })}
-        error={typeof errors.nickname?.message === 'string' ? errors.nickname?.message : undefined}
+        error={typeof errors.nickname?.message === 'string' ? errors.nickname.message : undefined}
+        className={className}
       />
     </>
   );
 };
 
-export const PasswordInput = ({ register, errors, type }: Props) => {
+export const PasswordInput = ({ register, errors, type, className }: Props) => {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <div className="relative">
@@ -70,7 +92,7 @@ export const PasswordInput = ({ register, errors, type }: Props) => {
               : undefined,
         })}
         error={typeof errors.password?.message === 'string' ? errors.password?.message : undefined}
-        className="pr-10 h-12"
+        className={className}
       />
       <button
         type="button"
@@ -83,7 +105,7 @@ export const PasswordInput = ({ register, errors, type }: Props) => {
   );
 };
 
-export const ConfirmPasswordInput = ({ register, errors, watch }: Props) => {
+export const ConfirmPasswordInput = ({ register, errors, watch, className }: Props) => {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <div className="relative">
@@ -100,6 +122,7 @@ export const ConfirmPasswordInput = ({ register, errors, watch }: Props) => {
             ? errors.passwordConfirmation?.message
             : undefined
         }
+        className={className}
       />
       <button
         type="button"

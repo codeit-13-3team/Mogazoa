@@ -23,11 +23,30 @@ export interface SignUpWithProviderRequest {
   redirectUri: string;
   token: string;
 }
-
+//kakao
+export interface KakaoSignUpRequest {
+  accessToken(arg0: string, accessToken: any): unknown;
+  nickname: string;
+  token: string;
+  redirectUri: string;
+}
+export interface KakaoLoginResponse {
+  accessToken: string;
+  user: {
+    id: number;
+    nickname: string;
+    image: string | null;
+    createdAt: string;
+  };
+}
 // /{teamId}/auth/signIn/{provider} (POST)
 export interface SignInWithProviderRequest {
   redirectUri: string;
   token: string;
+}
+export interface AuthResponse {
+  nickname: string;
+  accessToken: string;
 }
 
 export interface AuthUser {

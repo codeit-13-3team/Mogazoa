@@ -12,7 +12,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({ label, error, ..
       <label className="text-sm font-medium text-white">{label}</label>
       <div
         className={clsx(
-          'p-[1px] rounded-md bg-transparent transition',
+          'w-full p-[1px] rounded-md bg-transparent',
           !error &&
             'focus-within:bg-gradient-to-r focus-within:from-main-blue focus-within:to-main-indigo',
           error && 'bg-red',
