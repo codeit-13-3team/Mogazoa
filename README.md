@@ -1,5 +1,5 @@
 **MOGAZOA**는 다양한 분야의 상품을 A/B 테스트 방식으로 비교하고, 사용자 리뷰 및 별점을 통해 데이터를 시각화하는 웹 기반 비교 플랫폼입니다.  
-음악, 식당, 여행지, 전자기기, 강의 등 **사용자 맞춤 추천과 선택**을 도와주는 UI/UX 흐름에 초점을 맞추었습니다.
+ 
 
 <br/>
 
@@ -44,16 +44,16 @@
 ## 📁 폴더 구조
 
 /src
-├── api/           # API 요청 함수 정의
-├── assets/        # 이미지 및 정적 파일
-├── components/    # 재사용 가능한 UI 컴포넌트 
-├── context/       # 전역 상태 관리를 위한 Context API 
-├── hooks/         # 커스텀 훅 정의 
-├── lib/           # 외부 라이브러리 또는 유틸 함수 래핑
-├── pages/         # Next.js 라우팅 페이지
-├── stores/        # Zustand 기반 전역 상태 관리 
-├── styles/        # 전역 CSS 및 Tailwind 설정
-├── types/         # 타입 정의 파일
+├── api/         
+├── assets/       
+├── components/   
+├── context/    
+├── hooks/          
+├── lib/         
+├── pages/        
+├── stores/        
+├── styles/      
+├── types/         
 
 기타 루트 파일
 ├── .eslintrc.js / .prettierrc      
