@@ -24,12 +24,12 @@ export default function App({ Component, pageProps }: AppProps) {
   const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
-  useEffect(() => { 
+  useEffect(() => {
     const stored = localStorage.getItem('isLoggedIn');
     if (stored === 'true') {
       setIsLoggedIn(true);
     }
- 
+
     const handleStorage = (event: StorageEvent) => {
       if (event.key === 'isLoggedIn') {
         setIsLoggedIn(event.newValue === 'true');
@@ -47,14 +47,14 @@ export default function App({ Component, pageProps }: AppProps) {
     Component.displayName === 'Error404' ||
     pageProps?.statusCode === 404;
 
-    return (
+  return (
     <QueryClientProvider client={queryClient}>
-      <ModalProvider> 
+      <ModalProvider>
         {!is404Page && <NavBar showSearch={pageProps.showSearch} />}
 
-        <main className=" ">
+        <main className="font-sans">
           <Component {...pageProps} />
-        </main> 
+        </main>
 
         {!is404Page && isLoggedIn && <FloatingAddButton />}
         <ModalRoot />
@@ -64,4 +64,3 @@ export default function App({ Component, pageProps }: AppProps) {
     </QueryClientProvider>
   );
 }
-

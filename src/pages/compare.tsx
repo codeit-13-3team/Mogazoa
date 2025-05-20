@@ -13,9 +13,9 @@ type totlaType = { A: number; B: number };
 
 const Compare = () => {
   const [productAName, setProductAName] = useState<string>('');
-  const [productA, setProductA] = useState<Product>();
+  const [productA, setProductA] = useState<Product | null>();
   const [productBName, setProductBName] = useState<string>('');
-  const [productB, setProductB] = useState<Product>();
+  const [productB, setProductB] = useState<Product | null>();
   const [isProductADropdownOpen, setIsProductADropdownOpen] = useState<boolean>(false);
   const [isProductBDropdownOpen, setIsProductBDropdownOpen] = useState<boolean>(false);
   const [hasCompare, setHasCompare] = useState<boolean>(false);
@@ -76,13 +76,13 @@ const Compare = () => {
 
   const handleProductA = (item: Product) => {
     setProductA(item);
-    setProductAName(item.name);
+    setProductAName('');
     setHasCompare(false);
     setIsProductADropdownOpen(false);
   };
   const handleProductB = (item: Product) => {
     setProductB(item);
-    setProductBName(item.name);
+    setProductBName('');
     setHasCompare(false);
     setIsProductBDropdownOpen(false);
   };
@@ -93,6 +93,16 @@ const Compare = () => {
 
   const colorClass =
     totals.A === totals.B ? 'text-gray-50' : totals.A > totals.B ? 'text-green' : 'text-pink';
+
+  const handleDeleteProductA = (product: Product) => {
+    setProductA(null);
+    setHasCompare(false);
+  };
+
+  const handleDeleteProductB = (product: Product) => {
+    setProductB(null);
+    setHasCompare(false);
+  };
 
   return (
     <div className="py-[30px] px-5 min-h-dvh">
@@ -111,7 +121,9 @@ const Compare = () => {
                 onFocus={() => {
                   if (productAName) setIsProductADropdownOpen(true);
                 }}
-                placeholder="상품명 (상품 등록 여부를 확인해 주세요)"
+                ProductA={productA!}
+                deleteProductA={handleDeleteProductA}
+                placeholder={!productA ? `상품명 (상품 등록 여부를 확인해 주세요)` : ''}
               />
               {isProductADropdownOpen && productAData?.list && (
                 <div
@@ -151,7 +163,9 @@ const Compare = () => {
                 onFocus={() => {
                   if (productBName) setIsProductBDropdownOpen(true);
                 }}
-                placeholder="상품명 (상품 등록 여부를 확인해 주세요)"
+                ProductB={productB!}
+                deleteProductB={handleDeleteProductB}
+                placeholder={!productB ? `상품명 (상품 등록 여부를 확인해 주세요)` : ''}
               />
               {isProductBDropdownOpen && productBData?.list && (
                 <div
@@ -179,7 +193,7 @@ const Compare = () => {
           </div>
 
           <Button
-            className="w-full md:max-w-[200px]"
+            className="w-full md:max-w-[200px] h-[50px] md:h-[55px] lg:h-[70px]"
             onClick={() => setHasCompare(true)}
             disabled={!(productA && productB)}
           >
@@ -216,8 +230,8 @@ const Compare = () => {
               </div>
 
               <CompareTable
-                productA={productA}
-                productB={productB}
+                productA={productA!}
+                productB={productB!}
                 onTotalsChange={onTotalsChange}
               />
             </>
