@@ -8,6 +8,7 @@ export const KakaoButton = () => {
 
   const handleKakaoLogin = () => {
     const kakaoUrl = getKakaoAuthUrl();
+    console.log('카카오 로그인 URL:', kakaoUrl);
     router.push(kakaoUrl);
   };
 
