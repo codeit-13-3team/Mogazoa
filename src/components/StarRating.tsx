@@ -14,7 +14,6 @@ function StarRating({ value, onChange }: StarRatingProps) {
     const x = e.clientX - left;
     const isHalf = x < width / 2;
     const newValue = isHalf ? index + 0.5 : index + 1;
-    console.log('star click:', index, 'half?', isHalf, '->', newValue);
     onChange(newValue);
   };
 
