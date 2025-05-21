@@ -1,9 +1,9 @@
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import { NickNameInput } from '@/components/input/loginInput';
-import axiosInstance from '@/api/axiosInstance';
-import { useState } from 'react';
 import Button from '@/components/button/Button';
+import axiosInstance from '@/api/axiosInstance';
 
 interface FormValues {
   nickname: string;
@@ -12,6 +12,7 @@ interface FormValues {
 const KakaoSignupPage = () => {
   const router = useRouter();
   const { code } = router.query;
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -20,46 +21,44 @@ const KakaoSignupPage = () => {
     setError,
   } = useForm<FormValues>();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const redirectUri =
+    process.env.NEXT_PUBLIC_KAKAO_SIGNUP_REDIRECT_URI || 'http://localhost:3000/oauth/signup/kakao';
 
-  const onSubmit = async (data: FormValues) => {
+  const onSubmit = async ({ nickname }: FormValues) => {
+    if (!code || typeof code !== 'string') {
+      setError('nickname', {
+        message: '인가 코드가 없습니다. 다시 로그인해주세요.',
+      });
+      return;
+    }
+
     try {
-      const accessToken = localStorage.getItem('accessToken');
-      if (!accessToken) {
-        setError('nickname', { message: 'accessToken이 없습니다. 로그인부터 다시 시도해주세요.' });
-        return;
-      }
-
       setIsLoading(true);
 
-      // 회원가입 요청
       await axiosInstance.post(
-        '/auth/signUp/kakao',
+        `/auth/signUp/kakao`,
         {
-          nickname: data.nickname,
-          redirectUri: 'http://localhost:3000/kakao',
-          token: accessToken,
+          nickname,
+          redirectUri,
+          token: code, // ✅ access_token이 아니라 code를 서버로 전달
         },
-
         {
           headers: {
             'Content-Type': 'application/json',
-            Accept: 'application/json',
           },
         },
       );
-      console.log('accessToken:', accessToken);
-      localStorage.setItem('accessToken', accessToken);
+
       router.push('/');
     } catch (error: any) {
-      console.error('회원가입 실패:', error.response?.data);
-      const message = error.response?.data?.message;
+      const message = error?.response?.data?.message;
+      console.error('회원가입 실패:', message);
 
-      if (message?.includes('닉네임')) {
-        setError('nickname', { message });
-      } else {
-        setError('nickname', { message: '회원가입에 실패했습니다. 다시 시도해주세요.' });
-      }
+      setError('nickname', {
+        message: message?.includes('닉네임')
+          ? message
+          : '회원가입에 실패했습니다. 다시 시도해주세요.',
+      });
     } finally {
       setIsLoading(false);
     }
