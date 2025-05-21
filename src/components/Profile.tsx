@@ -3,6 +3,8 @@ import Image from 'next/image';
 import noImage from '../../public/img/profileimage/profile1.png';
 import { followUser, unfollowUser } from '@/api/follow';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import EditProfileModal from '@/components/EditProfileModal';
+import { useState } from 'react';
 
 interface ProfileProp {
   profileData: GetMeResponse;
@@ -15,10 +17,9 @@ interface ProfileProp {
 function Profile({
   profileData,
   isMyProfile = false,
-  editProfile,
   logout,
-  onClickFollowBtn,
 }: ProfileProp) {
+  const [modalClose, setModalClose] = useState<boolean>(true);
 
   const queryClient = useQueryClient();
 
@@ -80,7 +81,7 @@ function Profile({
             <div
               className="w-full h-[50px] flex justify-center items-center rounded-lg bg-main-blue text-gray-50 text-[16px] font-semibold hover:cursor-pointer
             md:h-[55px] lg:h-[65px] lg:text-[18px]"
-              onClick={editProfile}
+              onClick={() => setModalClose(false)}
             >
               프로필 편집
             </div>
@@ -110,6 +111,7 @@ function Profile({
           </div>
         )}
       </div>
+      { modalClose ? null : <EditProfileModal onClose={() => setModalClose(true)} />}
     </div>
   );
 }
