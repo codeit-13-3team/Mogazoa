@@ -2,6 +2,7 @@ import { GetMeResponse } from '@/types/user';
 import Image from 'next/image';
 import noImage from '../../public/img/profileimage/profile1.png';
 import { followUser, unfollowUser } from '@/api/follow';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 interface ProfileProp {
   profileData: GetMeResponse;
@@ -18,6 +19,29 @@ function Profile({
   logout,
   onClickFollowBtn,
 }: ProfileProp) {
+
+  const queryClient = useQueryClient();
+
+  const followMutation = useMutation({
+    mutationFn: followUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['userProfile'] });
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
+  const unfollowMutation = useMutation({
+    mutationFn: unfollowUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['userProfile'] });
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
   return (
     <div className="mb-[60px] px-[20px] py-[30px] w-full h-auto rounded-lg bg-black-400 md:px-[30px] lg:w-[340px] lg:mb-0">
       <div className="w-full h-auto flex flex-col items-center gap-[30px] lg:gap-10">
@@ -72,7 +96,7 @@ function Profile({
           <div
             className="w-full h-[50px] flex justify-center items-center rounded-lg border border-gray-100 text-gray-100 text-[16px] font-semibold hover:cursor-pointer
             md:h-[55px] lg:h-[65px] lg:text-[18px]"
-            onClick={() => unfollowUser(profileData.id)}
+            onClick={() => unfollowMutation.mutate(profileData.id)}
           >
             팔로우 취소
           </div>
@@ -80,7 +104,7 @@ function Profile({
           <div
             className="w-full h-[50px] flex justify-center items-center rounded-lg bg-main-blue text-gray-50 text-[16px] font-semibold hover:cursor-pointer
             md:h-[55px] lg:h-[65px] lg:text-[18px]"
-            onClick={() => followUser(profileData.id)}
+            onClick={() => followMutation.mutate(profileData.id)}
           >
             팔로우
           </div>
