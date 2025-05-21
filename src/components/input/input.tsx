@@ -39,7 +39,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               'focus-within:bg-gradient-to-r focus-within:from-main-blue focus-within:to-main-indigo',
             error && 'bg-red',
           )}
-        >
+        />
           <div className="relative">
             <input
               ref={ref}
