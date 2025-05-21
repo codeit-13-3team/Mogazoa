@@ -1,4 +1,5 @@
-import { getUserProfile } from '@/api/user';
+
+import { getMyProfile } from '@/api/user';
 import Activity from '@/components/Activity';
 import { DropDown, DropDownOption } from '@/components/DropDown';
 import Product from '@/components/Product';
@@ -11,7 +12,7 @@ function MyPage() {
   const [tokenReady, setTokenReady] = useState<boolean>(false);
   const { data: profileData, isLoading } = useQuery({
     queryKey: ['userProfile'],
-    queryFn: getUserProfile,
+    queryFn: getMyProfile,
     enabled: tokenReady,
   });
 
