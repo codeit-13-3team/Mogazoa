@@ -1,7 +1,7 @@
 import axiosInstance from "./axiosInstance";
 
 export const followUser = async (userId: number) => {
-  const response = await axiosInstance.post('/follow', userId);
+  const response = await axiosInstance.post('/follow', { userId });
   return response.data;
 };
 
