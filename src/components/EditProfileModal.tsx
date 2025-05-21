@@ -10,6 +10,7 @@ interface EditProfileModalProp {
 function EditProfileModal({ onClose }: EditProfileModalProp) {
   const [inputText, setInputText] = useState<string>('');
   const [textarea_Text, setTextarea_Text] = useState<string>('');
+  const [imageUrl, setImageUrl] = useState<string>('');
 
   return (
     <Modal buttonText="저장하기" onClose={onClose}>
@@ -18,7 +19,7 @@ function EditProfileModal({ onClose }: EditProfileModalProp) {
           프로필 편집
         </span>
         <div className="flex flex-col gap-[10px] md:gap-[15px] lg:gap-5">
-          <ImageUploader image='' onUploadImage={() => {}} onRemoveImage={() => {}}/>
+          <ImageUploader image='' onUploadImage={(url) => setImageUrl(url)} onRemoveImage={() => setImageUrl('')}/>
           <input
             className="w-full h-[55px] px-5 outline-none rounded-lg bg-black-400 border border-black-300 caret-white text-white text-[14px] font-normal md:h-[60px] lg:h-[70px] md:font-[16px]"
             placeholder="닉네임을 입력해 주세요"
