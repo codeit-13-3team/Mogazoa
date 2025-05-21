@@ -11,6 +11,11 @@ export const getMyProfile = async () => {
   return response.data;
 };
 
+export const patchMyProfile = async (description: string, nickname: string, image: string) => {
+  const response = await axiosInstance.patch('/users/me', { description, nickname, image })
+  return response.data;
+};
+
 export const getUserProfile = async (userId: string) => {
   const response = await axiosInstance.get<GetMeResponse>(`/users/${userId}`);
   return response.data;

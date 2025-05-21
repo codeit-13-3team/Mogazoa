@@ -4,6 +4,7 @@ import Activity from '@/components/Activity';
 import { DropDown, DropDownOption } from '@/components/DropDown';
 import Product from '@/components/Product';
 import Profile from '@/components/Profile';
+import { GetMeResponse } from '@/types/user';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 
@@ -179,6 +180,37 @@ function MyPage() {
     }
   };
 
+  const ShowActivitys = ({ profileData }: { profileData : GetMeResponse} ) => {
+    return (
+      <div className="mt-[30px] flex gap-[10px]">
+        <Activity
+          text={
+            <>
+              남긴 <br className="md:hidden" />
+              별점 평균
+            </>
+          }
+          icon="/icon/common/star.png"
+          dataNumber={profileData.averageRating}
+        />
+        <Activity
+          text="남긴 리뷰"
+          icon="/icon/common/bubble.png"
+          dataNumber={profileData.reviewCount}
+        />
+        <Activity
+          text={
+            <>
+              관심 <br className="md:hidden" />
+              카테고리
+            </>
+          }
+          category="/chip/category/electronicS.png"
+        />
+      </div>
+    );
+  };
+
   useEffect(() => {
     localStorage.setItem(
       'accessToken',
@@ -196,28 +228,7 @@ function MyPage() {
       <div className="w-full flex flex-col">
         <div className="mb-[60px]">
           <span className="text-gray-50 font-semibold text-[18px] lg:text-[20px]">활동 내역</span>
-          <div className="mt-[30px] flex gap-[10px]">
-            <Activity
-              text={
-                <>
-                  남긴 <br className="md:hidden" />
-                  별점 평균
-                </>
-              }
-              icon="/icon/common/star.png"
-              dataNumber={4.1}
-            />
-            <Activity text="남긴 리뷰" icon="/icon/common/bubble.png" dataNumber={125} />
-            <Activity
-              text={
-                <>
-                  관심 <br className="md:hidden" />
-                  카테고리
-                </>
-              }
-              category="/chip/category/electronicS.png"
-            />
-          </div>
+          { profileData ? <ShowActivitys profileData={profileData} /> : null }
         </div>
         <div className="w-full h-auto">
           <DropDown
@@ -225,7 +236,7 @@ function MyPage() {
             onChange={handleDropDown}
             divClassName="w-[150px] lg:hidden"
             textClassName="text-gray-50 font-semibold text-[18px]"
-            value=""
+            value={1}
           >
             <DropDownOption value={1}>리뷰 남긴 상품</DropDownOption>
             <DropDownOption value={2}>등록한 상품</DropDownOption>

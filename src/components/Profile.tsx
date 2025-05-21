@@ -1,6 +1,10 @@
 import { GetMeResponse } from '@/types/user';
 import Image from 'next/image';
 import noImage from '../../public/img/profileimage/profile1.png';
+import { followUser, unfollowUser } from '@/api/follow';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import EditProfileModal from '@/components/EditProfileModal';
+import { useState } from 'react';
 
 interface ProfileProp {
   profileData: GetMeResponse;
@@ -13,14 +17,36 @@ interface ProfileProp {
 function Profile({
   profileData,
   isMyProfile = false,
-  editProfile,
   logout,
-  onClickFollowBtn,
 }: ProfileProp) {
+  const [modalClose, setModalClose] = useState<boolean>(true);
+
+  const queryClient = useQueryClient();
+
+  const followMutation = useMutation({
+    mutationFn: followUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['userProfile'] });
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
+  const unfollowMutation = useMutation({
+    mutationFn: unfollowUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['userProfile'] });
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
   return (
     <div className="mb-[60px] px-[20px] py-[30px] w-full h-auto rounded-lg bg-black-400 md:px-[30px] lg:w-[340px] lg:mb-0">
       <div className="w-full h-auto flex flex-col items-center gap-[30px] lg:gap-10">
-        <div className="w-[120px] h-[120px] relative rounded-full lg:w-[180px] lg:h-[180px]">
+        <div className="w-[120px] h-[120px] relative rounded-full overflow-hidden lg:w-[180px] lg:h-[180px]">
           {profileData?.image ? (
             <Image src={profileData.image} alt="유저 이미지" fill />
           ) : (
@@ -55,7 +81,7 @@ function Profile({
             <div
               className="w-full h-[50px] flex justify-center items-center rounded-lg bg-main-blue text-gray-50 text-[16px] font-semibold hover:cursor-pointer
             md:h-[55px] lg:h-[65px] lg:text-[18px]"
-              onClick={editProfile}
+              onClick={() => setModalClose(false)}
             >
               프로필 편집
             </div>
@@ -71,7 +97,7 @@ function Profile({
           <div
             className="w-full h-[50px] flex justify-center items-center rounded-lg border border-gray-100 text-gray-100 text-[16px] font-semibold hover:cursor-pointer
             md:h-[55px] lg:h-[65px] lg:text-[18px]"
-            onClick={onClickFollowBtn}
+            onClick={() => unfollowMutation.mutate(profileData.id)}
           >
             팔로우 취소
           </div>
@@ -79,12 +105,13 @@ function Profile({
           <div
             className="w-full h-[50px] flex justify-center items-center rounded-lg bg-main-blue text-gray-50 text-[16px] font-semibold hover:cursor-pointer
             md:h-[55px] lg:h-[65px] lg:text-[18px]"
-            onClick={onClickFollowBtn}
+            onClick={() => followMutation.mutate(profileData.id)}
           >
             팔로우
           </div>
         )}
       </div>
+      { modalClose ? null : <EditProfileModal profileData={profileData} onClose={() => setModalClose(true)} />}
     </div>
   );
 }
