@@ -88,7 +88,6 @@ const NavBar = ({ showSearch = true }: NavBarProps) => {
 
   return (
     <header className="w-full bg-black-500 flex items-center justify-between h-[70px] md:h-[80px] lg:h-[95px] px-4 md:px-6 lg:px-[80px] relative">
-      {/* 모바일 */}
       <div className="flex justify-between items-center w-full md:hidden relative">
         <button
           onClick={() => setShowMobileMenu((prev) => !prev)}
@@ -115,26 +114,26 @@ const NavBar = ({ showSearch = true }: NavBarProps) => {
         {showMobileMenu && (
           <div
             ref={dropdownRef}
-            className="overflow-hidden transition-all duration-300 ease-in-out bg-black-400 border border-black-300 text-gray-300 rounded-md shadow-md w-44 absolute top-[30px] z-50 py-2"
+            className="overflow-hidden transition-all duration-300 ease-in-out bg-black-400 border border-black-300 text-gray-200 rounded-md shadow-md w-44 absolute top-[30px] z-50 py-2"
           >
             {isLoggedIn ? (
               <>
-                <button onClick={() => handleMenuClick('/compare')} className="block w-full text-left px-4 py-2 hover:bg-black-300 hover:text-white focus:outline-none focus:ring-0">
+                <button onClick={() => handleMenuClick('/compare')} className="block w-full text-left px-4 py-2 hover:bg-black-300 hover:no-underline hover:text-gray-50 focus:outline-none focus:ring-0">
                   비교하기
                 </button>
-                <button onClick={() => handleMenuClick('/mypage')} className="block w-full text-left px-4 py-2 hover:bg-black-300 hover:text-white focus:outline-none focus:ring-0">
+                <button onClick={() => handleMenuClick('/mypage')} className="block w-full text-left px-4 py-2 hover:bg-black-300 hover:no-underline hover:text-gray-50 focus:outline-none focus:ring-0">
                   내 프로필
                 </button>
-                <button onClick={handleLogout} className="block w-full text-left px-4 py-2 hover:bg-black-300 hover:text-white focus:outline-none focus:ring-0">
+                <button onClick={handleLogout} className="block w-full text-left px-4 py-2 hover:bg-black-300 hover:text-gray-50 hover:no-underline focus:outline-none focus:ring-0">
                   로그아웃
                 </button>
               </>
             ) : (
               <>
-                <button onClick={() => handleMenuClick('/login')} className="block w-full text-left px-4 py-2 hover:bg-black-300 hover:text-white focus:outline-none focus:ring-0">
+                <button onClick={() => handleMenuClick('/login')} className="block w-full text-left px-4 py-2 hover:bg-black-300 hover:no-underline hover:text-gray-50 focus:outline-none focus:ring-0">
                   로그인
                 </button>
-                <button onClick={() => handleMenuClick('/signup')} className="block w-full text-left px-4 py-2 hover:bg-black-300 hover:text-white focus:outline-none focus:ring-0">
+                <button onClick={() => handleMenuClick('/signup')} className="block w-full text-left px-4 py-2 hover:bg-black-300 hover:no-underline hover:text-gray-50 focus:outline-none focus:ring-0">
                   회원가입
                 </button>
               </>
@@ -145,12 +144,11 @@ const NavBar = ({ showSearch = true }: NavBarProps) => {
         {showMobileSearch && (
           <div
             ref={searchRef}
-            className="absolute left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-sm h-[49px] bg-black-400 text-white flex items-center px-4 rounded-full shadow-md transition-all"
+            className="absolute left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-sm h-[49px] bg-black-400 text-gray-50 flex items-center px-4 rounded-full shadow-md transition-all"
           >
             <input
               type="text"
-              placeholder="상품 이름을 검색하세요."
-              className="ml-2 bg-transparent outline-none text-sm text-white w-full placeholder-gray-400 focus:placeholder-transparent"
+              className="ml-2 bg-transparent outline-none text-sm text-black-300 w-full placeholder-gray-200 focus:placeholder-transparent"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               onKeyDown={handleKeyDown}
@@ -159,7 +157,6 @@ const NavBar = ({ showSearch = true }: NavBarProps) => {
         )}
       </div>
 
-      {/* 태블릿 & PC */}
       <div className="hidden md:flex items-center justify-end w-full">
         <a
           href="/"
@@ -188,7 +185,7 @@ const NavBar = ({ showSearch = true }: NavBarProps) => {
             <input
               type="text"
               placeholder="상품 이름을 검색하세요."
-              className="ml-2 bg-transparent outline-none text-sm  text-white w-full placeholder-gray-400 focus:placeholder-transparent"
+              className="ml-2 bg-transparent outline-none text-sm  text-gray-200 w-full placeholder-gray-200 focus:placeholder-transparent"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               onKeyDown={handleKeyDown}
@@ -196,19 +193,19 @@ const NavBar = ({ showSearch = true }: NavBarProps) => {
           </div>
         )}
 
-        <div className="flex items-center gap-8 text-sm text-white">
+        <div className="flex items-center gap-8 text-sm text-gray-200">
           {isLoggedIn ? (
             <>
-              <Link href="/compare" className="text-white">비교하기</Link>
-              <Link href="/mypage" className="text-white">내 프로필</Link>
-              <button onClick={handleLogout} className="text-white focus:outline-none focus:ring-0">
+              <Link href="/compare" className="text-gray-50 hover:no-underline">비교하기</Link>
+              <Link href="/mypage" className="text-gray-50 hover:no-underline">내 프로필</Link>
+              <button onClick={handleLogout} className="text-gray-50  focus:outline-none focus:ring-0">
                 <Image src={LogoutIcon} alt="로그아웃" width={24} height={24} className="w-6 h-6" />
               </button>
             </>
           ) : (
             <>
-              <Link href="/login" className="text-white">로그인</Link>
-              <Link href="/signup" className="text-white">회원가입</Link>
+              <Link href="/login" className="text-gray-50 hover:no-underline">로그인</Link>
+              <Link href="/signup" className="text-gray-50 hover:no-underline">회원가입</Link>
             </>
           )}
         </div>
