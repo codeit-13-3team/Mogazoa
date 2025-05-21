@@ -46,7 +46,7 @@ function Profile({
   return (
     <div className="mb-[60px] px-[20px] py-[30px] w-full h-auto rounded-lg bg-black-400 md:px-[30px] lg:w-[340px] lg:mb-0">
       <div className="w-full h-auto flex flex-col items-center gap-[30px] lg:gap-10">
-        <div className="w-[120px] h-[120px] relative rounded-full lg:w-[180px] lg:h-[180px]">
+        <div className="w-[120px] h-[120px] relative rounded-full overflow-hidden lg:w-[180px] lg:h-[180px]">
           {profileData?.image ? (
             <Image src={profileData.image} alt="유저 이미지" fill />
           ) : (
@@ -111,7 +111,7 @@ function Profile({
           </div>
         )}
       </div>
-      { modalClose ? null : <EditProfileModal onClose={() => setModalClose(true)} />}
+      { modalClose ? null : <EditProfileModal profileData={profileData} onClose={() => setModalClose(true)} />}
     </div>
   );
 }

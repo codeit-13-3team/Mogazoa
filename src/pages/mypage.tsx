@@ -236,7 +236,7 @@ function MyPage() {
             onChange={handleDropDown}
             divClassName="w-[150px] lg:hidden"
             textClassName="text-gray-50 font-semibold text-[18px]"
-            value=""
+            value={1}
           >
             <DropDownOption value={1}>리뷰 남긴 상품</DropDownOption>
             <DropDownOption value={2}>등록한 상품</DropDownOption>
