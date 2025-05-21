@@ -24,13 +24,6 @@ function ProductReview({ productId }: productDetailProps) {
   if (isError) return <div>에러가 발생했습니다.</div>;
   if (!data) return <div>상품 정보를 불러오지 못했습니다.</div>;
 
-  const handleUploadImage = (url: string) => {
-    setproductImage(url);
-  };
-  const handleRemoveImage = () => {
-    setproductImage('');
-  };
-
   return (
     <Modal onClose={() => setIsOpen(false)} buttonText="작성하기">
       <div>
@@ -42,14 +35,14 @@ function ProductReview({ productId }: productDetailProps) {
         </div>
       </div>
       <div className="flex items-center gap-[15px] w-[188px] h-7 mb-[10px] md:w-[208px] md:h-8 md:mb-[15px] lg:w-[228px] lg:gap-5 lg:mb-5">
-        <p className="font-normal text-gray-200 text-sm lg:text-base">별점</p>
+        <p className="font-normal text-gray-200 text-sm lg:text-base whitespace-nowrap">별점</p>
         <StarRating value={rating} onChange={setRating} />
       </div>
       <Textarea containerClassName="mb-[10px] md:mb-[15px] lg:mb-5" />
       <ImageUploader
         image={productImage}
-        onUploadImage={handleUploadImage}
-        onRemoveImage={handleRemoveImage}
+        onUploadImage={(url) => setproductImage(url)}
+        onRemoveImage={() => setproductImage('')}
       />
     </Modal>
   );
