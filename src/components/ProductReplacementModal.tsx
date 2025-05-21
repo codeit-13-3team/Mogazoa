@@ -15,21 +15,10 @@ function ProductReplace({ productId }: productDetailProps) {
   const buttonStyles =
     'w-full focus:outline-none focus:ring-0 focus:border-2 focus:border-pink focus:text-pink';
 
-  const containerStyle: React.CSSProperties = {
-    width: isTablet ? '500px' : '335px',
-  };
-
   // 비교 상품 교체 확인 모달이 열리도록 수정 예정입니다.
   const modalButtonClick = () => {
     console.log('교체하기');
   };
-
-  useEffect(() => {
-    const handleResize = () => setIsTablet(window.innerWidth >= 768);
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['productDetail', productId],
@@ -42,9 +31,9 @@ function ProductReplace({ productId }: productDetailProps) {
 
   return (
     <Modal
+      containerClassName="w-[335px] md:w-[500px] lg:w-[500px]"
       onClose={() => setIsOpen(false)}
       buttonText="교체하기"
-      containerStyle={containerStyle}
       buttonProps={{ onClick: modalButtonClick }}
     >
       <div className="font-semibold text-xl text-gray-50 lg:text-2xl mb-[30px] md:mb-10">
