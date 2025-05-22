@@ -1,7 +1,7 @@
 import { useInfiniteProductList } from '@/hooks/useInfiniteList';
-import Product from './Product';
+import Product from '@/components/home/Product';
 import { useRef, useEffect } from 'react';
-import ProductSkeleton from './ProductSkeleton';
+import ProductSkeleton from '@/components/home/ProductSkeleton';
 
 interface Props {
   order: string | null;

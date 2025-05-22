@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getCategoryList } from '@/api/category';
 import { Category as CategoryType } from '@/types/category';
-import CategorySkeleton from './CategorySkeleton';
+import CategorySkeleton from '@/components/home/CategorySkeleton';
 
 const Category = ({
   selectedCategory,

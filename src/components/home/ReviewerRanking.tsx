@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getUserRanking } from '@/api/user';
 import Link from 'next/link';
-import ReviewerRankingSkeleton from './ReviewerRankingSkeleton';
+import ReviewerRankingSkeleton from '@/components/home/ReviewerRankingSkeleton';
 
 const ReviewerRanking = () => {
   const {

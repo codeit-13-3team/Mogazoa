@@ -1,7 +1,7 @@
 import { useProductList } from '@/hooks/useProductList';
-import Product from './Product';
+import Product from '@/components/home/Product';
 import { Product as ProductType } from '@/types/product';
-import ProductSkeleton from './ProductSkeleton';
+import ProductSkeleton from '@/components/home/ProductSkeleton';
 
 interface Props {
   order: 'reviewCount' | 'rating' | string;
