@@ -6,14 +6,14 @@ interface DropDownProps {
   textClassName?: string;
   useBaseStyle?: boolean;
   children: ReactNode;
-  value: string | number;
+  value: string | number | null;
   initialCategory?: string;
-  onChange: (value: string | number) => void;
+  onChange: (value: string | null) => void;
 }
 
 interface DropDownOptionProps {
   children: ReactNode;
-  value: string | number;
+  value: string | number | null;
   useBaseStyle?: boolean;
   onSelect?: (value: string | number, optionText: string) => void;
 }
@@ -21,9 +21,9 @@ interface DropDownOptionProps {
 export function DropDownOption({ children, value, useBaseStyle, onSelect }: DropDownOptionProps) {
   return (
     <li
-      value={value}
+      value={value!}
       className={`py-[6px] text-gray-200 hover:text-gray-50 hover:bg-gray-100 cursor-pointer transition ${useBaseStyle ? 'px-[10px] rounded-lg' : ''}`}
-      onClick={() => onSelect?.(value, String(children))}
+      onClick={() => onSelect?.(value!, String(children))}
     >
       {children}
     </li>
@@ -36,7 +36,7 @@ export function DropDown({
   useBaseStyle = true,
   children,
   value,
-  initialCategory='',
+  initialCategory = '',
   onChange,
 }: DropDownProps) {
   const [isOpen, setIsopen] = useState<boolean>(false);
@@ -53,7 +53,7 @@ export function DropDown({
 
   function handleSelect(value: string | number, optionText: string) {
     setCategoryName(optionText);
-    onChange(value);
+    onChange(String(value));
     setIsopen(false);
   }
 

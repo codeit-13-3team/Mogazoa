@@ -11,6 +11,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { getProductById } from '@/api/products';
 import { useModal } from '@/context/ModalContext';
 import { useRouter } from 'next/router';
+import { DropDown, DropDownOption } from '@/components/DropDown';
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
@@ -19,7 +20,7 @@ const Home = () => {
   const router = useRouter();
   const keyword = (router.query.keyword as string) || '';
 
-  const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<string | null>('recent');
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const { openModal } = useModal();
   const queryClient = useQueryClient();
@@ -33,16 +34,22 @@ const Home = () => {
     openModal(<CreateProduct selectedProduct={productDetail} />, productDetail);
   };
 
+  const sort = [
+    { key: '최신순', value: 'recent' },
+    { key: '별점순', value: 'rating' },
+    { key: '리뷰순', value: 'reviewCount' },
+  ];
+
   return (
     <div className="text-gray-50 flex w-full min-h-screen">
       <div className="mx-auto w-full flex justify-center relative">
         {isMenuOpen && (
           <div
-            className="fixed inset-0 bg-black-300/80 z-40 md:hidden"
+            className="fixed inset-0 bg-black-300/80 z-38 md:hidden"
             onClick={() => setIsMenuOpen(false)}
           />
         )}
-        <div className="z-30">
+        <div className="z-39">
           <Category
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
@@ -76,7 +83,19 @@ const Home = () => {
                       TOP 6
                     </span>
                   </h4>
-                  <button onClick={() => setIsMenuOpen((o) => !o)}>테스트</button>
+                  <div
+                    className="flex items-center bg-black-400 border border-black-300 rounded-[100px] py-[6px] w-fit px-3 mt-[30px] md:hidden cursor-pointer mb-[15px]"
+                    onClick={() => setIsMenuOpen(true)}
+                  >
+                    <Image
+                      src={categoryIcon}
+                      alt="카테고리 아이콘"
+                      width={18}
+                      height={18}
+                      className="mr-[5px]"
+                    />
+                    <span>{selectedCategoryName ? selectedCategoryName : '카테고리'}</span>
+                  </div>
                   <ProductList order="reviewCount" onProductClick={handleProductClick} />
                 </div>
 
@@ -102,36 +121,36 @@ const Home = () => {
                       )}
                       {!selectedCategory && keyword && <span>'{keyword}'로 검색한 상품</span>}
                     </div>
-                    {selectedCategory && (
-                      <div
-                        className="flex items-center bg-black-400 border border-black-300 rounded-[100px] py-[6px] w-fit px-3 mt-[30px] md:hidden cursor-pointer"
-                        onClick={() => setIsMenuOpen(true)}
-                      >
-                        <Image
-                          src={categoryIcon}
-                          alt="카테고리 아이콘"
-                          width={18}
-                          height={18}
-                          className="mr-[5px]"
-                        />
-                        <span>{selectedCategoryName}</span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex gap-2">
-                    <span onClick={() => setSelectedOrder('recent')} className="cursor-pointer">
-                      최신순
-                    </span>
-                    <span onClick={() => setSelectedOrder('rating')} className="cursor-pointer">
-                      별점순
-                    </span>
-                    <span
-                      onClick={() => setSelectedOrder('reviewCount')}
-                      className="cursor-pointer"
+                    <div
+                      className="flex items-center bg-black-400 border border-black-300 rounded-[100px] py-[6px] w-fit px-3 mt-[30px] md:hidden cursor-pointer"
+                      onClick={() => setIsMenuOpen(true)}
                     >
-                      리뷰순
-                    </span>
+                      <Image
+                        src={categoryIcon}
+                        alt="카테고리 아이콘"
+                        width={18}
+                        height={18}
+                        className="mr-[5px]"
+                      />
+                      <span>{selectedCategoryName ? selectedCategoryName : '카테고리'}</span>
+                    </div>
                   </div>
+                  <DropDown
+                    divClassName="py-[8px] px-2 md:py-[12px] lg:py-[14px]"
+                    textClassName="text-gray"
+                    value={selectedOrder}
+                    onChange={(value) => setSelectedOrder(value)}
+                  >
+                    {sort?.map((data) => (
+                      <DropDownOption
+                        value={data.value}
+                        key={data.key}
+                        onSelect={() => setSelectedOrder(data.value)}
+                      >
+                        {data.key}
+                      </DropDownOption>
+                    ))}
+                  </DropDown>
                 </div>
                 <InfiniteProductList
                   order={selectedOrder}

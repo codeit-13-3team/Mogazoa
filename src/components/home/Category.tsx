@@ -34,6 +34,7 @@ const Category = ({
   const handleCategoryClick = (category: CategoryType) => {
     if (category.id === selectedCategory) {
       setSelectedCategory(null);
+      setSelectedCategoryName(null);
     } else {
       setSelectedCategory(category.id);
       setSelectedCategoryName(category.name);

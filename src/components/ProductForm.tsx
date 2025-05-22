@@ -198,7 +198,7 @@ const ProductForm = ({ selectedProduct }: ProductProps) => {
             divClassName="py-[17px] px-5 md:py-[19px] lg:py-[23px]"
             textClassName="text-gray"
             value={productCategory}
-            onChange={(value) => setProductCategory(value)}
+            onChange={(value) => setProductCategory(String(value))}
           >
             {categoryData?.map((cat) => (
               <DropDownOption
