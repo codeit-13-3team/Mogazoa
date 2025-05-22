@@ -1,4 +1,4 @@
-import { GetMeResponse } from '@/types/user';
+import { FollowUserItem, GetMeResponse } from '@/types/user';
 import Image from 'next/image';
 import noImage from '../../public/img/profileimage/profile1.png';
 import { followUser, unfollowUser } from '@/api/follow';
@@ -7,19 +7,20 @@ import EditProfileModal from '@/components/EditProfileModal';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import useAuthStore from '@/stores/authStores';
+import FollowUserListModal from './FollowUserListModal';
+import { getFollowersList } from '@/api/user';
 
 interface ProfileProp {
   profileData: GetMeResponse;
   isMyProfile?: boolean;
 }
 
-function Profile({
-  profileData,
-  isMyProfile = false,
-}: ProfileProp) {
-  const router =useRouter();
+function Profile({ profileData, isMyProfile = false }: ProfileProp) {
+  const router = useRouter();
   const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
-  const [modalClose, setModalClose] = useState<boolean>(true);
+  const [editModalClose, setEditModalClose] = useState<boolean>(true);
+  const [followListModalClose, setFollowListModalClose] = useState<boolean>(true);
+  const [followListData, setFollowListData] = useState<FollowUserItem[]>([]);
   const queryClient = useQueryClient();
 
   const followMutation = useMutation({
@@ -50,10 +51,19 @@ function Profile({
     });
   }
 
+  async function showFollowList(userId: number) {
+    setFollowListModalClose(false);
+    const { list } = await getFollowersList(userId);
+    setFollowListData(list);
+  }
+
   return (
     <div className="mb-[60px] px-[20px] py-[30px] w-full h-auto rounded-lg bg-black-400 md:px-[30px] lg:w-[340px] lg:mb-0">
       <div className="w-full h-auto flex flex-col items-center gap-[30px] lg:gap-10">
-        <div className="w-[120px] h-[120px] relative rounded-full overflow-hidden lg:w-[180px] lg:h-[180px]">
+        <div
+          className="w-[120px] h-[120px] relative rounded-full overflow-hidden hover:cursor-pointer lg:w-[180px] lg:h-[180px]"
+          onClick={() => showFollowList(profileData.id)}
+        >
           {profileData?.image ? (
             <Image src={profileData.image} alt="유저 이미지" fill />
           ) : (
@@ -61,7 +71,10 @@ function Profile({
           )}
         </div>
         <div className="w-full flex flex-col gap-[10px] lg:gap-5">
-          <span className="text-center text-[20px] font-semibold text-gray-50 lg:text-[24px]">
+          <span
+            className="text-center text-[20px] font-semibold text-gray-50 hover:cursor-pointer lg:text-[24px]"
+            onClick={() => showFollowList(profileData.id)}
+          >
             {profileData?.nickname}
           </span>
           <p className="text-[14px] font-normal text-gray-200 lg:text-[16px]">
@@ -88,7 +101,7 @@ function Profile({
             <div
               className="w-full h-[50px] flex justify-center items-center rounded-lg bg-main-blue text-gray-50 text-[16px] font-semibold hover:cursor-pointer
             md:h-[55px] lg:h-[65px] lg:text-[18px]"
-              onClick={() => setModalClose(false)}
+              onClick={() => setEditModalClose(false)}
             >
               프로필 편집
             </div>
@@ -118,7 +131,16 @@ function Profile({
           </div>
         )}
       </div>
-      { modalClose ? null : <EditProfileModal profileData={profileData} onClose={() => setModalClose(true)} />}
+      {editModalClose ? null : (
+        <EditProfileModal profileData={profileData} onClose={() => setEditModalClose(true)} />
+      )}
+      {followListModalClose && followListData ? null : (
+        <FollowUserListModal
+          userName={profileData.nickname}
+          followUserListData={followListData}
+          onClose={() => setFollowListModalClose(true)}
+        />
+      )}
     </div>
   );
 }
