@@ -4,7 +4,6 @@ import Activity from '@/components/Activity';
 import { DropDown, DropDownOption } from '@/components/DropDown';
 import Product from '@/components/Product';
 import Profile from '@/components/Profile';
-import useAuthStore from '@/stores/authStores';
 import { GetMeResponse } from '@/types/user';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
