@@ -44,7 +44,7 @@ const Category = ({
 
   const baseClasses =
     'max-w-[220px] w-full md:w-[180px] lg:w-[220px] ' +
-    'bg-black-500 flex-shrink-0 ' +
+    'bg-black-500' +
     'transform transition-transform duration-300 ease-in-out';
 
   return (

@@ -73,7 +73,15 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="lg:pl-[90px] lg:pr-[60px] md:px-[30px] px-5 max-w-[1200px] w-full flex-1 min-w-0">
+          <div
+            className="
+              lg:pl-[90px] lg:pr-[60px]
+              md:px-[30px]
+              px-5
+              max-w-[1200px] w-full
+              flex-1 min-w-0
+            "
+          >
             {!keyword && !selectedCategory ? (
               <div>
                 <div>
