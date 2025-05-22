@@ -12,7 +12,6 @@ type productDetailProps = {
 
 function ProductReview({ productId }: productDetailProps) {
   const [productImages, setproductImages] = useState<string[]>([]);
-  // const [productImages, setproductImages] = useState<string>('');
   const [isOpen, setIsOpen] = useState(false);
   const [rating, setRating] = useState<number>(0);
 
