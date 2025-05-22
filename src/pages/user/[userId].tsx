@@ -213,7 +213,7 @@ function UserPage() {
   };
 
   return (
-    <div className="mt-[30px] px-[20px] md:px-[117px] lg:mx-auto lg:px-0 lg:flex lg:justify-center lg:gap-[70px] max-w-[1340px]">
+    <div className="mt-[30px] px-[20px] min-h-screen md:px-[117px] lg:mx-auto lg:px-0 lg:flex lg:justify-center lg:gap-[70px] max-w-[1340px]">
       <div className="h-auto">{ profileData ? <Profile profileData={profileData} /> : null }</div>
       <div className="w-full flex flex-col">
         <div className="mb-[60px]">
