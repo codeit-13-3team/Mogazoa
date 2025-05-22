@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getUserRanking } from '@/api/user';
 import Link from 'next/link';
 import ReviewerRankingSkeleton from '@/components/home/ReviewerRankingSkeleton';
+import Image from 'next/image';
 
 const ReviewerRanking = () => {
   const {
@@ -34,7 +35,18 @@ const ReviewerRanking = () => {
             href={`/user/${user.id}`}
             className="flex items-center flex-shrink-0 text-inherit hover:no-underline"
           >
-            <div className="bg-white rounded-full w-9 h-9 mr-[10px]"></div>
+            {user?.image ? (
+              <Image
+                src={user.image}
+                alt="사용자 이미지"
+                width={36}
+                height={36}
+                className="rounded-full overflow-hidden mr-[10px] min-w-[36px] min-h-[36px]"
+              />
+            ) : (
+              <div className="bg-white rounded-full w-9 h-9 mr-[10px]"></div>
+            )}
+
             <div className="flex flex-col">
               <div className="flex items-center gap-[5px] mb-[5.5px] flex-shrink-0">
                 <div
