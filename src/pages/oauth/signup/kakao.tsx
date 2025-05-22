@@ -21,8 +21,7 @@ const KakaoSignupPage = () => {
     setError,
   } = useForm<FormValues>();
 
-  const redirectUri =
-    process.env.NEXT_PUBLIC_KAKAO_SIGNUP_REDIRECT_URI || 'http://localhost:3000/oauth/signup/kakao';
+  const redirectUri = process.env.NEXT_PUBLIC_KAKAO_SIGNUP_REDIRECT_URI;
 
   const onSubmit = async ({ nickname }: FormValues) => {
     if (!code || typeof code !== 'string') {
@@ -40,7 +39,7 @@ const KakaoSignupPage = () => {
         {
           nickname,
           redirectUri,
-          token: code, // ✅ access_token이 아니라 code를 서버로 전달
+          token: code,
         },
         {
           headers: {
