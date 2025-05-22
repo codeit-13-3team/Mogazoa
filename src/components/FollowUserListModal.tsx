@@ -36,7 +36,7 @@ const FollowUserList = ({ followUserListData }: FollowUserListProp) => {
 const FollowUser = ({ nickname, image }: FollowUserProp) => {
   return (
     <div className="h-12 flex items-center gap-5 lg:h-13">
-      <div className="w-12 h-12 relative border rounded-full overflow-hidden lg:w-[52px] lg:h-[52px]">
+      <div className="w-12 h-12 relative rounded-full overflow-hidden lg:w-[52px] lg:h-[52px]">
         {image ? (
           <Image
             src={image}

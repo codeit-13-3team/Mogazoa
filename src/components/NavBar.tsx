@@ -57,7 +57,7 @@ const NavBar = ({ showSearch = true }: NavBarProps) => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('accessToken');
     setIsLoggedIn(false);
     router.push('/').then(() => {
       router.reload();
