@@ -61,7 +61,7 @@ const FollowUser = ({ nickname, image }: FollowUserProp) => {
 function FollowUserListModal({ userName, followUserListData, onClose }: FollowUserListModalProp) {
   return (
     <Modal onClose={onClose}>
-      <div className="flex flex-col ">
+      <div className="pb-4 min-h-[550px] flex flex-col">
         <span className="mb-5 text-[20px] font-semibold text-gray-50 md:mb-10 lg:text-[20px]">
           {userName}님을 팔로우하는 유저
         </span>
