@@ -42,7 +42,7 @@ const Home = () => {
             onClick={() => setIsMenuOpen(false)}
           />
         )}
-        <div className="z-50">
+        <div className="z-30">
           <Category
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
