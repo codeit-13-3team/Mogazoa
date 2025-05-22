@@ -25,7 +25,7 @@ const LoginPage = () => {
   const { mutate } = useMutation({
     mutationFn: (formData: SignInRequest) => Login('login', formData),
     onSuccess: (data: { accessToken: string }) => {
-      localStorage.setItem('token', data.accessToken);
+      localStorage.setItem('accessToken', data.accessToken);
       setIsLoggedIn(true); 
 
       Router.push('/');

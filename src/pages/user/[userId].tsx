@@ -6,17 +6,16 @@ import Profile from '@/components/Profile';
 import { GetMeResponse } from '@/types/user';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 function UserPage() {
   const router = useRouter();
   const { userId } = router.query as { userId: string };
   const [showProductState, setShowProductState] = useState<string | number>(1);
-  const [tokenReady, setTokenReady] = useState<boolean>(false);
   const { data: profileData } = useQuery({
     queryKey: ['userProfile', userId],
     queryFn: () => getUserProfile(userId),
-    enabled: tokenReady && Boolean(userId),
+    enabled: Boolean(userId),
   });
   
   function handleDropDown(value: string | number) {
@@ -212,15 +211,6 @@ function UserPage() {
       </div>
     );
   };
-
-  useEffect(() => {
-    localStorage.setItem(
-      'accessToken',
-      //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzU4LCJ0ZWFtSWQiOiIxMy0zIiwiaWF0IjoxNzQ1OTE1NDAxLCJpc3MiOiJzcC1tb2dhem9hIn0.E-JV9Vc5A-Hk3fL6iF7-D2mN5mrVUhtc0-FE7SBZ_pA',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzYxLCJ0ZWFtSWQiOiIxMy0zIiwiaWF0IjoxNzQ1OTE1MjA4LCJpc3MiOiJzcC1tb2dhem9hIn0.LI6K9y5vlvvWSKtGsSgfC-pzOAZJI3kkJUb_q-rfT8o',
-    );
-    setTokenReady(true);
-  }, []);
 
   return (
     <div className="mt-[30px] px-[20px] md:px-[117px] lg:mx-auto lg:px-0 lg:flex lg:justify-center lg:gap-[70px] max-w-[1340px]">
