@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getCategoryList } from '@/api/category';
 import { Category as CategoryType } from '@/types/category';
+import CategorySkeleton from '@/components/home/CategorySkeleton';
 
 const Category = ({
   selectedCategory,
@@ -26,7 +27,7 @@ const Category = ({
     queryFn: getCategoryList,
   });
 
-  if (isLoading) return <div>로딩 중...</div>;
+  if (isLoading) return <CategorySkeleton />;
   if (error) return <div>에러가 발생했습니다: {error.message}</div>;
   if (!categoryList) return <div>데이터가 없습니다.</div>;
 
