@@ -3,9 +3,10 @@ import { ComponentPropsWithoutRef, useEffect, useState } from 'react';
 type TextareaProps = ComponentPropsWithoutRef<'textarea'> & {
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   containerClassName?: string;
+  maxLength: number;
 };
 
-function Textarea({ onChange, containerClassName, value, ...props }: TextareaProps) {
+function Textarea({ onChange, containerClassName, maxLength, value, ...props }: TextareaProps) {
   const [text, setText] = useState<string>((value as string) ?? '');
 
   useEffect(() => {
@@ -22,7 +23,7 @@ function Textarea({ onChange, containerClassName, value, ...props }: TextareaPro
       <div className="p-px rounded-lg bg-black-300 focus-within:bg-gradient-to-r focus-within:from-main-blue focus-within:to-main-indigo">
         <div className="rounded-lg bg-black-500">
           <textarea
-            maxLength={500}
+            maxLength={maxLength}
             value={text}
             onChange={handleChange}
             {...props}
@@ -32,7 +33,7 @@ function Textarea({ onChange, containerClassName, value, ...props }: TextareaPro
         </div>
       </div>
       <div className="absolute bottom-5 right-5 font-normal text-sm text-gray-200">
-        {text.length}/500
+        {text.length}/{maxLength}
       </div>
     </div>
   );

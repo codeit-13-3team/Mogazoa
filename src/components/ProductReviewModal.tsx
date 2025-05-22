@@ -38,7 +38,7 @@ function ProductReview({ productId }: productDetailProps) {
         <p className="font-normal text-gray-200 text-sm lg:text-base whitespace-nowrap">별점</p>
         <StarRating value={rating} onChange={setRating} />
       </div>
-      <Textarea containerClassName="mb-[10px] md:mb-[15px] lg:mb-5" />
+      <Textarea containerClassName="mb-[10px] md:mb-[15px] lg:mb-5" maxLength={300} />
       <ImageUploader
         image={productImage}
         onUploadImage={(url) => setproductImage(url)}
