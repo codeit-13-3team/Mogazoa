@@ -1,5 +1,9 @@
-
-import { getMyProfile, getUserCreatedProducts, getUserFavoriteProducts, getUserReviewedProducts } from '@/api/user';
+import {
+  getMyProfile,
+  getUserCreatedProducts,
+  getUserFavoriteProducts,
+  getUserReviewedProducts,
+} from '@/api/user';
 import Activity from '@/components/Activity';
 import { DropDown, DropDownOption } from '@/components/DropDown';
 import Product from '@/components/Product';
@@ -16,25 +20,25 @@ function MyPage() {
   });
 
   const { data: reviewedProducts } = useQuery({
-      queryKey: ['reviewedProduct'],
-      queryFn: () => getUserReviewedProducts(String(profileData?.id)),
-      select: (data) => data.list,
-      enabled: Boolean(profileData),
-    });
-  
-    const { data: createdProducts } = useQuery({
-      queryKey: ['createdProducts'],
-      queryFn: () => getUserCreatedProducts(String(profileData?.id)),
-      select: (data) => data.list,
-      enabled: Boolean(profileData),
-    });
-  
-    const { data: favoriteProducts } = useQuery({
-      queryKey: ['favoriteProducts'],
-      queryFn: () => getUserFavoriteProducts(String(profileData?.id)),
-      select: (data) => data.list,
-      enabled: Boolean(profileData),
-    });
+    queryKey: ['reviewedProduct'],
+    queryFn: () => getUserReviewedProducts(String(profileData?.id)),
+    select: (data) => data.list,
+    enabled: Boolean(profileData),
+  });
+
+  const { data: createdProducts } = useQuery({
+    queryKey: ['createdProducts'],
+    queryFn: () => getUserCreatedProducts(String(profileData?.id)),
+    select: (data) => data.list,
+    enabled: Boolean(profileData),
+  });
+
+  const { data: favoriteProducts } = useQuery({
+    queryKey: ['favoriteProducts'],
+    queryFn: () => getUserFavoriteProducts(String(profileData?.id)),
+    select: (data) => data.list,
+    enabled: Boolean(profileData),
+  });
 
   function handleDropDown(value: string | number) {
     setShowProductState(value);
@@ -56,15 +60,17 @@ function MyPage() {
                 </div>
               ) : (
                 reviewedProducts.map((product) => (
-                  <Product
-                    width="100%"
-                    height="300px"
-                    name={product.name}
-                    image={product.image}
-                    reviewCount={product.reviewCount}
-                    favoriteCount={product.favoriteCount}
-                    rating={product.rating}
-                  />
+                  <div className="w-full aspect-[8/9] md:aspect-[1/1]">
+                    <Product
+                      width="100%"
+                      height="100%"
+                      name={product.name}
+                      image={product.image}
+                      reviewCount={product.reviewCount}
+                      favoriteCount={product.favoriteCount}
+                      rating={product.rating}
+                    />
+                  </div>
                 ))
               )
             ) : null}
@@ -80,7 +86,7 @@ function MyPage() {
                 </div>
               ) : (
                 createdProducts.map((product) => (
-                  <div className='w-full aspect-[8/9] md:aspect-[1/1]'>
+                  <div className="w-full aspect-[8/9] md:aspect-[1/1]">
                     <Product
                       width="100%"
                       height="100%"
@@ -106,15 +112,17 @@ function MyPage() {
                 </div>
               ) : (
                 favoriteProducts.map((product) => (
-                  <Product
-                    width="100%"
-                    height="300px"
-                    name={product.name}
-                    image={product.image}
-                    reviewCount={product.reviewCount}
-                    favoriteCount={product.favoriteCount}
-                    rating={product.rating}
-                  />
+                  <div className="w-full aspect-[8/9] md:aspect-[1/1]">
+                    <Product
+                      width="100%"
+                      height="100%"
+                      name={product.name}
+                      image={product.image}
+                      reviewCount={product.reviewCount}
+                      favoriteCount={product.favoriteCount}
+                      rating={product.rating}
+                    />
+                  </div>
                 ))
               )
             ) : null}
@@ -123,7 +131,7 @@ function MyPage() {
     }
   };
 
-  const ShowActivitys = ({ profileData }: { profileData : GetMeResponse} ) => {
+  const ShowActivitys = ({ profileData }: { profileData: GetMeResponse }) => {
     return (
       <div className="mt-[30px] flex gap-[10px]">
         <Activity
@@ -162,7 +170,7 @@ function MyPage() {
       <div className="w-full flex flex-col">
         <div className="mb-[60px]">
           <span className="text-gray-50 font-semibold text-[18px] lg:text-[20px]">활동 내역</span>
-          { profileData ? <ShowActivitys profileData={profileData} /> : null }
+          {profileData ? <ShowActivitys profileData={profileData} /> : null}
         </div>
         <div className="w-full h-auto">
           <DropDown

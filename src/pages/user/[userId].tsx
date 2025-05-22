@@ -64,15 +64,17 @@ function UserPage() {
                 </div>
               ) : (
                 reviewedProducts.map((product) => (
-                  <Product
-                    width="100%"
-                    height="300px"
-                    name={product.name}
-                    image={product.image}
-                    reviewCount={product.reviewCount}
-                    favoriteCount={product.favoriteCount}
-                    rating={product.rating}
-                  />
+                  <div className="w-full aspect-[8/9] md:aspect-[1/1]">
+                    <Product
+                      width="100%"
+                      height="100%"
+                      name={product.name}
+                      image={product.image}
+                      reviewCount={product.reviewCount}
+                      favoriteCount={product.favoriteCount}
+                      rating={product.rating}
+                    />
+                  </div>
                 ))
               )
             ) : null}
@@ -88,7 +90,7 @@ function UserPage() {
                 </div>
               ) : (
                 createdProducts.map((product) => (
-                  <div className='w-full aspect-[8/9] md:aspect-[1/1]'>
+                  <div className="w-full aspect-[8/9] md:aspect-[1/1]">
                     <Product
                       width="100%"
                       height="100%"
@@ -114,15 +116,17 @@ function UserPage() {
                 </div>
               ) : (
                 favoriteProducts.map((product) => (
-                  <Product
-                    width="100%"
-                    height="300px"
-                    name={product.name}
-                    image={product.image}
-                    reviewCount={product.reviewCount}
-                    favoriteCount={product.favoriteCount}
-                    rating={product.rating}
-                  />
+                  <div className="w-full aspect-[8/9] md:aspect-[1/1]">
+                    <Product
+                      width="100%"
+                      height="100%"
+                      name={product.name}
+                      image={product.image}
+                      reviewCount={product.reviewCount}
+                      favoriteCount={product.favoriteCount}
+                      rating={product.rating}
+                    />
+                  </div>
                 ))
               )
             ) : null}
