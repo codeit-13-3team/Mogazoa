@@ -5,22 +5,21 @@ import { followUser, unfollowUser } from '@/api/follow';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import EditProfileModal from '@/components/EditProfileModal';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
+import useAuthStore from '@/stores/authStores';
 
 interface ProfileProp {
   profileData: GetMeResponse;
   isMyProfile?: boolean;
-  editProfile?: () => void;
-  logout?: () => void;
-  onClickFollowBtn?: () => void;
 }
 
 function Profile({
   profileData,
   isMyProfile = false,
-  logout,
 }: ProfileProp) {
+  const router =useRouter();
+  const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
   const [modalClose, setModalClose] = useState<boolean>(true);
-
   const queryClient = useQueryClient();
 
   const followMutation = useMutation({
@@ -42,6 +41,14 @@ function Profile({
       console.error(error);
     },
   });
+
+  function logout() {
+    localStorage.removeItem('accessToken');
+    setIsLoggedIn(false);
+    router.push('/').then(() => {
+      router.reload();
+    });
+  }
 
   return (
     <div className="mb-[60px] px-[20px] py-[30px] w-full h-auto rounded-lg bg-black-400 md:px-[30px] lg:w-[340px] lg:mb-0">
