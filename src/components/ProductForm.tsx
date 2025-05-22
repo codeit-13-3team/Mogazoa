@@ -158,7 +158,6 @@ const ProductForm = ({ selectedProduct }: ProductProps) => {
           <div className="relative">
             <Input
               ref={inputRef}
-              label="이름"
               value={productName}
               onChange={(e) => {
                 setProductName(e.target.value);
