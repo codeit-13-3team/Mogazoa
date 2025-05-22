@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getUserRanking } from '@/api/user';
 import Link from 'next/link';
+import ReviewerRankingSkeleton from '@/components/home/ReviewerRankingSkeleton';
 
 const ReviewerRanking = () => {
   const {
@@ -12,7 +13,7 @@ const ReviewerRanking = () => {
     queryFn: getUserRanking,
   });
 
-  if (isLoading) return <div>로딩 중...</div>;
+  if (isLoading) return <ReviewerRankingSkeleton />;
   if (error) return <div>랭킹 조회 중 오류가 발생했습니다: {error.message}</div>;
   if (!userRanking) return <div>아직 등록된 리뷰어가 없습니다.</div>;
 
