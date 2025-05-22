@@ -59,7 +59,7 @@ const Home = () => {
           />
         </div>
 
-        <div className="flex min-w-0 flex-col lg:flex-row-reverse gap-[10px]">
+        <div className="flex min-w-0 flex-col lg:flex-row-reverse">
           <div className="flex flex-col mb-[60px] lg:border-l-[1px] lg:border-black-400 lg:pl-[30px] lg:h-screen pt-[30px]">
             <p className="text-[14px] mb-5 px-5">리뷰어 랭킹</p>
             <div
@@ -75,11 +75,12 @@ const Home = () => {
 
           <div
             className="
-              lg:pl-[90px] lg:pr-[60px]
+              lg:pl-[20px] lg:pr-[20px]
+              xl:pl-[90px] xl:pr-[60px]
               md:px-[30px]
               px-5
               max-w-[1200px] w-full
-              flex-1 min-w-0
+              flex-1 lg:min-w-[600px]
             "
           >
             {!keyword && !selectedCategory ? (
