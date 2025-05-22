@@ -148,7 +148,7 @@ const Home = () => {
                     divClassName="py-[8px] px-2 md:py-[12px] lg:py-[14px]"
                     textClassName="text-gray"
                     value={selectedOrder}
-                    onChange={(value) => setSelectedOrder(value)}
+                    onChange={(value) => setSelectedOrder(String(value))}
                   >
                     {sort?.map((data) => (
                       <DropDownOption

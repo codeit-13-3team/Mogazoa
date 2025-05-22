@@ -1,4 +1,3 @@
-
 import { getMyProfile } from '@/api/user';
 import Activity from '@/components/Activity';
 import { DropDown, DropDownOption } from '@/components/DropDown';
@@ -15,8 +14,8 @@ function MyPage() {
     queryFn: getMyProfile,
   });
 
-  function handleDropDown(value: string | number) {
-    setShowProductState(value);
+  function handleDropDown(value: string | number | null) {
+    setShowProductState(value!);
   }
 
   function setSpanTextColor(spanNum: number) {
@@ -178,7 +177,7 @@ function MyPage() {
     }
   };
 
-  const ShowActivitys = ({ profileData }: { profileData : GetMeResponse} ) => {
+  const ShowActivitys = ({ profileData }: { profileData: GetMeResponse }) => {
     return (
       <div className="mt-[30px] flex gap-[10px]">
         <Activity
@@ -217,7 +216,7 @@ function MyPage() {
       <div className="w-full flex flex-col">
         <div className="mb-[60px]">
           <span className="text-gray-50 font-semibold text-[18px] lg:text-[20px]">활동 내역</span>
-          { profileData ? <ShowActivitys profileData={profileData} /> : null }
+          {profileData ? <ShowActivitys profileData={profileData} /> : null}
         </div>
         <div className="w-full h-auto">
           <DropDown

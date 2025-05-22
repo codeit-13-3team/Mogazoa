@@ -8,7 +8,7 @@ interface DropDownProps {
   children: ReactNode;
   value: string | number | null;
   initialCategory?: string;
-  onChange: (value: string | null) => void;
+  onChange: (value: string | number) => void;
 }
 
 interface DropDownOptionProps {
