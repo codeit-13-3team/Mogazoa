@@ -45,6 +45,17 @@ const Compare = () => {
   });
 
   useEffect(() => {
+    const productA = JSON.parse(localStorage.getItem('productA')!);
+    const productB = JSON.parse(localStorage.getItem('productB')!);
+    if (productA !== null) {
+      setProductA(productA);
+    }
+    if (productB !== null) {
+      setProductB(productB);
+    }
+  }, []);
+
+  useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
         productBDropdownRef.current &&
@@ -76,12 +87,14 @@ const Compare = () => {
 
   const handleProductA = (item: Product) => {
     setProductA(item);
+    localStorage.setItem('productA', JSON.stringify(item));
     setProductAName('');
     setHasCompare(false);
     setIsProductADropdownOpen(false);
   };
   const handleProductB = (item: Product) => {
     setProductB(item);
+    localStorage.setItem('productB', JSON.stringify(item));
     setProductBName('');
     setHasCompare(false);
     setIsProductBDropdownOpen(false);
@@ -94,13 +107,15 @@ const Compare = () => {
   const colorClass =
     totals.A === totals.B ? 'text-gray-50' : totals.A > totals.B ? 'text-green' : 'text-pink';
 
-  const handleDeleteProductA = (product: Product) => {
+  const handleDeleteProductA = () => {
     setProductA(null);
+    localStorage.removeItem('productA');
     setHasCompare(false);
   };
 
-  const handleDeleteProductB = (product: Product) => {
+  const handleDeleteProductB = () => {
     setProductB(null);
+    localStorage.removeItem('productB');
     setHasCompare(false);
   };
 
