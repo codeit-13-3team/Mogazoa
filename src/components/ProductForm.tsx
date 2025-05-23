@@ -16,7 +16,7 @@ interface ProductProps {
   selectedProduct?: ProductResponse | undefined;
 }
 
-const CreateProduct = ({ selectedProduct }: ProductProps) => {
+const ProductForm = ({ selectedProduct }: ProductProps) => {
   const [productName, setProductName] = useState<string>('');
   const [productDescript, setProductDescript] = useState<string>('');
   const [productCategory, setProductCategory] = useState<string | number>(0);
@@ -156,23 +156,8 @@ const CreateProduct = ({ selectedProduct }: ProductProps) => {
         </div>
         <div className="flex flex-col gap-[10px] w-full md:gap-[15px]">
           <div className="relative">
-            {/* <input
-              ref={inputRef}
-              value={productName}
-              onChange={(e) => {
-                setProductName(e.target.value);
-                setIsDropdownOpen(true);
-              }}
-              onFocus={() => {
-                if (productName) setIsDropdownOpen(true);
-              }}
-              onBlur={handleProductName}
-              placeholder="상품명 (상품 등록 여부를 확인해 주세요)"
-              className="py-[17px] px-5 h-[55px] md:h-[60px] w-full rounded-[8px] border border-black-300 bg-black-400 outline-none text-gray-50 text-[14px]"
-            /> */}
             <Input
               ref={inputRef}
-              label="이름"
               value={productName}
               onChange={(e) => {
                 setProductName(e.target.value);
@@ -213,7 +198,7 @@ const CreateProduct = ({ selectedProduct }: ProductProps) => {
             divClassName="py-[17px] px-5 md:py-[19px] lg:py-[23px]"
             textClassName="text-gray"
             value={productCategory}
-            onChange={(value) => setProductCategory(value)}
+            onChange={(value) => setProductCategory(String(value))}
           >
             {categoryData?.map((cat) => (
               <DropDownOption
@@ -232,14 +217,15 @@ const CreateProduct = ({ selectedProduct }: ProductProps) => {
         placeholder="상품 설명을 작성해 주세요"
         onChange={(e) => setProductDescript(e.target.value)}
         onBlur={handleProductDescription}
+        containerClassName="mb-5 md:mb-10"
       />
       {productDescriptError && <span className="text-red">{productDescriptError}</span>}
 
-      <Button disabled={!isFormValid} onClick={handleSubmit} className="w-full">
+      <Button disabled={!isFormValid} onClick={handleSubmit} className="w-full mb-5 md:mb-10">
         {selectedProduct ? '저장하기' : '추가하기'}
       </Button>
     </>
   );
 };
 
-export default CreateProduct;
+export default ProductForm;
