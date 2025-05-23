@@ -15,7 +15,6 @@ export const imageUpload = async (file: File): Promise<ImageUploadResponse | und
       },
     });
 
-    console.log('imageURL: ', res.data.url);
     return res.data;
   } catch (error: any) {
     console.error('Upload Failed: ', error.response?.data || error.message);

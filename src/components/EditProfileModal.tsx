@@ -54,7 +54,11 @@ function EditProfileModal({ profileData, onClose }: EditProfileModalProp) {
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
           />
-          <Textarea value={textarea_Text} onChange={(e) => setTextarea_Text(e.target.value)} />
+          <Textarea
+            value={textarea_Text}
+            onChange={(e) => setTextarea_Text(e.target.value)}
+            maxLength={300}
+          />
         </div>
         <Button
           className="w-full mb-5 md:mb-8 mt-5 md:mt-10"

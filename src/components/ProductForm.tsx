@@ -218,6 +218,7 @@ const ProductForm = ({ selectedProduct }: ProductProps) => {
         onChange={(e) => setProductDescript(e.target.value)}
         onBlur={handleProductDescription}
         containerClassName="mb-5 md:mb-10"
+        maxLength={500}
       />
       {productDescriptError && <span className="text-red">{productDescriptError}</span>}
 
