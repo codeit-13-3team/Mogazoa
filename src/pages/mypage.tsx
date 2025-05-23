@@ -13,7 +13,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
 function MyPage() {
-  const [showProductState, setShowProductState] = useState<string>('1');
+  const [showProductState, setShowProductState] = useState<string | null>('1');
   const { data: profileData } = useQuery({
     queryKey: ['userProfile'],
     queryFn: getMyProfile,
@@ -40,7 +40,7 @@ function MyPage() {
     enabled: Boolean(profileData),
   });
 
-  function handleDropDown(value: any) {
+  function handleDropDown(value: string | null) {
     setShowProductState(value);
   }
 
