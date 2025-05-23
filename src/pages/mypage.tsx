@@ -40,8 +40,8 @@ function MyPage() {
     enabled: Boolean(profileData),
   });
 
-  function handleDropDown(value: string | null) {
-    setShowProductState(value);
+  function handleDropDown(value: string | number | null) {
+    setShowProductState(String(value));
   }
 
   function setSpanTextColor(spanNum: string) {
