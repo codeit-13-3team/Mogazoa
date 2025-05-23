@@ -1,9 +1,4 @@
-import {
-  getMyProfile,
-  getUserCreatedProducts,
-  getUserFavoriteProducts,
-  getUserReviewedProducts,
-} from '@/api/user';
+import { getMyProfile } from '@/api/user';
 import Activity from '@/components/Activity';
 import { DropDown, DropDownOption } from '@/components/DropDown';
 import Product from '@/components/Product';
@@ -18,6 +13,7 @@ function MyPage() {
     queryKey: ['userProfile'],
     queryFn: getMyProfile,
   });
+
 
   const { data: reviewedProducts } = useQuery({
     queryKey: ['reviewedProduct'],
@@ -40,7 +36,7 @@ function MyPage() {
     enabled: Boolean(profileData),
   });
 
-  function handleDropDown(value: string | null) {
+  function handleDropDown(value: string | number | null) {
     setShowProductState(value);
   }
 
@@ -53,79 +49,151 @@ function MyPage() {
       case '1':
         return (
           <>
-            {reviewedProducts ? (
-              reviewedProducts.length === 0 ? (
-                <div className="flex justify-center items-center text-gray-100 col-span-2 lg:col-span-3">
-                  리뷰 남긴 상품이 없습니다.
-                </div>
-              ) : (
-                reviewedProducts.map((product) => (
-                  <div className="w-full aspect-[8/9] md:aspect-[1/1]">
-                    <Product
-                      width="100%"
-                      height="100%"
-                      name={product.name}
-                      image={product.image}
-                      reviewCount={product.reviewCount}
-                      favoriteCount={product.favoriteCount}
-                      rating={product.rating}
-                    />
-                  </div>
-                ))
-              )
-            ) : null}
+            <Product
+              width="100%"
+              height="300px"
+              name="시계"
+              image="/img/prodctimage/applewatch.png"
+              reviewCount={100}
+              favoriteCount={100}
+              rating={4.1}
+            />
+            <Product
+              width="100%"
+              height="300px"
+              name="시계"
+              image="/img/prodctimage/applewatch.png"
+              reviewCount={100}
+              favoriteCount={100}
+              rating={4.1}
+            />
+            <Product
+              width="100%"
+              height="300px"
+              name="시계"
+              image="/img/prodctimage/applewatch.png"
+              reviewCount={100}
+              favoriteCount={100}
+              rating={4.1}
+            />
+            <Product
+              width="100%"
+              height="300px"
+              name="시계"
+              image="/img/prodctimage/applewatch.png"
+              reviewCount={100}
+              favoriteCount={100}
+              rating={4.1}
+            />
+            <Product
+              width="100%"
+              height="300px"
+              name="시계"
+              image="/img/prodctimage/applewatch.png"
+              reviewCount={100}
+              favoriteCount={100}
+              rating={4.1}
+            />
           </>
         );
       case '2':
         return (
           <>
-            {createdProducts ? (
-              createdProducts.length === 0 ? (
-                <div className="flex justify-center items-center text-gray-100 col-span-2 lg:col-span-3">
-                  등록한 상품이 없습니다.
-                </div>
-              ) : (
-                createdProducts.map((product) => (
-                  <div className="w-full aspect-[8/9] md:aspect-[1/1]">
-                    <Product
-                      width="100%"
-                      height="100%"
-                      name={product.name}
-                      image={product.image}
-                      reviewCount={product.reviewCount}
-                      favoriteCount={product.favoriteCount}
-                      rating={product.rating}
-                    />
-                  </div>
-                ))
-              )
-            ) : null}
+            <Product
+              width="100%"
+              height="300px"
+              name="시계"
+              image="/img/prodctimage/adidas.png"
+              reviewCount={100}
+              favoriteCount={100}
+              rating={4.1}
+            />
+            <Product
+              width="100%"
+              height="300px"
+              name="시계"
+              image="/img/prodctimage/adidas.png"
+              reviewCount={100}
+              favoriteCount={100}
+              rating={4.1}
+            />
+            <Product
+              width="100%"
+              height="300px"
+              name="시계"
+              image="/img/prodctimage/adidas.png"
+              reviewCount={100}
+              favoriteCount={100}
+              rating={4.1}
+            />
+            <Product
+              width="100%"
+              height="300px"
+              name="시계"
+              image="/img/prodctimage/adidas.png"
+              reviewCount={100}
+              favoriteCount={100}
+              rating={4.1}
+            />
+            <Product
+              width="100%"
+              height="300px"
+              name="시계"
+              image="/img/prodctimage/adidas.png"
+              reviewCount={100}
+              favoriteCount={100}
+              rating={4.1}
+            />
           </>
         );
       case '3':
         return (
           <>
-            {favoriteProducts ? (
-              favoriteProducts.length === 0 ? (
-                <div className="flex justify-center items-center text-gray-100 col-span-2 lg:col-span-3">
-                  찜한 상품이 없습니다.
-                </div>
-              ) : (
-                favoriteProducts.map((product) => (
-                  <div className="w-full aspect-[8/9] md:aspect-[1/1]">
-                    <Product
-                      width="100%"
-                      height="100%"
-                      name={product.name}
-                      image={product.image}
-                      reviewCount={product.reviewCount}
-                      favoriteCount={product.favoriteCount}
-                      rating={product.rating}
-                    />
-                  </div>
-                ))
-              )
-            ) : null}
+            <Product
+              width="100%"
+              height="300px"
+              name="시계"
+              image="/img/prodctimage/camera.png"
+              reviewCount={100}
+              favoriteCount={100}
+              rating={4.1}
+            />
+            <Product
+              width="100%"
+              height="300px"
+              name="시계"
+              image="/img/prodctimage/camera.png"
+              reviewCount={100}
+              favoriteCount={100}
+              rating={4.1}
+            />
+            <Product
+              width="100%"
+              height="300px"
+              name="시계"
+              image="/img/prodctimage/camera.png"
+              reviewCount={100}
+              favoriteCount={100}
+              rating={4.1}
+            />
+            <Product
+              width="100%"
+              height="300px"
+              name="시계"
+              image="/img/prodctimage/camera.png"
+              reviewCount={100}
+              favoriteCount={100}
+              rating={4.1}
+            />
+            <Product
+              width="100%"
+              height="300px"
+              name="시계"
+              image="/img/prodctimage/camera.png"
+              reviewCount={100}
+              favoriteCount={100}
+              rating={4.1}
+            />
           </>
         );
     }
@@ -163,7 +231,7 @@ function MyPage() {
   };
 
   return (
-    <div className="mt-[30px] px-[20px] min-h-screen md:px-[117px] lg:mx-auto lg:px-0 lg:flex lg:justify-center lg:gap-[70px] max-w-[1340px]">
+    <div className="mt-[30px] px-[20px] md:px-[117px] lg:mx-auto lg:px-0 lg:flex lg:justify-center lg:gap-[70px] max-w-[1340px]">
       <div className="h-auto">
         {profileData ? <Profile profileData={profileData} isMyProfile={true} /> : null}
       </div>
@@ -204,7 +272,7 @@ function MyPage() {
               찜한 상품
             </span>
           </div>
-          <div className="mt-[54px] mb-[60px] w-full h-[300px] overflow-y-auto grid grid-cols-2 gap-[15px] md:h-[450px] lg:grid-cols-3 lg:gap-5">
+          <div className="mt-[54px] w-full h-auto grid grid-cols-2 gap-[15px] lg:grid-cols-3 lg:gap-5">
             <ReviewedProducts />
           </div>
         </div>
