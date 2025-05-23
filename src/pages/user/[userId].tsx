@@ -16,7 +16,7 @@ import { useState } from 'react';
 function UserPage() {
   const router = useRouter();
   const { userId } = router.query as { userId: string };
-  const [showProductState, setShowProductState] = useState<string>('1');
+  const [showProductState, setShowProductState] = useState<string | null>('1');
   const { data: profileData } = useQuery({
     queryKey: ['userProfile', userId],
     queryFn: () => getUserProfile(userId),
@@ -44,7 +44,7 @@ function UserPage() {
     enabled: Boolean(userId),
   });
 
-  function handleDropDown(value: any) {
+  function handleDropDown(value: string | null) {
     setShowProductState(value);
   }
 
