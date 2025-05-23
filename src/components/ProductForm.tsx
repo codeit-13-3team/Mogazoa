@@ -148,7 +148,6 @@ const ProductForm = ({ selectedProduct }: ProductProps) => {
       <div className="flex flex-col gap-[10px] md:flex-row-reverse mg:gap-[15px] md:items-end">
         <div className="flex flex-col gap-[10px]">
           <ImageUploader
-            isSingleImage
             image={productImage}
             onUploadImage={handleUploadImage}
             onRemoveImage={handleRemoveImage}

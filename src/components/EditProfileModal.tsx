@@ -44,7 +44,6 @@ function EditProfileModal({ profileData, onClose }: EditProfileModalProp) {
         <span className="mt-5 text-xl font-semibold text-gray-50 lg:text-2xl">프로필 편집</span>
         <div className="flex flex-col gap-[10px] md:gap-[15px] lg:gap-5">
           <ImageUploader
-            isSingleImage
             image={imageUrl}
             onUploadImage={(url) => setImageUrl(url)}
             onRemoveImage={() => setImageUrl('')}

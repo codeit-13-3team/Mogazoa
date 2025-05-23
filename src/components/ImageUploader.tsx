@@ -4,7 +4,7 @@ import ImageIcon from '../../public/icon/common/photo.png';
 import deleteIcon from '../../public/icon/common/close.png';
 
 type ImageUploaderProps = {
-  isSingleImage: boolean;
+  isSingleImage?: boolean;
   image?: string;
   images?: string[];
   onUploadImage?: (url: string) => void;
@@ -16,7 +16,7 @@ type ImageUploaderProps = {
 };
 
 function ImageUploader({
-  isSingleImage,
+  isSingleImage = true,
   image = '',
   images = [],
   onUploadImage,
