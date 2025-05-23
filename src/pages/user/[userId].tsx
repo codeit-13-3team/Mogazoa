@@ -16,13 +16,13 @@ import { useState } from 'react';
 function UserPage() {
   const router = useRouter();
   const { userId } = router.query as { userId: string };
-  const [showProductState, setShowProductState] = useState<string | number>(1);
+  const [showProductState, setShowProductState] = useState<string>('1');
   const { data: profileData } = useQuery({
     queryKey: ['userProfile', userId],
     queryFn: () => getUserProfile(userId),
     enabled: Boolean(userId),
   });
-
+  
   const { data: reviewedProducts } = useQuery({
     queryKey: ['reviewedProduct', userId],
     queryFn: () => getUserReviewedProducts(userId),
@@ -44,17 +44,17 @@ function UserPage() {
     enabled: Boolean(userId),
   });
 
-  function handleDropDown(value: string | number) {
+  function handleDropDown(value: any) {
     setShowProductState(value);
   }
 
-  function setSpanTextColor(spanNum: number) {
+  function setSpanTextColor(spanNum: string) {
     return spanNum === showProductState ? 'text-gray-50' : 'text-gray-200';
   }
 
   const ReviewedProducts = () => {
     switch (showProductState) {
-      case 1:
+      case '1':
         return (
           <>
             {reviewedProducts ? (
@@ -80,7 +80,7 @@ function UserPage() {
             ) : null}
           </>
         );
-      case 2:
+      case '2':
         return (
           <>
             {createdProducts ? (
@@ -106,7 +106,7 @@ function UserPage() {
             ) : null}
           </>
         );
-      case 3:
+      case '3':
         return (
           <>
             {favoriteProducts ? (
@@ -182,26 +182,26 @@ function UserPage() {
             textClassName="text-gray-50 font-semibold text-[18px]"
             value={1}
           >
-            <DropDownOption value={1}>리뷰 남긴 상품</DropDownOption>
-            <DropDownOption value={2}>등록한 상품</DropDownOption>
-            <DropDownOption value={3}>찜한 상품</DropDownOption>
+            <DropDownOption value='1'>리뷰 남긴 상품</DropDownOption>
+            <DropDownOption value='2'>등록한 상품</DropDownOption>
+            <DropDownOption value='3'>찜한 상품</DropDownOption>
           </DropDown>
           <div className="hidden lg:flex gap-10">
             <span
-              className={`${setSpanTextColor(1)} text-[20px] font-semibold hover:cursor-pointer`}
-              onClick={() => setShowProductState(1)}
+              className={`${setSpanTextColor('1')} text-[20px] font-semibold hover:cursor-pointer`}
+              onClick={() => setShowProductState('1')}
             >
               리뷰 남긴 상품
             </span>
             <span
-              className={`${setSpanTextColor(2)} text-[20px] font-semibold hover:cursor-pointer`}
-              onClick={() => setShowProductState(2)}
+              className={`${setSpanTextColor('2')} text-[20px] font-semibold hover:cursor-pointer`}
+              onClick={() => setShowProductState('2')}
             >
               등록한 상품
             </span>
             <span
-              className={`${setSpanTextColor(3)} text-[20px] font-semibold hover:cursor-pointer`}
-              onClick={() => setShowProductState(3)}
+              className={`${setSpanTextColor('3')} text-[20px] font-semibold hover:cursor-pointer`}
+              onClick={() => setShowProductState('3')}
             >
               찜한 상품
             </span>

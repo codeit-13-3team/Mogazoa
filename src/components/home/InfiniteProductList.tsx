@@ -31,7 +31,6 @@ export function InfiniteProductList({ order, keyword, category }: Props) {
     return () => obs.disconnect();
   }, [hasNextPage, fetchNextPage]);
 
-  // if (status === 'pending') return <p>로딩 중…</p>;
   if (status === 'error') return <p>에러 발생</p>;
 
   return (
