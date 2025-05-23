@@ -1,19 +1,34 @@
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { getProductById } from '@/api/products';
-import ImageUploader from './ImageUploader';
+import { createReview } from '@/api/review';
 import Modal from './Modal';
-import Textarea from './Textarea';
 import StarRating from './StarRating';
+import Textarea from './Textarea';
+import ImageUploader from './ImageUploader';
 
 type productDetailProps = {
   productId: number;
 };
 
 function ProductReview({ productId }: productDetailProps) {
-  const [productImages, setproductImages] = useState<string[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
+  const [productImages, setProductImages] = useState<string[]>([]);
   const [rating, setRating] = useState<number>(0);
+  const [reviewText, setReviewText] = useState('');
+
+  const { mutate: submitReview, isPending } = useMutation({
+    mutationFn: createReview,
+    onSuccess: () => {
+      alert('리뷰 등록 성공!');
+      setReviewText('');
+      setRating(0);
+      setProductImages([]);
+    },
+    onError: (error) => {
+      console.error('리뷰 등록 실패', error);
+      alert('리뷰 등록 중 오류 발생!');
+    },
+  });
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['productDetail', productId],
@@ -24,10 +39,59 @@ function ProductReview({ productId }: productDetailProps) {
   if (isError) return <div>에러가 발생했습니다.</div>;
   if (!data) return <div>상품 정보를 불러오지 못했습니다.</div>;
 
+  const validateReviewText = () => {
+    if (!reviewText.trim()) {
+      alert('리뷰 내용을 입력해 주세요.');
+    } else if (reviewText.trim().length < 10) {
+      alert('최소 10자 이상 적어주세요.');
+    }
+  };
+
+  const validateReviewForm = () => {
+    const errors: string[] = [];
+
+    if (!reviewText.trim()) {
+      errors.push('리뷰 내용을 입력해 주세요.');
+    } else if (reviewText.trim().length < 10) {
+      errors.push('최소 10자 이상 적어주세요.');
+    }
+
+    if (!rating) {
+      errors.push('별점으로 상품을 평가해 주세요.');
+    }
+
+    if (productImages.length === 0) {
+      errors.push('사진을 1장 이상 업로드 해주세요.');
+    }
+
+    if (errors.length > 0) {
+      alert(errors.join('\n'));
+      return false;
+    }
+
+    return true;
+  };
+
+  const submitReviewForm = () => {
+    const valid = validateReviewForm();
+    if (!valid) {
+      return;
+    }
+
+    const reviewPayload = {
+      productId,
+      images: productImages,
+      content: reviewText,
+      rating,
+    };
+
+    submitReview(reviewPayload);
+  };
+
   return (
-    <Modal onClose={() => setIsOpen(false)} buttonText="작성하기">
+    <Modal buttonText="작성하기" buttonProps={{ onClick: submitReviewForm, disabled: isPending }}>
       <div>
-        <div className="justify-center text-center w-[58px] h-[22px] rounded-[6px] px-2 py-1 font-normal text-xs text-[#23B581] bg-[#23B581]/10 mb-[10px]">
+        <div className="inline-flex justify-center text-center min-w-[58px] h-[22px] rounded-[6px] px-2 py-1 font-normal text-xs text-[#23B581] bg-[#23B581]/10 mb-[10px]">
           {data.category.name}
         </div>
         <div className="font-semibold text-gray-50 text-xl lg:text-2xl mb-5 md:mb-10">
@@ -38,13 +102,19 @@ function ProductReview({ productId }: productDetailProps) {
         <p className="font-normal text-gray-200 text-sm lg:text-base whitespace-nowrap">별점</p>
         <StarRating value={rating} onChange={setRating} />
       </div>
-      <Textarea containerClassName="mb-[10px] md:mb-[15px] lg:mb-5" maxLength={300} />
+      <Textarea
+        value={reviewText}
+        onChange={(e) => setReviewText(e.target.value)}
+        containerClassName="mb-[10px] md:mb-[15px] lg:mb-5"
+        maxLength={300}
+        onBlur={validateReviewText}
+      />
       <ImageUploader
         isSingleImage={false}
         images={productImages}
-        onUploadImages={(urls) => setproductImages(urls)}
+        onUploadImages={(urls) => setProductImages(urls)}
         onRemoveImages={(index) => {
-          setproductImages((prev) => prev.filter((_, i) => i !== index));
+          setProductImages((prev) => prev.filter((_, i) => i !== index));
         }}
       />
     </Modal>

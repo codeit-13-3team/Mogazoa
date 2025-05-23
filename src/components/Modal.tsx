@@ -1,6 +1,7 @@
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { useModal } from '@/context/ModalContext';
 import Image from 'next/image';
-import { CSSProperties, useEffect, useState } from 'react';
 import closeButton from '../../public/icon/common/close.png';
 import Button from './button/Button';
 
@@ -9,11 +10,11 @@ type Props = {
   buttonText?: string;
   containerClassName?: string;
   buttonProps?: Omit<React.ComponentProps<typeof Button>, 'children'>;
-  onClose: () => void;
 };
 
-function Modal({ children, buttonText, containerClassName, buttonProps, onClose }: Props) {
+function Modal({ children, buttonText, containerClassName, buttonProps }: Props) {
   const [modalRoot, setModalRoot] = useState<HTMLElement | null>(null);
+  const { closeModal } = useModal();
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -37,7 +38,7 @@ function Modal({ children, buttonText, containerClassName, buttonProps, onClose 
           className={`relative flex flex-col bg-black-500 w-[335px] h-auto rounded-xl md:w-[590px] md:rounded-2xl lg:w-[620px] ${containerClassName}`}
         >
           <button
-            onClick={onClose}
+            onClick={closeModal}
             className="absolute top-[15px] right-[15px] md:top-5 md:right-5"
           >
             <Image

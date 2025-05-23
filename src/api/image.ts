@@ -4,7 +4,7 @@ interface ImageUploadResponse {
   url: string;
 }
 
-export const imageUpload = async (file: File): Promise<ImageUploadResponse | undefined> => {
+export const imageUpload = async (file: File) => {
   const formData = new FormData();
   formData.append('image', file);
 
@@ -18,5 +18,6 @@ export const imageUpload = async (file: File): Promise<ImageUploadResponse | und
     return res.data;
   } catch (error: any) {
     console.error('Upload Failed: ', error.response?.data || error.message);
+    throw error;
   }
 };

@@ -28,7 +28,6 @@ function Textarea({ onChange, containerClassName, maxLength, value, ...props }: 
             onChange={handleChange}
             {...props}
             className="w-full h-[120px] resize-none rounded-lg outline-none p-5 font-normal text-sm text-gray-50 bg-black-500 placeholder:text-gray-200 leading-5 md:h-[160px] md:text-base lg:leading-[22px]"
-            placeholder="리뷰를 작성해 주세요."
           />
         </div>
       </div>

@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { imageUpload } from '@/api/image';
 import Image from 'next/image';
 import ImageIcon from '../../public/icon/common/photo.png';
 import deleteIcon from '../../public/icon/common/close.png';
@@ -29,61 +30,138 @@ function ImageUploader({
   const addInputRef = useRef<HTMLInputElement>(null);
   const replaceInputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
+  const [prevUrl, setPrevUrl] = useState<string | null>(null);
+  const [prevUrls, setPrevUrls] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (isSingleImage) {
+      setPrevUrl(image);
+    } else {
+      setPrevUrls(images);
+    }
+  }, [image, images, isSingleImage]);
+
+  useEffect(() => {
+    return () => {
+      if (prevUrl?.startsWith('blob:')) {
+        URL.revokeObjectURL(prevUrl);
+      }
+      prevUrls.forEach((url) => {
+        if (url?.startsWith('blob:')) {
+          URL.revokeObjectURL(url);
+        }
+      });
+    };
+  }, [prevUrl, prevUrls]);
+
   const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
-  const validateFile = (file: File): string | null => {
+  const validateFileSize = (file: File): boolean => {
     if (file.size > MAX_FILE_SIZE) {
       alert('파일 크기가 5MB를 초과했습니다.');
+      return false;
+    }
+    return true;
+  };
+
+  const getValidateFile = (e: React.ChangeEvent<HTMLInputElement>): File | null => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return null;
+
+    const file = files[0];
+    if (!validateFileSize(file)) {
+      e.target.value = '';
       return null;
     }
-    return URL.createObjectURL(file);
+
+    return file;
   };
 
-  const singleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
+  const imageFileChange = async (file: File): Promise<string | null> => {
+    try {
+      const response = await imageUpload(file);
+      return response.url;
+    } catch (error) {
+      alert('이미지 업로드에 실패했습니다.');
+      return null;
+    }
+  };
 
-    const url = validateFile(files[0]);
-    if (!url) {
-      e.target.value = '';
-      return;
+  const singleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = getValidateFile(e);
+    if (!file) return;
+
+    if (prevUrl?.startsWith('blob:')) {
+      URL.revokeObjectURL(prevUrl);
     }
 
-    onUploadImage?.(url);
+    const objectUrl = URL.createObjectURL(file);
+    setPrevUrl(objectUrl);
+
+    const uploadedUrl = await imageFileChange(file);
+
+    if (uploadedUrl) {
+      setPrevUrl(uploadedUrl);
+      onUploadImage?.(uploadedUrl);
+      URL.revokeObjectURL(objectUrl);
+    }
+
     e.target.value = '';
   };
 
-  const addImagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
+  const addImagesChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = getValidateFile(e);
+    if (!file) return;
 
-    const url = validateFile(files[0]);
-    if (!url) {
-      e.target.value = '';
-      return;
+    const objectUrl = URL.createObjectURL(file);
+    const newPreviews = [...prevUrls, objectUrl];
+    setPrevUrls(newPreviews);
+
+    const uploadedUrl = await imageFileChange(file);
+    if (uploadedUrl && onUploadImages && images.length < maxImages) {
+      const updatedImages = [...images, uploadedUrl];
+      onUploadImages(updatedImages);
+
+      const updatedPreviews = [...prevUrls, uploadedUrl];
+      setPrevUrls(updatedPreviews);
+      URL.revokeObjectURL(objectUrl);
+    } else {
+      setPrevUrls(prevUrls);
+      URL.revokeObjectURL(objectUrl);
     }
 
-    if (onUploadImages && images.length < maxImages) {
-      onUploadImages([...images, url]);
-    }
     e.target.value = '';
   };
 
-  const replaceImagesChange = (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
+  const replaceImagesChange = (index: number) => async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = getValidateFile(e);
+    if (!file) return;
 
-    const url = validateFile(files[0]);
-    if (!url) {
-      e.target.value = '';
-      return;
+    const currentUrl = prevUrls[index];
+    if (currentUrl?.startsWith('blob:')) {
+      URL.revokeObjectURL(currentUrl);
     }
 
-    if (onUploadImages) {
-      const newImages = [...images];
-      newImages[index] = url;
-      onUploadImages(newImages);
+    const objectUrl = URL.createObjectURL(file);
+    const updatedPreviews = [...prevUrls];
+    updatedPreviews[index] = objectUrl;
+    setPrevUrls(updatedPreviews);
+
+    const uploadedUrl = await imageFileChange(file);
+    if (uploadedUrl && onUploadImages) {
+      const updatedImages = [...images];
+      updatedImages[index] = uploadedUrl;
+      onUploadImages(updatedImages);
+
+      const updatedUrls = [...prevUrls];
+      updatedUrls[index] = uploadedUrl;
+      setPrevUrls(updatedUrls);
+      URL.revokeObjectURL(objectUrl);
+    } else {
+      setPrevUrls(prevUrls);
+      URL.revokeObjectURL(objectUrl);
     }
+
     e.target.value = '';
   };
 
@@ -97,8 +175,19 @@ function ImageUploader({
 
   const removeImageFile = (index?: number) => {
     if (isSingleImage) {
+      if (prevUrl?.startsWith('blob:')) {
+        URL.revokeObjectURL(prevUrl);
+      }
+      setPrevUrl(null);
       onRemoveImage?.();
     } else if (typeof index === 'number') {
+      const targetUrl = prevUrls[index];
+      if (targetUrl?.startsWith('blob:')) {
+        URL.revokeObjectURL(targetUrl);
+      }
+      const updatedPreviews = [...prevUrls];
+      updatedPreviews.splice(index, 1);
+      setPrevUrls(updatedPreviews);
       onRemoveImages?.(index);
     }
   };
@@ -114,7 +203,7 @@ function ImageUploader({
       <div className="relative rounded-[8px] border border-black-300 bg-black-400 w-[140px] h-[140px] md:w-[135px] md:h-[135px] lg:w-[160px] lg:h-[160px]">
         <div
           className="flex justify-center items-center relative w-full h-full cursor-pointer"
-          onClick={() => addInputRef.current?.click()}
+          onClick={imageFileClick}
         >
           <input
             type="file"
@@ -123,10 +212,10 @@ function ImageUploader({
             onChange={singleImageChange}
             className="hidden"
           />
-          {image ? (
+          {prevUrl ? (
             <div className="relative w-full h-full">
               <Image
-                src={image}
+                src={prevUrl}
                 alt="업로드한 이미지"
                 fill
                 className="rounded-[8px] object-cover"
@@ -175,7 +264,7 @@ function ImageUploader({
         </div>
       )}
 
-      {images.map((imgUrl, index) => (
+      {prevUrls.map((imgUrl, index) => (
         <div
           key={index}
           className="relative rounded-[8px] border border-black-300 bg-black-400 w-[140px] h-[140px] md:w-[135px] md:h-[135px] lg:w-[160px] lg:h-[160px] shrink-0"
