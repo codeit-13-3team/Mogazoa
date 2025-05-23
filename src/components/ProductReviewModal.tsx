@@ -11,7 +11,7 @@ type productDetailProps = {
 };
 
 function ProductReview({ productId }: productDetailProps) {
-  const [productImage, setproductImage] = useState<string>('');
+  const [productImages, setproductImages] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [rating, setRating] = useState<number>(0);
 
@@ -40,9 +40,12 @@ function ProductReview({ productId }: productDetailProps) {
       </div>
       <Textarea containerClassName="mb-[10px] md:mb-[15px] lg:mb-5" maxLength={300} />
       <ImageUploader
-        image={productImage}
-        onUploadImage={(url) => setproductImage(url)}
-        onRemoveImage={() => setproductImage('')}
+        isSingleImage={false}
+        images={productImages}
+        onUploadImages={(urls) => setproductImages(urls)}
+        onRemoveImages={(index) => {
+          setproductImages((prev) => prev.filter((_, i) => i !== index));
+        }}
       />
     </Modal>
   );
