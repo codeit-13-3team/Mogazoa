@@ -1,4 +1,9 @@
-import { getMyProfile } from '@/api/user';
+import {
+  getMyProfile,
+  getUserCreatedProducts,
+  getUserFavoriteProducts,
+  getUserReviewedProducts,
+} from '@/api/user';
 import Activity from '@/components/Activity';
 import { DropDown, DropDownOption } from '@/components/DropDown';
 import Product from '@/components/Product';
@@ -13,7 +18,6 @@ function MyPage() {
     queryKey: ['userProfile'],
     queryFn: getMyProfile,
   });
-
 
   const { data: reviewedProducts } = useQuery({
     queryKey: ['reviewedProduct'],
@@ -37,7 +41,7 @@ function MyPage() {
   });
 
   function handleDropDown(value: string | number | null) {
-    setShowProductState(value);
+    setShowProductState(String(value));
   }
 
   function setSpanTextColor(spanNum: string) {
