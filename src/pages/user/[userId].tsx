@@ -22,7 +22,7 @@ function UserPage() {
     queryFn: () => getUserProfile(userId),
     enabled: Boolean(userId),
   });
-
+  
   const { data: reviewedProducts } = useQuery({
     queryKey: ['reviewedProduct', userId],
     queryFn: () => getUserReviewedProducts(userId),
