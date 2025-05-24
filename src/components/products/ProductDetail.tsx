@@ -81,8 +81,8 @@ export default function ProductDetail({ id }: ProductDetailProps) {
 
   return (
     <section className="w-full mx-auto mb-[60px] lg:mb-20">
-      <div className="w-full flex flex-col lg:flex-row items-center gap-4">
-        <div className="aspect-video lg:w-[355px] w-full flex-shrink-0 flex items-center justify-center">
+      <div className="w-full flex flex-col md:flex-row items-center gap-4">
+        <div className="lg:w-[355px] min-w-[240px] w-full flex items-center justify-center">
           <Image
             src={product.image}
             alt={product.name || '상품 이미지'}
@@ -91,7 +91,7 @@ export default function ProductDetail({ id }: ProductDetailProps) {
             className="object-contain"
           />
         </div>
-        <div className="flex-1 flex flex-col justify-between w-full h-full">
+        <div className="flex flex-col justify-between min-w-0 w-full">
           <>
             <div className="flex justify-between mb-[10px]">
               <CategoryTag name={product.category?.name} />

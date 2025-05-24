@@ -23,7 +23,7 @@ export default function ProductDetailLayout({ id }: ProductDetailLayoutProps) {
   const [sortOrder, setSortOrder] = useState<SortOrder>('recent');
 
   return (
-    <div className="min-h-screen bg-black-500 text-white">
+    <div className="min-h-screen text-gray-50">
       <div className="w-full max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 flex flex-col items-center">
         <div className="w-full max-w-[940px]">
           <ProductDetail id={id} />
