@@ -1,14 +1,26 @@
 import { useModal } from '@/context/ModalContext';
 import Modal from './Modal';
 import router from 'next/router';
+import { Product } from '@/types/product';
+import { useEffect } from 'react';
 
-function CheckProductReplace() {
+function CheckProductReplace({
+  replaceProduct,
+  selectedProduct,
+}: {
+  replaceProduct: Product;
+  selectedProduct: string;
+}) {
   const { closeModal } = useModal();
 
   const moveToComparePage = () => {
     closeModal();
     router.push('/compare');
   };
+
+  useEffect(() => {
+    window.localStorage.setItem(selectedProduct, JSON.stringify(replaceProduct));
+  }, []);
 
   return (
     <Modal
