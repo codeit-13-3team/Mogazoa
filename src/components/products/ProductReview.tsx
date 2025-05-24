@@ -24,6 +24,8 @@ const ProductReview = ({ review, id, order = 'recent' }: reviewProps) => {
   const queryClient = useQueryClient();
   const user = JSON.parse(localStorage.getItem('user')!);
 
+  if (!review.user) return null;
+
   const likeReviewMutation = useMutation<void, Error, number>({
     mutationFn: likeReview,
     onSuccess: () => {

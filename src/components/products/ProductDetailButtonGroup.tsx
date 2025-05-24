@@ -24,7 +24,7 @@ export default function ProductDetailButtonGroup({ product }: ProductDetailButto
       >
         비교하기
       </Button>
-      {product.writerId === user.id && (
+      {product.writerId === user?.id && (
         <Button
           size="l"
           variant="tertiary"
