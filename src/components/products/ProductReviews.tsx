@@ -1,63 +1,26 @@
-'use client';
-
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { ReviewListItem } from '@/types/product';
+import axiosInstance from '@/api/axiosInstance';
+import ProductReview from './ProductReview';
 
 export interface ProductReviewsProps {
   id: number;
   order?: 'recent' | 'ratingDesc' | 'ratingAsc' | 'likeCount';
 }
 
-const likeReview = async (reviewId: number): Promise<void> => {
-  const res = await fetch(`https://mogazoa-api.vercel.app/13-3/reviews/${reviewId}/like`, {
-    method: 'POST',
-  });
-  if (!res.ok) throw new Error('Failed to like review');
-};
-
-const unlikeReview = async (reviewId: number): Promise<void> => {
-  const res = await fetch(`https://mogazoa-api.vercel.app/13-3/reviews/${reviewId}/like`, {
-    method: 'DELETE',
-  });
-  if (!res.ok) throw new Error('Failed to unlike review');
-};
-
 export default function ProductReviews({ id, order = 'recent' }: ProductReviewsProps) {
-  const queryClient = useQueryClient();
-
   const { data: reviews, isLoading } = useQuery<ReviewListItem[]>({
     queryKey: ['reviews', id, order],
     queryFn: async () => {
-      const res = await fetch(
-        `https://mogazoa-api.vercel.app/13-3/products/${id}/reviews?order=${order}`,
-      );
-      const data = await res.json();
-      return data.list;
+      const response = await axiosInstance.get<{
+        list: ReviewListItem[];
+      }>(`/products/${id}/reviews`, {
+        params: { order },
+      });
+      return response.data.list;
     },
     enabled: Boolean(id),
   });
-
-  const likeReviewMutation = useMutation<void, Error, number>({
-    mutationFn: likeReview,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['reviews', id, order] });
-    },
-  });
-
-  const unlikeReviewMutation = useMutation<void, Error, number>({
-    mutationFn: unlikeReview,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['reviews', id, order] });
-    },
-  });
-
-  const handleLikeClick = (reviewId: number, isLiked: boolean) => {
-    if (isLiked) {
-      unlikeReviewMutation.mutate(reviewId);
-    } else {
-      likeReviewMutation.mutate(reviewId);
-    }
-  };
 
   if (isLoading) {
     return (
@@ -78,51 +41,13 @@ export default function ProductReviews({ id, order = 'recent' }: ProductReviewsP
   }
 
   return (
-    <section className="w-[940px] mx-auto">
-      <div className="bg-black-400 rounded-xl p-8">
-        <div className="space-y-6">
-          {reviews.map((review) => (
-            <article key={review.id} className="border-b border-gray-200 pb-6 last:border-0">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-10 h-10 rounded-full overflow-hidden">
-                  <img
-                    src={review.user.image || '/placeholder-user.png'}
-                    alt={review.user.nickname}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div>
-                  <div className="font-medium">{review.user.nickname}</div>
-                  <div className="text-sm text-gray-500">{review.createdAt}</div>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-main-indigo">⭐️ {review.rating}</span>
-              </div>
-              <div className="text-gray-300 mb-4">{review.content}</div>
-              {review.reviewImages.length > 0 && (
-                <div className="flex gap-2">
-                  {review.reviewImages.map((image) => (
-                    <div key={image.id} className="w-20 h-20 rounded-lg overflow-hidden">
-                      <img
-                        src={image.source}
-                        alt="리뷰 이미지"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
-              <button
-                className={`flex items-center gap-1 text-sm ${review.isLiked ? 'text-red-500' : 'text-gray-400'} hover:text-red-500`}
-                onClick={() => handleLikeClick(review.id, review.isLiked)}
-                disabled={likeReviewMutation.isPending || unlikeReviewMutation.isPending}
-              >
-                <span>❤️</span> {review.likeCount}
-              </button>
-            </article>
-          ))}
-        </div>
+    <section className="max-w-[940px] mx-auto">
+      <div className="flex flex-col gap-[15px] ">
+        {reviews.map((review, index) => (
+          <div key={index} className=" bg-black-400 p-5 rounded-[12px] border border-black-300">
+            <ProductReview review={review} id={id} order={order} />
+          </div>
+        ))}
       </div>
     </section>
   );

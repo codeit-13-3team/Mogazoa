@@ -96,10 +96,11 @@ export default function ProductDetail({ id }: ProductDetailProps) {
         <div className="lg:w-[355px] min-w-[240px] w-full flex items-center justify-center">
           <Image
             src={product.image}
-            alt={product.name || '상품 이미지'}
+            alt={product.name}
             width={160}
             height={160}
-            className="object-contain"
+            priority
+            className="object-contain h-auto"
           />
         </div>
         <div className="flex flex-col justify-between min-w-0 w-full">
