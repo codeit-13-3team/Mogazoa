@@ -64,6 +64,17 @@ export default function ProductDetail({ id }: ProductDetailProps) {
     }
   };
 
+  const handleShareClick = async () => {
+    try {
+      const url = window.location.href;
+      await navigator.clipboard.writeText(url);
+      alert('클립보드에 URL이 복사되었습니다.');
+    } catch (err) {
+      console.error('클립보드 복사 실패:', err);
+      alert('URL 복사에 실패했습니다.');
+    }
+  };
+
   if (isLoading) {
     return (
       <section className="flex items-center justify-center min-h-[200px]">
@@ -96,7 +107,10 @@ export default function ProductDetail({ id }: ProductDetailProps) {
           <>
             <div className="flex justify-between mb-[10px]">
               <CategoryTag name={product.category?.name} />
-              <div className="p-[5px] bg-black-400 rounded-[6px] block md:hidden">
+              <div
+                className="p-[5px] bg-black-400 rounded-[6px] block md:hidden"
+                onClick={handleShareClick}
+              >
                 <Image src={Share} alt="공유하기 아이콘" width={14} height={14} />
               </div>
             </div>
@@ -121,7 +135,10 @@ export default function ProductDetail({ id }: ProductDetailProps) {
                   />
                 )}
               </div>
-              <div className="p-[5px] bg-black-400 rounded-[6px] hidden md:block">
+              <div
+                className="p-[5px] bg-black-400 rounded-[6px] hidden md:block"
+                onClick={handleShareClick}
+              >
                 <Image src={Share} alt="공유하기 아이콘" width={14} height={14} />
               </div>
             </div>
