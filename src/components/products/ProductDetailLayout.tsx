@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState } from 'react';
 import ProductDetail from '@/components/products/ProductDetail';
 import ProductStatistics from '@/components/products/ProductStatistics';

@@ -10,7 +10,6 @@ import FilledHeart from '../../../public/icon/common/save.png';
 import useAuthStore from '@/stores/authStores';
 import { useRouter } from 'next/router';
 import axiosInstance from '@/api/axiosInstance';
-import { useEffect } from 'react';
 
 interface ProductDetailProps {
   id: number;
