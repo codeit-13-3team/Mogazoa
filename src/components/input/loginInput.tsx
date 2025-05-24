@@ -127,7 +127,7 @@ export const ConfirmPasswordInput = ({ register, errors, watch, className }: Pro
       <button
         type="button"
         onClick={() => setShowPassword((prev) => !prev)}
-        className="absolute right-3 top-[45px] -translate-y-1/2 text-gray-400"
+        className="absolute right-[20px] top-[50px] text-gray-400"
       >
         {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
       </button>
