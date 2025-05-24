@@ -2,14 +2,9 @@ import Category from '@/components/home/Category';
 import { InfiniteProductList } from '@/components/home/InfiniteProductList';
 import ProductList from '@/components/home/ProductList';
 import ReviewerRanking from '@/components/home/ReviewerRanking';
-import { JSX, useState } from 'react';
+import { useState } from 'react';
 import categoryIcon from '../../public/icon/common/category.png';
 import Image from 'next/image';
-import CreateProduct from '@/components/ProductForm';
-import { Product } from '@/types/product';
-import { useQueryClient } from '@tanstack/react-query';
-import { getProductById } from '@/api/products';
-import { useModal } from '@/context/ModalContext';
 import { useRouter } from 'next/router';
 import { DropDown, DropDownOption } from '@/components/DropDown';
 
@@ -22,17 +17,6 @@ const Home = () => {
 
   const [selectedOrder, setSelectedOrder] = useState<string | null>('recent');
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const { openModal } = useModal();
-  const queryClient = useQueryClient();
-
-  const handleProductClick = async (product: Product) => {
-    const productDetail = await queryClient.fetchQuery({
-      queryKey: ['product', product.id],
-      queryFn: () => getProductById(product.id),
-    });
-
-    openModal(<CreateProduct selectedProduct={productDetail} />, productDetail);
-  };
 
   const sort = [
     { key: '최신순', value: 'recent' },
@@ -105,14 +89,14 @@ const Home = () => {
                     />
                     <span>{selectedCategoryName ? selectedCategoryName : '카테고리'}</span>
                   </div>
-                  <ProductList order="reviewCount" onProductClick={handleProductClick} />
+                  <ProductList order="reviewCount" />
                 </div>
 
                 <div className="mt-[60px] mb-[20px]">
                   <h4 className="text-[20px] font-semibold mb-[30px] text-gray-50">
                     별점이 높은 상품
                   </h4>
-                  <ProductList order="rating" onProductClick={handleProductClick} />
+                  <ProductList order="rating" />
                 </div>
               </div>
             ) : (
