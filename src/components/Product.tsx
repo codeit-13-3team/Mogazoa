@@ -1,8 +1,10 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 interface ProductProps {
   width: string;
   height: string;
+  id: number;
   name: string;
   image?: string;
   reviewCount: number;
@@ -13,12 +15,15 @@ interface ProductProps {
 const Product = ({
   width,
   height,
+  id,
   name,
   image,
   reviewCount,
   favoriteCount,
   rating,
 }: ProductProps) => {
+  const router = useRouter();
+
   return (
     <div
       className="p-[10px] bg-[#252530] border border-[#353542] rounded-[8px] cursor-pointer md:pb-[20px] lg:pb-[25px]"
@@ -27,7 +32,7 @@ const Product = ({
       <div className="w-full h-full flex flex-col gap-[10px] justify-between md:gap-[20px] lg:gap-[25px]">
         <div className="w-full h-full relative">
           {image ? (
-            <Image src={image} alt="상품 이미지" fill className="object-contain" />
+            <Image src={image} alt="상품 이미지" fill className="object-contain" onClick={() => router.push(`/products/${id}`)} />
           ) : (
             <div className="w-full h-full flex justify-center items-center text-gray-200">
               해당 상품의 이미지가 없습니다

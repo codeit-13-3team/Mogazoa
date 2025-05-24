@@ -1,6 +1,6 @@
 import { GetMeResponse } from '@/types/user';
 import Image from 'next/image';
-import noImage from '../../public/img/profileimage/profile1.png';
+import noImage from '../../public/img/profileimage/initialImage.png';
 import { followUser, unfollowUser } from '@/api/follow';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import EditProfileModal from '@/components/EditProfileModal';

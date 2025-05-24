@@ -68,6 +68,7 @@ function UserPage() {
                     <Product
                       width="100%"
                       height="100%"
+                      id={product.id}
                       name={product.name}
                       image={product.image}
                       reviewCount={product.reviewCount}
@@ -94,6 +95,7 @@ function UserPage() {
                     <Product
                       width="100%"
                       height="100%"
+                      id={product.id}
                       name={product.name}
                       image={product.image}
                       reviewCount={product.reviewCount}
@@ -120,6 +122,7 @@ function UserPage() {
                     <Product
                       width="100%"
                       height="100%"
+                      id={product.id}
                       name={product.name}
                       image={product.image}
                       reviewCount={product.reviewCount}
