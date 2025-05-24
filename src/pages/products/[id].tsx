@@ -1,5 +1,3 @@
-'use client';
-
 import { useRouter } from 'next/router';
 import ProductDetailLayout from '@/components/products/ProductDetailLayout';
 
