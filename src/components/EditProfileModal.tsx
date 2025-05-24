@@ -21,7 +21,6 @@ function EditProfileModal({ profileData }: { profileData: GetMeResponse }) {
 
   const setInitialErrorState: ErrorState = { isError: false, message: '' };
   const [inputError, setInputError] = useState<ErrorState>(setInitialErrorState);
-  //const isImageUrlExist: boolean = imageUrl === '' || imageUrl === 'https://none';
 
   const queryClient = useQueryClient();
 
@@ -56,7 +55,8 @@ function EditProfileModal({ profileData }: { profileData: GetMeResponse }) {
 
   useEffect(() => {
     checkInputError(inputText);
-  }, []);
+    if (!imageUrl) setImageUrl('https://none');
+  }, [profileData]);
 
   return (
     <Modal>
@@ -64,9 +64,9 @@ function EditProfileModal({ profileData }: { profileData: GetMeResponse }) {
         <span className="mt-5 text-xl font-semibold text-gray-50 lg:text-2xl">프로필 편집</span>
         <div className="flex flex-col gap-[10px] md:gap-[15px] lg:gap-5">
           <ImageUploader
-            image={imageUrl}
+            image={imageUrl === 'https://none' ? '' : imageUrl}
             onUploadImage={(url) => setImageUrl(url)}
-            onRemoveImage={() => setImageUrl('')}
+            onRemoveImage={() => setImageUrl('https://none')}
           />
           <div>
             <input
