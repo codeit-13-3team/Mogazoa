@@ -5,6 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { ProductResponse } from '@/types/product';
 import { getProductById } from '@/api/products';
 import ProductDetailButtonGroup from '@/components/products/ProductDetailButtonGroup';
+import CategoryTag from './CategoryTag';
 
 interface ProductDetailProps {
   id: number;
@@ -59,14 +60,11 @@ export default function ProductDetail({ id }: ProductDetailProps) {
   }
 
   return (
-    <section className="w-full mx-auto mb-4 sm:mb-6 lg:mb-8">
-      <div className="w-full bg-black-400 rounded-xl flex flex-col lg:flex-row items-center gap-4 lg:gap-8 p-4 sm:p-6 lg:p-8">
-        <div className="w-full sm:w-[180px] h-[180px] flex-shrink-0 flex items-center justify-center bg-black-500 rounded-lg border border-gray-200">
+    <section className="w-full mx-auto mb-[60px] lg:mb-20">
+      <div className="w-full flex flex-col lg:flex-row items-center gap-4">
+        <div className="aspect-video lg:w-[355px] w-full flex-shrink-0 flex items-center justify-center">
           <Image
-            src={
-              product.image ||
-              'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/MWP22?wid=1144&hei=1144&fmt=jpeg&qlt=80&.v=1591634795000'
-            }
+            src={product.image}
             alt={product.name || '상품 이미지'}
             width={160}
             height={160}
@@ -75,10 +73,8 @@ export default function ProductDetail({ id }: ProductDetailProps) {
         </div>
         <div className="flex-1 flex flex-col justify-between w-full h-full gap-4">
           <div>
-            <span className="inline-block bg-gray-200 text-white text-xs px-2 py-1 rounded mb-2">
-              {product.category?.name || '브랜드명'}
-            </span>
-            <div className="text-lg sm:text-xl lg:text-2xl font-bold mb-2 flex items-center justify-between gap-4">
+            <CategoryTag name={product.category?.name} />
+            <div className="text-lg sm:text-xl lg:text-2xl font-bold mb-2 flex items-center gap-4">
               <span>{product.name || '상품명'}</span>
               <button
                 onClick={handleFavoriteClick}
@@ -88,9 +84,7 @@ export default function ProductDetail({ id }: ProductDetailProps) {
                 {product.isFavorite ? '❤️' : '🤍'}
               </button>
             </div>
-            <div className="text-sm lg:text-base text-gray-300">
-              {product.description || '상품 설명이 들어갑니다.'}
-            </div>
+            <div className="text-sm lg:text-base text-gray-300">{product.description}</div>
           </div>
           <ProductDetailButtonGroup />
         </div>

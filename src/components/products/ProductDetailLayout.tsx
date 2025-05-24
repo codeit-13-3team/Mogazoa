@@ -38,7 +38,7 @@ export default function ProductDetailLayout({ id }: ProductDetailLayoutProps) {
                 onChange={setSortOrder}
               />
             </div>
-            <ProductReviews id={id} order={sortOrder} />
+            {/* <ProductReviews id={id} order={sortOrder} /> */}
           </div>
         </div>
       </div>
