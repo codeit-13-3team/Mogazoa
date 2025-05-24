@@ -5,6 +5,7 @@ import thumbsUp from '../../../public/icon/common/up.png';
 import activeThumbsUp from '../../../public/icon/common/up2.png';
 import axiosInstance from '@/api/axiosInstance';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 
 interface reviewProps {
   review: ReviewListItem;
@@ -22,7 +23,20 @@ const unlikeReview = async (reviewId: number): Promise<void> => {
 
 const ProductReview = ({ review, id, order = 'recent' }: reviewProps) => {
   const queryClient = useQueryClient();
-  const user = JSON.parse(localStorage.getItem('user')!);
+
+  const [user, setUser] = useState<{ id: number } | null>(null);
+
+  useEffect(() => {
+    const stored = localStorage.getItem('user');
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        setUser(parsed);
+      } catch {
+        setUser(null);
+      }
+    }
+  }, []);
 
   if (!review.user) return null;
 
@@ -102,7 +116,7 @@ const ProductReview = ({ review, id, order = 'recent' }: reviewProps) => {
                 {formattedDate(review.createdAt)}
               </div>
 
-              {review.user.id === user.id && (
+              {review.user.id === user?.id && (
                 <>
                   <span className="text-[12px] lg:text-[14px] font-light text-gray-100 underline cursor-pointer mr-[10px]">
                     수정
