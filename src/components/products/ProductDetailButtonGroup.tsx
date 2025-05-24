@@ -2,6 +2,7 @@ import { ProductResponse } from '@/types/product';
 import Button from '../button/Button';
 import { useModal } from '@/context/ModalContext';
 import ProductReview from '../ProductReviewModal';
+import ProductForm from '../ProductForm';
 
 export interface ProductDetailButtonGroupProps {
   product: ProductResponse;
@@ -13,6 +14,10 @@ export default function ProductDetailButtonGroup({ product }: ProductDetailButto
 
   const createReview = () => {
     openModal(<ProductReview productId={product.id} />);
+  };
+
+  const editProduct = () => {
+    openModal(<ProductForm selectedProduct={product} />);
   };
 
   return (
@@ -37,6 +42,7 @@ export default function ProductDetailButtonGroup({ product }: ProductDetailButto
           size="l"
           variant="tertiary"
           className="w-full flex-[1] py-[15.5px] md:py-[18px] lg:py-[22px] rounded-[8px] border border-gray-100 text-gray-100 bg-black-500"
+          onClick={editProduct}
         >
           편집하기
         </Button>
