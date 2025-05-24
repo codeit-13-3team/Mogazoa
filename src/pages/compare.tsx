@@ -1,7 +1,7 @@
 import Button from '@/components/button/Button';
 import Input from '@/components/input/input';
 import Image from 'next/image';
-import loadingSmall from '../../public/icon/loading/lodingS.png';
+import loadingNoText from '../../public/icon/loading/loadingNoTextsvg.svg';
 import CompareTable from '@/components/compare/CompareTable';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useEffect, useRef, useState } from 'react';
@@ -120,8 +120,8 @@ const Compare = () => {
   };
 
   return (
-    <div className="py-[30px] px-5 min-h-dvh">
-      <div className="flex flex-col items-center justity-center mx-auto w-full max-w-[940px]">
+    <div className="py-[30px] px-5 min-h-dvh relative h-[calc(100vh-95px)]">
+      <div className="mx-auto w-full max-w-[940px]">
         <div className="flex flex-col gap-8 w-full md:flex-row md:items-end md:justify-center">
           <div className="w-full">
             <div className="relative">
@@ -216,7 +216,7 @@ const Compare = () => {
           </Button>
         </div>
 
-        <div className="py-24 md:py-[140px] text-center w-full">
+        <div className="absolute inset-1/2 -translate-x-1/2 -translate-y-[calc(-50%+155px)] text-center max-w-[940px] w-full px-5">
           {hasCompare ? (
             <>
               <div className="mb-10 md:mb-20">
@@ -252,7 +252,7 @@ const Compare = () => {
             </>
           ) : (
             <div className="w-full flex justify-center">
-              <Image src={loadingSmall} alt="로딩 아이콘" width={79} height={73} />
+              <Image src={loadingNoText} alt="로딩 아이콘" width={79} height={73} />
             </div>
           )}
         </div>
