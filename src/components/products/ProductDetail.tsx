@@ -10,6 +10,7 @@ import FilledHeart from '../../../public/icon/common/save.png';
 import useAuthStore from '@/stores/authStores';
 import { useRouter } from 'next/router';
 import axiosInstance from '@/api/axiosInstance';
+import { useEffect } from 'react';
 
 interface ProductDetailProps {
   id: number;
@@ -95,33 +96,40 @@ export default function ProductDetail({ id }: ProductDetailProps) {
           <>
             <div className="flex justify-between mb-[10px]">
               <CategoryTag name={product.category?.name} />
-              <div className="p-[5px] bg-black-400 rounded-[6px]">
+              <div className="p-[5px] bg-black-400 rounded-[6px] block md:hidden">
                 <Image src={Share} alt="공유하기 아이콘" width={14} height={14} />
               </div>
             </div>
-            <div className="text-lg sm:text-xl lg:text-2xl font-bold mb-2 flex items-center gap-4">
-              <span>{product.name || '상품명'}</span>
-              {product.isFavorite ? (
-                <Image
-                  src={FilledHeart}
-                  alt="좋아요 아이콘"
-                  width={24}
-                  height={24}
-                  onClick={handleFavoriteClick}
-                />
-              ) : (
-                <Image
-                  src={unFilledHeart}
-                  alt="비어있는 좋아요 아이콘"
-                  width={24}
-                  height={24}
-                  onClick={handleFavoriteClick}
-                />
-              )}
+            <div className="text-lg sm:text-xl lg:text-2xl font-bold mb-5 md:mb-[50px] flex items-center justify-between">
+              <div className="flex items-center gap-[15px]">
+                <span>{product.name || '상품명'}</span>
+                {product.isFavorite ? (
+                  <Image
+                    src={FilledHeart}
+                    alt="좋아요 아이콘"
+                    width={24}
+                    height={24}
+                    onClick={handleFavoriteClick}
+                  />
+                ) : (
+                  <Image
+                    src={unFilledHeart}
+                    alt="비어있는 좋아요 아이콘"
+                    width={24}
+                    height={24}
+                    onClick={handleFavoriteClick}
+                  />
+                )}
+              </div>
+              <div className="p-[5px] bg-black-400 rounded-[6px] hidden md:block">
+                <Image src={Share} alt="공유하기 아이콘" width={14} height={14} />
+              </div>
             </div>
-            <div className="text-sm lg:text-base text-gray-300">{product.description}</div>
+            <div className="text-sm lg:text-base mb-[67px] md:mb-[60px] text-gray-50">
+              {product.description}
+            </div>
           </>
-          <ProductDetailButtonGroup />
+          <ProductDetailButtonGroup product={product} />
         </div>
       </div>
     </section>

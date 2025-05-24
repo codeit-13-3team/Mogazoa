@@ -1,8 +1,13 @@
+import { ProductResponse } from '@/types/product';
 import Button from '../button/Button';
 
-export interface ProductDetailButtonGroupProps {}
+export interface ProductDetailButtonGroupProps {
+  product: ProductResponse;
+}
 
-export default function ProductDetailButtonGroup({}: ProductDetailButtonGroupProps) {
+export default function ProductDetailButtonGroup({ product }: ProductDetailButtonGroupProps) {
+  const user = JSON.parse(localStorage.getItem('user')!);
+
   return (
     <section className="flex flex-col md:flex-row gap-4 w-full">
       <Button
@@ -19,6 +24,15 @@ export default function ProductDetailButtonGroup({}: ProductDetailButtonGroupPro
       >
         비교하기
       </Button>
+      {product.writerId === user.id && (
+        <Button
+          size="l"
+          variant="tertiary"
+          className="w-full flex-[1] py-[15.5px] md:py-[18px] lg:py-[22px] rounded-[8px] border border-gray-100 text-gray-100 bg-black-500"
+        >
+          편집하기
+        </Button>
+      )}
     </section>
   );
 }
