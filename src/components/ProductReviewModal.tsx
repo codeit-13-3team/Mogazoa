@@ -6,6 +6,7 @@ import Modal from './Modal';
 import StarRating from './StarRating';
 import Textarea from './Textarea';
 import ImageUploader from './ImageUploader';
+import { useModal } from '@/context/ModalContext';
 
 type productDetailProps = {
   productId: number;
@@ -15,6 +16,7 @@ function ProductReview({ productId }: productDetailProps) {
   const [productImages, setProductImages] = useState<string[]>([]);
   const [rating, setRating] = useState<number>(0);
   const [reviewText, setReviewText] = useState('');
+  const { closeModal } = useModal();
 
   const { mutate: submitReview, isPending } = useMutation({
     mutationFn: createReview,
@@ -23,6 +25,7 @@ function ProductReview({ productId }: productDetailProps) {
       setReviewText('');
       setRating(0);
       setProductImages([]);
+      closeModal();
     },
     onError: (error) => {
       console.error('리뷰 등록 실패', error);

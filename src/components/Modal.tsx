@@ -8,13 +8,12 @@ import Button from './button/Button';
 type Props = {
   children: React.ReactNode;
   buttonText?: string;
-  containerClassName?: string;
   buttonProps?: Omit<React.ComponentProps<typeof Button>, 'children'>;
 };
 
-function Modal({ children, buttonText, containerClassName, buttonProps }: Props) {
+function Modal({ children, buttonText, buttonProps }: Props) {
   const [modalRoot, setModalRoot] = useState<HTMLElement | null>(null);
-  const { closeModal } = useModal();
+  const { closeModal, isSmall } = useModal();
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -35,7 +34,7 @@ function Modal({ children, buttonText, containerClassName, buttonProps }: Props)
       <div className="fixed inset-0 bg-[#000000]/70 z-40" />
       <div className="flex justify-center items-center fixed inset-0 z-50">
         <div
-          className={`relative flex flex-col bg-black-500 w-[335px] h-auto rounded-xl md:w-[590px] md:rounded-2xl lg:w-[620px] ${containerClassName}`}
+          className={`relative flex flex-col bg-black-500 w-[335px] h-auto rounded-xl  md:rounded-2xl  ${isSmall ? 'md:w-[500px]' : 'md:w-[590px] lg:w-[620px]'}`}
         >
           <button
             onClick={closeModal}
