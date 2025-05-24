@@ -5,6 +5,7 @@ import thumbsUp from '../../../public/icon/common/up.png';
 import activeThumbsUp from '../../../public/icon/common/up2.png';
 import axiosInstance from '@/api/axiosInstance';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 
 interface reviewProps {
   review: ReviewListItem;
@@ -22,7 +23,20 @@ const unlikeReview = async (reviewId: number): Promise<void> => {
 
 const ProductReview = ({ review, id, order = 'recent' }: reviewProps) => {
   const queryClient = useQueryClient();
-  const user = JSON.parse(localStorage.getItem('user')!);
+
+  const [user, setUser] = useState<{ id: number } | null>(null);
+
+  useEffect(() => {
+    const stored = localStorage.getItem('user');
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        setUser(parsed);
+      } catch {
+        setUser(null);
+      }
+    }
+  }, []);
 
   if (!review.user) return null;
 
@@ -58,20 +72,20 @@ const ProductReview = ({ review, id, order = 'recent' }: reviewProps) => {
       <div className="md:flex md:justify-between">
         <div className="md:mr-[30px] lg:mr-[80px]">
           <div className="flex items-center gap-[10px] mb-4">
-            <>
+            <div className="w-[36px] h-[36px]">
               {review.user.image ? (
                 <Image
                   src={review.user.image}
                   alt={review.user.nickname}
                   width={36}
                   height={36}
-                  className="w-full h-full object-cover rounded-full overflow-hidden"
+                  className="w-[36px] h-[36px] object-cover rounded-full overflow-hidden"
                 />
               ) : (
                 <div className="bg-gray-50 rounded-full w-[36px] h-[36px]" />
               )}
-            </>
-            <div>
+            </div>
+            <div className="flex-shrink-0">
               <div className="mb-[5px] text-[14px] text-gray-50">{review.user.nickname}</div>
               <StarRating value={review.rating} starClassName="w-3 h-3" />
             </div>
@@ -102,7 +116,7 @@ const ProductReview = ({ review, id, order = 'recent' }: reviewProps) => {
                 {formattedDate(review.createdAt)}
               </div>
 
-              {review.user.id === user.id && (
+              {review.user.id === user?.id && (
                 <>
                   <span className="text-[12px] lg:text-[14px] font-light text-gray-100 underline cursor-pointer mr-[10px]">
                     수정
@@ -115,7 +129,7 @@ const ProductReview = ({ review, id, order = 'recent' }: reviewProps) => {
             </div>
 
             <div
-              className="py-[6px] px-[10px] flex items-`center gap-[5px] border border-black-300 rounded-full cursor-pointer"
+              className="py-[6px] px-[10px] flex items-center gap-[5px] border border-black-300 rounded-full cursor-pointer"
               onClick={() => handleLikeClick(review.id, review.isLiked)}
             >
               {review.isLiked ? (
