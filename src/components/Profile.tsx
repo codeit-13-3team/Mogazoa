@@ -1,10 +1,9 @@
-import { FollowUserItem, GetMeResponse } from '@/types/user';
+import { GetMeResponse } from '@/types/user';
 import Image from 'next/image';
 import noImage from '../../public/img/profileimage/profile1.png';
 import { followUser, unfollowUser } from '@/api/follow';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import EditProfileModal from '@/components/EditProfileModal';
-import { useState } from 'react';
 import { useRouter } from 'next/router';
 import useAuthStore from '@/stores/authStores';
 import FollowUserListModal from './FollowUserListModal';
@@ -63,7 +62,7 @@ function Profile({ profileData, isMyProfile = false }: ProfileProp) {
           className="w-[120px] h-[120px] relative rounded-full overflow-hidden hover:cursor-pointer lg:w-[180px] lg:h-[180px]"
           onClick={() => showFollowList(profileData.id)}
         >
-          {profileData?.image ? (
+          {profileData?.image && profileData.image !== 'https://none' ? (
             <Image src={profileData.image} alt="유저 이미지" fill />
           ) : (
             <Image src={noImage} alt="유저 이미지" fill />
