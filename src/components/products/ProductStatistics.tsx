@@ -1,5 +1,3 @@
-'use client';
-
 import { useQuery } from '@tanstack/react-query';
 import { getProductById } from '@/api/products';
 import { ProductResponse } from '@/types/product';
@@ -12,24 +10,24 @@ export interface ProductStatisticsProps {
 type StatConfig = {
   key: string;
   label: string;
-  render: (product: ProductResponse | undefined) => string | number;
+  render: (product: ProductResponse | undefined) => string | number | undefined;
 };
 
 const STATS: StatConfig[] = [
   {
     key: 'rating',
     label: '별점 평균',
-    render: (product) => product?.rating?.toFixed(1) || '4.9',
+    render: (product) => product?.rating?.toFixed(1),
   },
   {
     key: 'favoriteCount',
     label: '찜',
-    render: (product) => product?.favoriteCount || '566',
+    render: (product) => product?.favoriteCount,
   },
   {
     key: 'reviewCount',
     label: '리뷰',
-    render: (product) => product?.reviewCount || '4,123',
+    render: (product) => product?.reviewCount,
   },
 ];
 
@@ -42,15 +40,15 @@ export default function ProductStatistics({ id }: ProductStatisticsProps) {
 
   if (isLoading)
     return (
-      <section className="w-full mx-auto mb-4 sm:mb-6 lg:mb-8 min-h-[120px] flex items-center justify-center text-gray-400">
+      <section className="w-full mx-auto mb-4 lg:mb-8 min-h-[120px] flex items-center justify-center text-gray-400">
         로딩 중...
       </section>
     );
 
   return (
-    <section className="w-full mx-auto mb-4 sm:mb-6 lg:mb-8">
-      <h2 className="text-lg sm:text-xl font-normal leading-none mb-4">상품 통계</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+    <section className="w-full mx-auto mb-[60px]">
+      <h2 className="mb-[30px] text-[18px] font-semibold text-gray-50">상품 통계</h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-[15px] lg:gap-5">
         {STATS.map((stat) => (
           <StatisticCard key={stat.key} value={stat.render(product)} label={stat.label} />
         ))}

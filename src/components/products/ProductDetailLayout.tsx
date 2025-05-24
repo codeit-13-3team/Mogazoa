@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState } from 'react';
 import ProductDetail from '@/components/products/ProductDetail';
 import ProductStatistics from '@/components/products/ProductStatistics';
@@ -23,15 +21,15 @@ export default function ProductDetailLayout({ id }: ProductDetailLayoutProps) {
   const [sortOrder, setSortOrder] = useState<SortOrder>('recent');
 
   return (
-    <div className="min-h-screen bg-black-500 text-white">
-      <div className="w-full max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 flex flex-col items-center">
+    <div className="min-h-screen text-gray-50">
+      <div className="w-full max-w-[1920px] mx-auto px-4 lg:px-8 py-4 lg:py-8 flex flex-col items-center">
         <div className="w-full max-w-[940px]">
           <ProductDetail id={id} />
           <ProductStatistics id={id} />
 
-          <div className="w-full mx-auto mb-4 sm:mb-6 lg:mb-8">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 mb-4">
-              <h2 className="text-lg sm:text-xl font-normal leading-none">상품 리뷰</h2>
+          <div className="w-full mx-auto mb-4 lg:mb-8">
+            <div className="flex justify-between items-center gap-3 mb-[30px]">
+              <h2 className="text-[16px] font-semibold text-gray-50">상품 리뷰</h2>
               <ReviewSortDropdown
                 options={SORT_OPTIONS}
                 value={sortOrder}

@@ -5,29 +5,32 @@ import FullStar from '../../public/icon/common/star.png';
 
 type StarRatingProps = {
   value: number;
-  onChange: (value: number) => void;
+  onChange?: (value: number) => void;
+  starClassName?: string;
 };
 
-function StarRating({ value, onChange }: StarRatingProps) {
+function StarRating({ value, onChange, starClassName }: StarRatingProps) {
   const handleClick = (e: React.MouseEvent<HTMLSpanElement>, index: number) => {
     const { left, width } = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - left;
     const isHalf = x < width / 2;
     const newValue = isHalf ? index + 0.5 : index + 1;
-    onChange(newValue);
+    onChange?.(newValue);
   };
 
   const renderStar = (index: number) => {
+    const commonClasses = starClassName ?? 'md:w-8 md:h-8';
+
     const diff = value - index;
     if (diff >= 1) {
       return (
-        <Image src={FullStar} alt="별점 아이콘" width={28} height={28} className="md:w-8 md:h-8" />
+        <Image src={FullStar} alt="별점 아이콘" width={28} height={28} className={commonClasses} />
       );
     }
     if (diff >= 0.5) {
-      return <HalfStar size={28} className="text-yellow md:w-8 md:h-8" />;
+      return <HalfStar size={28} className={`${commonClasses} text-yellow`} />;
     }
-    return <EmptyStar size={28} className="text-gray-200 md:w-8 md:h-8" />;
+    return <EmptyStar size={28} className={`${commonClasses} text-gray-200`} />;
   };
 
   return (

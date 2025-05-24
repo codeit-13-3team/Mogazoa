@@ -16,10 +16,10 @@ export default function ReviewSortDropdown({ options, value, onChange }: ReviewS
   const selected = options.find((opt) => opt.value === value)?.label || '';
 
   return (
-    <section className="relative w-full sm:w-[160px]">
+    <section className="relative w-[160px]">
       <button
         className="flex items-center text-sm text-gray-400 border border-gray-200 rounded px-3 py-1.5 w-full h-[32px] justify-between"
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => setOpen((v: any) => !v)}
         type="button"
       >
         {selected}

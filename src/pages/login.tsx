@@ -8,9 +8,10 @@ import { useRouter } from 'next/router';
 import { useMutation } from '@tanstack/react-query';
 import useAuthStore from '@/stores/authStores';
 import Button from '@/components/button/Button';
-
+import { getMyProfile } from '@/api/user';
 
 const setIsLoggedIn = useAuthStore.getState().setIsLoggedIn;
+const setUser = useAuthStore.getState().setUser;
 
 const LoginPage = () => {
   const {
@@ -24,9 +25,13 @@ const LoginPage = () => {
 
   const { mutate } = useMutation({
     mutationFn: (formData: SignInRequest) => Login('login', formData),
-    onSuccess: (data: { accessToken: string }) => {
+    onSuccess: async (data: { accessToken: string }) => {
       localStorage.setItem('accessToken', data.accessToken);
-      setIsLoggedIn(true); 
+      setIsLoggedIn(true);
+
+      // 로그인에 성공하면 user 객체를 localStorage에 담음
+      const me = await getMyProfile();
+      localStorage.setItem('user', JSON.stringify(me));
 
       Router.push('/');
     },
