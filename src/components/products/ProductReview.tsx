@@ -6,6 +6,8 @@ import activeThumbsUp from '../../../public/icon/common/up2.png';
 import axiosInstance from '@/api/axiosInstance';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
+import { useModal } from '@/context/ModalContext';
+import EditProductReview from '../EditProductReviewModal';
 
 interface reviewProps {
   review: ReviewListItem;
@@ -23,6 +25,7 @@ const unlikeReview = async (reviewId: number): Promise<void> => {
 
 const ProductReview = ({ review, id, order = 'recent' }: reviewProps) => {
   const queryClient = useQueryClient();
+  const { openModal } = useModal();
 
   const [user, setUser] = useState<{ id: number } | null>(null);
 
@@ -65,6 +68,23 @@ const ProductReview = ({ review, id, order = 'recent' }: reviewProps) => {
   const formattedDate = (date: any) => {
     const reviewDate = new Date(date);
     return reviewDate.toISOString().slice(0, 10);
+  };
+
+  const editReview = (data: {
+    articleId: number;
+    reviewImages: { source: string; id: number }[];
+    rating: number;
+    content: string;
+  }) => {
+    openModal(
+      <EditProductReview
+        productId={id}
+        articleId={data.articleId}
+        reviewImages={data.reviewImages}
+        content={data.content}
+        rating={data.rating}
+      />,
+    );
   };
 
   return (
@@ -118,7 +138,17 @@ const ProductReview = ({ review, id, order = 'recent' }: reviewProps) => {
 
               {review.user.id === user?.id && (
                 <>
-                  <span className="text-[12px] lg:text-[14px] font-light text-gray-100 underline cursor-pointer mr-[10px]">
+                  <span
+                    onClick={() =>
+                      editReview({
+                        articleId: review.id,
+                        reviewImages: review.reviewImages,
+                        content: review.content,
+                        rating: review.rating,
+                      })
+                    }
+                    className="text-[12px] lg:text-[14px] font-light text-gray-100 underline cursor-pointer mr-[10px]"
+                  >
                     수정
                   </span>
                   <span className="text-[12px] lg:text-[14px] font-light text-gray-100 underline cursor-pointer">
