@@ -6,13 +6,10 @@ import Button from '@/components/button/Button';
 import { patchMyProfile } from '@/api/user';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { GetMeResponse } from '@/types/user';
+import { useModal } from '@/context/ModalContext';
 
-interface EditProfileModalProp {
-  profileData: GetMeResponse;
-  onClose: () => void;
-}
-
-function EditProfileModal({ profileData, onClose }: EditProfileModalProp) {
+function EditProfileModal({ profileData }: { profileData: GetMeResponse }) {
+  const { closeModal } = useModal();
   const [inputText, setInputText] = useState<string>(profileData.nickname);
   const [textarea_Text, setTextarea_Text] = useState<string>(profileData.description);
   const [imageUrl, setImageUrl] = useState<string>(profileData.image);
@@ -30,7 +27,7 @@ function EditProfileModal({ profileData, onClose }: EditProfileModalProp) {
       image: string;
     }) => patchMyProfile(description, nickname, image),
     onSuccess: () => {
-      onClose();
+      closeModal();
       queryClient.invalidateQueries({ queryKey: ['userProfile'] });
     },
     onError: (error) => {
@@ -39,7 +36,7 @@ function EditProfileModal({ profileData, onClose }: EditProfileModalProp) {
   });
 
   return (
-    <Modal onClose={onClose}>
+    <Modal>
       <div className="flex flex-col gap-5 md:gap-10">
         <span className="mt-5 text-xl font-semibold text-gray-50 lg:text-2xl">프로필 편집</span>
         <div className="flex flex-col gap-[10px] md:gap-[15px] lg:gap-5">

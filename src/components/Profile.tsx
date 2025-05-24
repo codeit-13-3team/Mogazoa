@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import useAuthStore from '@/stores/authStores';
 import FollowUserListModal from './FollowUserListModal';
 import { getFollowersList } from '@/api/user';
+import { useModal } from '@/context/ModalContext';
 
 interface ProfileProp {
   profileData: GetMeResponse;
@@ -19,9 +20,7 @@ function Profile({ profileData, isMyProfile = false }: ProfileProp) {
   const router = useRouter();
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
-  const [editModalClose, setEditModalClose] = useState<boolean>(true);
-  const [followListModalClose, setFollowListModalClose] = useState<boolean>(true);
-  const [followListData, setFollowListData] = useState<FollowUserItem[]>([]);
+  const { openModal } = useModal();
   const queryClient = useQueryClient();
 
   const followMutation = useMutation({
@@ -53,9 +52,8 @@ function Profile({ profileData, isMyProfile = false }: ProfileProp) {
   }
 
   async function showFollowList(userId: number) {
-    setFollowListModalClose(false);
     const { list } = await getFollowersList(userId);
-    setFollowListData(list);
+    openModal(<FollowUserListModal userName={profileData.nickname} followUserListData={list} />);
   }
 
   return (
@@ -102,7 +100,7 @@ function Profile({ profileData, isMyProfile = false }: ProfileProp) {
             <div
               className="w-full h-[50px] flex justify-center items-center rounded-lg bg-main-blue text-gray-50 text-[16px] font-semibold hover:cursor-pointer
             md:h-[55px] lg:h-[65px] lg:text-[18px]"
-              onClick={() => setEditModalClose(false)}
+              onClick={() => openModal(<EditProfileModal profileData={profileData} />)}
             >
               프로필 편집
             </div>
@@ -142,16 +140,6 @@ function Profile({ profileData, isMyProfile = false }: ProfileProp) {
           </div>
         )}
       </div>
-      {editModalClose ? null : (
-        <EditProfileModal profileData={profileData} onClose={() => setEditModalClose(true)} />
-      )}
-      {followListModalClose && followListData ? null : (
-        <FollowUserListModal
-          userName={profileData.nickname}
-          followUserListData={followListData}
-          onClose={() => setFollowListModalClose(true)}
-        />
-      )}
     </div>
   );
 }
