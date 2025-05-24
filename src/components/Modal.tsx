@@ -8,11 +8,10 @@ import Button from './button/Button';
 type Props = {
   children: React.ReactNode;
   buttonText?: string;
-  containerClassName?: string;
   buttonProps?: Omit<React.ComponentProps<typeof Button>, 'children'>;
 };
 
-function Modal({ children, buttonText, containerClassName, buttonProps }: Props) {
+function Modal({ children, buttonText, buttonProps }: Props) {
   const [modalRoot, setModalRoot] = useState<HTMLElement | null>(null);
   const { closeModal, isSmall } = useModal();
 
