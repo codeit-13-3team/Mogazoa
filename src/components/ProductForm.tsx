@@ -53,7 +53,7 @@ const ProductForm = ({ selectedProduct }: ProductProps) => {
     gcTime: 0,
   });
 
-  const { data: categoryData, isLoading: isCategoryLoading } = useQuery({
+  const { data: categoryData } = useQuery({
     queryKey: ['categories'],
     queryFn: getCategoryList,
     staleTime: Infinity,
@@ -125,7 +125,7 @@ const ProductForm = ({ selectedProduct }: ProductProps) => {
         const newProduct = await createProduct(body);
         alert('상품이 추가되었습니다.');
         closeModal();
-        router.push(`/product/${newProduct.id}`);
+        router.push(`/products/${newProduct.id}`);
       }
     } catch (err) {
       console.error(err);
