@@ -21,9 +21,7 @@ const CategoryTag = ({ name }: CategoryTagProps) => {
   const colorClasses = CATEGORY_COLOR_MAP[name] ?? 'bg-gray-700 text-gray-200';
 
   return (
-    <span className={`inline-block text-[12px] px-2 py-1 rounded mb-[10px] ${colorClasses}`}>
-      {name}
-    </span>
+    <span className={`inline-block text-[12px] px-2 py-1 rounded ${colorClasses}`}>{name}</span>
   );
 };
 

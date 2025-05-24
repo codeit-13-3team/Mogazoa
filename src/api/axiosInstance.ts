@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-// export const teamId = '13-3';
-
 const axiosInstance = axios.create({
   baseURL: 'https://mogazoa-api.vercel.app/13-3',
 });

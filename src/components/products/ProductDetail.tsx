@@ -1,28 +1,36 @@
-'use client';
-
 import Image from 'next/image';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { ProductResponse } from '@/types/product';
 import { getProductById } from '@/api/products';
 import ProductDetailButtonGroup from '@/components/products/ProductDetailButtonGroup';
 import CategoryTag from './CategoryTag';
+import Share from '../../../public/icon/common/share.png';
+import unFilledHeart from '../../../public/icon/common/unsave.png';
+import FilledHeart from '../../../public/icon/common/save.png';
+import useAuthStore from '@/stores/authStores';
+import { useRouter } from 'next/router';
+import axiosInstance from '@/api/axiosInstance';
 
 interface ProductDetailProps {
   id: number;
 }
 
 const toggleFavorite = async (productId: number, isFavorite: boolean): Promise<void> => {
-  const method = isFavorite ? 'DELETE' : 'POST';
-  const res = await fetch(`https://mogazoa-api.vercel.app/13-3/products/${productId}/favorite`, {
-    method,
-  });
-  if (!res.ok) {
-    throw new Error(`Failed to ${isFavorite ? 'unlike' : 'like'} product`);
+  try {
+    if (isFavorite) {
+      await axiosInstance.delete(`/products/${productId}/favorite`);
+    } else {
+      await axiosInstance.post(`/products/${productId}/favorite`);
+    }
+  } catch (err: any) {
+    throw new Error(err.message || 'Failed to toggle favorite');
   }
 };
 
 export default function ProductDetail({ id }: ProductDetailProps) {
   const queryClient = useQueryClient();
+  const router = useRouter();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
   const { data: product, isLoading } = useQuery<ProductResponse>({
     queryKey: ['product', id],
@@ -35,9 +43,21 @@ export default function ProductDetail({ id }: ProductDetailProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['product', id] });
     },
+    onError: (err) => {
+      if (err.message === 'Unauthorized') {
+        alert('로그인이 필요한 기능입니다.');
+        router.push('/login');
+      } else {
+        alert(err.message);
+      }
+    },
   });
 
   const handleFavoriteClick = () => {
+    if (!isLoggedIn) {
+      alert('로그인이 필요한 기능입니다.');
+      return router.push('/login');
+    }
     if (product) {
       favoriteMutation.mutate({ productId: product.id, isFavorite: product.isFavorite });
     }
@@ -71,21 +91,36 @@ export default function ProductDetail({ id }: ProductDetailProps) {
             className="object-contain"
           />
         </div>
-        <div className="flex-1 flex flex-col justify-between w-full h-full gap-4">
-          <div>
-            <CategoryTag name={product.category?.name} />
+        <div className="flex-1 flex flex-col justify-between w-full h-full">
+          <>
+            <div className="flex justify-between mb-[10px]">
+              <CategoryTag name={product.category?.name} />
+              <div className="p-[5px] bg-black-400 rounded-[6px]">
+                <Image src={Share} alt="공유하기 아이콘" width={14} height={14} />
+              </div>
+            </div>
             <div className="text-lg sm:text-xl lg:text-2xl font-bold mb-2 flex items-center gap-4">
               <span>{product.name || '상품명'}</span>
-              <button
-                onClick={handleFavoriteClick}
-                className="text-gray-400 hover:text-red-500"
-                disabled={favoriteMutation.isPending}
-              >
-                {product.isFavorite ? '❤️' : '🤍'}
-              </button>
+              {product.isFavorite ? (
+                <Image
+                  src={FilledHeart}
+                  alt="좋아요 아이콘"
+                  width={24}
+                  height={24}
+                  onClick={handleFavoriteClick}
+                />
+              ) : (
+                <Image
+                  src={unFilledHeart}
+                  alt="비어있는 좋아요 아이콘"
+                  width={24}
+                  height={24}
+                  onClick={handleFavoriteClick}
+                />
+              )}
             </div>
             <div className="text-sm lg:text-base text-gray-300">{product.description}</div>
-          </div>
+          </>
           <ProductDetailButtonGroup />
         </div>
       </div>
